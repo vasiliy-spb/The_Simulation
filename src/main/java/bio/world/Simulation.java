@@ -24,8 +24,8 @@ public class Simulation {
         factories = Map.of(
                 Grass.class, new GrassFactory(),
                 Rock.class, new RockFactory(),
-                Tree.class, new TreeFactory()
-//                Herbivore.class, new HerbivoreFactory(),
+                Tree.class, new TreeFactory(),
+                Herbivore.class, new HerbivoreFactory()
 //                Predator.class, new PredatorFactory(),
 //                Huntsman.class, new HuntsmanFactory(),
         );
@@ -35,16 +35,24 @@ public class Simulation {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         int maxEntityNumber = height * width;
-        for (int i = 0; i < maxEntityNumber / 3; i++) {
+        for (int i = 0; i < maxEntityNumber / 4; i++) {
             createGrass();
         }
-        for (int i = 0; i < maxEntityNumber / 3; i++) {
+        for (int i = 0; i < maxEntityNumber / 4; i++) {
             createRock();
         }
-        for (int i = 0; i < maxEntityNumber / 3; i++) {
+        for (int i = 0; i < maxEntityNumber / 4; i++) {
             createTree();
         }
+        for (int i = 0; i < maxEntityNumber / 4; i++) {
+            createHerbivore();
+        }
         worldMapRender.renderMap();
+    }
+
+    private void createHerbivore() {
+        Herbivore herbivore = (Herbivore) createEntity(Herbivore.class);
+        worldMap.addCreature(herbivore);
     }
 
     private void createTree() {
