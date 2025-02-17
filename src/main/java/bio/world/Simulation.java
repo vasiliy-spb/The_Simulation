@@ -25,9 +25,8 @@ public class Simulation {
                 Grass.class, new GrassFactory(),
                 Rock.class, new RockFactory(),
                 Tree.class, new TreeFactory(),
-                Herbivore.class, new HerbivoreFactory()
-//                Predator.class, new PredatorFactory(),
-//                Huntsman.class, new HuntsmanFactory(),
+                Herbivore.class, new HerbivoreFactory(),
+                Predator.class, new PredatorFactory()
         );
     }
 
@@ -35,19 +34,28 @@ public class Simulation {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         int maxEntityNumber = height * width;
-        for (int i = 0; i < maxEntityNumber / 4; i++) {
+        int countEntity = maxEntityNumber / 6;
+        for (int i = 0; i < countEntity; i++) {
             createGrass();
         }
-        for (int i = 0; i < maxEntityNumber / 4; i++) {
+        for (int i = 0; i < countEntity; i++) {
             createRock();
         }
-        for (int i = 0; i < maxEntityNumber / 4; i++) {
+        for (int i = 0; i < countEntity; i++) {
             createTree();
         }
-        for (int i = 0; i < maxEntityNumber / 4; i++) {
+        for (int i = 0; i < countEntity; i++) {
             createHerbivore();
         }
+        for (int i = 0; i < countEntity; i++) {
+            createPredator();
+        }
         worldMapRender.renderMap();
+    }
+
+    private void createPredator() {
+        Predator predator = (Predator) createEntity(Predator.class);
+        worldMap.addCreature(predator);
     }
 
     private void createHerbivore() {

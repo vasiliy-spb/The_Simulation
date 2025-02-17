@@ -2,7 +2,6 @@ package bio.world;
 
 import bio.world.entities.Creature;
 import bio.world.entities.Entity;
-import bio.world.entities.Herbivore;
 import bio.world.entities.StaticEntity;
 
 import java.util.HashMap;
@@ -11,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class WorldMap {
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private final Map<Coordinates, Creature> creatureMap;
     private final Map<Coordinates, StaticEntity> staticEntityMap;
 
@@ -56,7 +55,7 @@ public class WorldMap {
         throw new IllegalArgumentException();
     }
 
-    public void addCreature(Herbivore herbivore) {
-        creatureMap.put(herbivore.getCoordinates(), herbivore);
+    public void addCreature(Creature creature) {
+        creatureMap.put(creature.getCoordinates(), creature);
     }
 }
