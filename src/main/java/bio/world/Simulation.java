@@ -21,10 +21,10 @@ public class Simulation {
         this.worldMapRender = new ConsoleMapRender(worldMap);
         this.actionsList = new ArrayList<>();
         factories = Map.of(
-                Grass.class, new GrassFactory()
+                Grass.class, new GrassFactory(),
+                Rock.class, new RockFactory()
 //                Herbivore.class, new HerbivoreFactory(),
 //                Predator.class, new PredatorFactory(),
-//                Rock.class, new RockFactory(),
 //                Huntsman.class, new HuntsmanFactory(),
 //                Tree.class, new TreeFactory()
         );
@@ -34,10 +34,18 @@ public class Simulation {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         int maxEntityNumber = height * width;
-        for (int i = 0; i < maxEntityNumber / 2; i++) {
+        for (int i = 0; i < maxEntityNumber / 3; i++) {
             createGrass();
         }
+        for (int i = 0; i < maxEntityNumber / 3; i++) {
+            createRock();
+        }
         worldMapRender.renderMap();
+    }
+
+    private void createRock() {
+        Rock rock = (Rock) createEntity(Rock.class);
+        worldMap.addStaticEntity(rock);
     }
 
     private void createGrass() {

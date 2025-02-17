@@ -34,6 +34,8 @@ public class ConsoleMapRender implements WorldMapRender {
                 String picture = "";
                 if (entity instanceof Grass) {
                     picture = Pictures.GRASS.getValue();
+                } else if (entity instanceof Rock) {
+                    picture = Pictures.STONE.getValue();
                 }
 
 //                if (entity instanceof Grass) {
