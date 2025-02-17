@@ -36,6 +36,8 @@ public class ConsoleMapRender implements WorldMapRender {
                     picture = Pictures.GRASS.getValue();
                 } else if (entity instanceof Rock) {
                     picture = Pictures.STONE.getValue();
+                } else if (entity instanceof Tree) {
+                    picture = Pictures.SPRUCE_TREE.getValue();
                 }
 
 //                if (entity instanceof Grass) {

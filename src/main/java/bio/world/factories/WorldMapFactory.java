@@ -1,4 +1,6 @@
-package bio.world;
+package bio.world.factories;
+
+import bio.world.WorldMap;
 
 import java.util.Random;
 

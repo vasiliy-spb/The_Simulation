@@ -1,6 +1,7 @@
 package bio.world;
 
 import bio.world.entities.*;
+import bio.world.factories.*;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;
 
@@ -22,14 +23,14 @@ public class Simulation {
         this.actionsList = new ArrayList<>();
         factories = Map.of(
                 Grass.class, new GrassFactory(),
-                Rock.class, new RockFactory()
+                Rock.class, new RockFactory(),
+                Tree.class, new TreeFactory()
 //                Herbivore.class, new HerbivoreFactory(),
 //                Predator.class, new PredatorFactory(),
 //                Huntsman.class, new HuntsmanFactory(),
-//                Tree.class, new TreeFactory()
         );
     }
-    
+
     public void start() {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
@@ -40,7 +41,15 @@ public class Simulation {
         for (int i = 0; i < maxEntityNumber / 3; i++) {
             createRock();
         }
+        for (int i = 0; i < maxEntityNumber / 3; i++) {
+            createTree();
+        }
         worldMapRender.renderMap();
+    }
+
+    private void createTree() {
+        Tree tree = (Tree) createEntity(Tree.class);
+        worldMap.addStaticEntity(tree);
     }
 
     private void createRock() {
