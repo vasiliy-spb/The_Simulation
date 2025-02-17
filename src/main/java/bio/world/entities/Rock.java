@@ -1,4 +1,9 @@
 package bio.world.entities;
 
-public class Rock {
+import bio.world.Coordinates;
+
+public class Rock extends StaticEntity {
+    public Rock(Coordinates coordinates) {
+        super(coordinates);
+    }
 }

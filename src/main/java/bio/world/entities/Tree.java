@@ -1,4 +1,9 @@
 package bio.world.entities;
 
-public class Tree {
+import bio.world.Coordinates;
+
+public class Tree extends StaticEntity {
+    public Tree(Coordinates coordinates) {
+        super(coordinates);
+    }
 }
