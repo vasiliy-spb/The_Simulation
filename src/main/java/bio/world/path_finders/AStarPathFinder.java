@@ -82,7 +82,7 @@ public class AStarPathFinder implements PathFinder {
     private List<Coordinates> createPathOfCoordinateTo(PathNode node) {
         List<Coordinates> coordinates = new ArrayList<>();
         if (node.parent == null) {
-            System.out.println("There is no path..");
+//            System.out.println("There is no path..");
             return coordinates;
         }
         while (node.parent != null) {
