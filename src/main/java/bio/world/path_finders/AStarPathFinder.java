@@ -104,7 +104,7 @@ public class AStarPathFinder implements PathFinder {
     }
 
     private static class PathNode {
-        Coordinates coordinates;
+        private final Coordinates coordinates;
         private PathNode parent;
         private int value;
         private final int approximateDistanceToTarget;

@@ -6,7 +6,7 @@ import bio.world.path_finders.PathFinder;
 
 public abstract class Creature extends Entity{
     private int moveFrequency;
-    private int healthPoint;
+    protected int healthPoint;
 
     public Creature(Coordinates coordinates) {
         super(coordinates);

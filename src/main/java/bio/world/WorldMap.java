@@ -79,7 +79,7 @@ public class WorldMap {
             }
         } else if (entity instanceof Predator) {
             for (Creature creature : creatureMap.values()) {
-                if (creature instanceof Predator) {
+                if (creature instanceof Herbivore) {
                     continue;
                 }
                 obstacles.add(creature.getCoordinates());
@@ -97,9 +97,14 @@ public class WorldMap {
     public void moveCreature(Coordinates fromCoordinates, Coordinates toCoordinates) {
         Creature creature = creatureMap.remove(fromCoordinates);
         creatureMap.put(toCoordinates, creature);
+        staticEntityMap.remove(toCoordinates);
     }
 
     public void removeStaticEntity(StaticEntity staticEntity) {
         staticEntityMap.remove(staticEntity.getCoordinates(), staticEntity);
+    }
+
+    public void removeCreature(Creature creature) {
+        creatureMap.remove(creature.getCoordinates(), creature);
     }
 }

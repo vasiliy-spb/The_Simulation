@@ -5,7 +5,8 @@ public class TestMain {
         Simulation simulation = new Simulation();
         simulation.start();
 
-//        TestSimulation testSimulation = new TestSimulation();
+//        String templateFilePath = "src/test/java/factories/worldMap_templates/template05.txt";
+//        TestSimulation testSimulation = new TestSimulation(templateFilePath);
 //        testSimulation.start();
     }
 }

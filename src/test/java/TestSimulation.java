@@ -28,6 +28,15 @@ public class TestSimulation {
         this.actionList = new ArrayList<>();
     }
 
+    public TestSimulation(String templateFilePath) {
+        String worldMapTemplate = readWorldMapTemplate(templateFilePath);
+        System.out.println("worldMapTemplate: \n" + worldMapTemplate);
+        this.worldMap = WorldMapFactoryTest.createWorldMapByTemplate(worldMapTemplate);
+        this.moveCounter = new MoveCounter();
+        this.worldMapRender = new ConsoleMapRender(worldMap);
+        this.actionList = new ArrayList<>();
+    }
+
     private String readWorldMapTemplate(String filePath) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -51,10 +60,13 @@ public class TestSimulation {
         Action makeMoveAction = new MakeMoveAction(worldMap);
         actionList.add(makeMoveAction);
 
-        for (Action action : actionList) {
-            action.perform();
-            worldMapRender.renderMap();
-            System.out.println();
+        int moveCount = 6;
+        while (moveCount-- > 0) {
+            for (Action action : actionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
         }
     }
 }

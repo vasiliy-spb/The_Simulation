@@ -8,13 +8,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class Herbivore extends Creature implements Hunter<Grass> {
+public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
+        this.healthPoint = 10;
     }
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+//        System.out.println();
+//        System.out.println("Herbivore move: " + this.coordinates);
+        if (!isAlive()) {
+            worldMap.removeCreature(this);
+            return;
+        }
         Optional<Grass> target = findNearestTarget(worldMap, pathFinder);
         if (target.isEmpty()) {
             return;
@@ -32,6 +39,7 @@ public class Herbivore extends Creature implements Hunter<Grass> {
             }
             nextCoordinates = pathToTarget.get(0);
         }
+//        System.out.println("nextCoordinates = " + nextCoordinates);
         worldMap.moveCreature(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }
@@ -74,5 +82,14 @@ public class Herbivore extends Creature implements Hunter<Grass> {
     @Override
     public int getDamage() {
         return 10;
+    }
+
+    public boolean isAlive() {
+        return this.healthPoint > 0;
+    }
+
+    @Override
+    public void takeDamage(Predator hunter) {
+        this.healthPoint -= hunter.getDamage();
     }
 }
