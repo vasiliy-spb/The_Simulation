@@ -16,8 +16,6 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-//        System.out.println();
-//        System.out.println("Herbivore move: " + this.coordinates);
         if (!isAlive()) {
             worldMap.removeCreature(this);
             return;
@@ -39,7 +37,6 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
             }
             nextCoordinates = pathToTarget.get(0);
         }
-//        System.out.println("nextCoordinates = " + nextCoordinates);
         worldMap.moveCreature(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }
