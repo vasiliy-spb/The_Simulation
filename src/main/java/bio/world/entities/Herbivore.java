@@ -16,6 +16,8 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+//        System.out.println();
+//        System.out.println("Herbivore move: " + this.coordinates);
         if (!isAlive()) {
             worldMap.removeCreature(this);
             return;
@@ -26,6 +28,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         }
         Grass grass = target.get();
         Coordinates nextCoordinates;
+//        System.out.println("target = " + grass.getCoordinates());
         if (canEat(grass)) {
             nextCoordinates = grass.getCoordinates();
             grass.takeDamage(this);
@@ -43,10 +46,14 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 
     private Optional<Grass> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
         List<Grass> possibleTargetList = createListOfTarget(worldMap);
+//        System.out.println("possibleTargetList:");
+//        printEntities(possibleTargetList);
         List<Grass> targetPriorityList = possibleTargetList
                 .stream()
                 .sorted((t1, t2) -> calculateApproximateDistance(this.coordinates, t1.getCoordinates()) - calculateApproximateDistance(this.coordinates, t2.getCoordinates()))
                 .toList();
+//        System.out.println("targetPriorityList:");
+//        printEntities(targetPriorityList);
         for (Grass grass : targetPriorityList) {
             List<Coordinates> path = pathFinder.find(this.coordinates, grass.getCoordinates());
             if (!path.isEmpty() && path.get(path.size() - 1).equals(grass.getCoordinates())) {
@@ -56,8 +63,16 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         return Optional.empty();
     }
 
+    private void printEntities(List<Grass> possibleTargetList) {
+        for (Grass grass : possibleTargetList) {
+            System.out.print(grass.getCoordinates() + ", ");
+        }
+        System.out.println();
+    }
+
     private int calculateApproximateDistance(Coordinates from, Coordinates target) {
-        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
+//        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
+        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
     }
 
     private static List<Grass> createListOfTarget(WorldMap worldMap) {

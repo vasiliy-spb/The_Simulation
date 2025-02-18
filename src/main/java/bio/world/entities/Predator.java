@@ -17,12 +17,15 @@ public class Predator extends Creature implements Hunter<Herbivore> {
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+//        System.out.println();
+//        System.out.println("Predator move: " + this.coordinates);
         Optional<Herbivore> target = findNearestTarget(worldMap, pathFinder);
         if (target.isEmpty()) {
             return;
         }
         Herbivore herbivore = target.get();
         Coordinates nextCoordinates = this.coordinates;
+//        System.out.println("target = " + herbivore.getCoordinates());
         if (canEat(herbivore)) {
             herbivore.takeDamage(this);
             if (!herbivore.isAlive()) {
@@ -42,10 +45,14 @@ public class Predator extends Creature implements Hunter<Herbivore> {
 
     private Optional<Herbivore> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
         List<Herbivore> possibleTargetList = createListOfTarget(worldMap);
+//        System.out.println("possibleTargetList:");
+//        printEntities(possibleTargetList);
         List<Herbivore> targetPriorityList = possibleTargetList
                 .stream()
                 .sorted((t1, t2) -> calculateApproximateDistance(this.coordinates, t1.getCoordinates()) - calculateApproximateDistance(this.coordinates, t2.getCoordinates()))
                 .toList();
+//        System.out.println("targetPriorityList:");
+//        printEntities(targetPriorityList);
         for (Herbivore herbivore : targetPriorityList) {
             List<Coordinates> path = pathFinder.find(this.coordinates, herbivore.getCoordinates());
             if (!path.isEmpty() && path.get(path.size() - 1).equals(herbivore.getCoordinates())) {
@@ -55,8 +62,16 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         return Optional.empty();
     }
 
+    private void printEntities(List<Herbivore> possibleTargetList) {
+        for (Herbivore herbivore : possibleTargetList) {
+            System.out.print(herbivore.getCoordinates() + ", ");
+        }
+        System.out.println();
+    }
+
     private int calculateApproximateDistance(Coordinates from, Coordinates target) {
-        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
+//        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
+        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
     }
 
     private static List<Herbivore> createListOfTarget(WorldMap worldMap) {
