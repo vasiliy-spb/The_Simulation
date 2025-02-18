@@ -67,11 +67,7 @@ public class WorldMap {
         return staticEntitySet;
     }
 
-    public <P extends Prey<? extends Hunter<P>>, H extends Hunter<? extends Prey<H>>> Set<Coordinates> getObstaclesCoordinatesFor(Hunter<P> hunter, Prey<H> prey) {
-        return null;
-    }
     public Set<Coordinates> getObstaclesCoordinatesFor(Entity entity) {
-//        System.out.print("For: " + entity.getCoordinates());
         Set<Coordinates> obstacles = new HashSet<>();
         if (entity instanceof Herbivore) {
             obstacles.addAll(creatureMap.keySet());
@@ -95,16 +91,15 @@ public class WorldMap {
                 obstacles.add(staticEntity.getCoordinates());
             }
         }
-//        System.out.println(", obstacles: " + obstacles);
         return obstacles;
     }
 
-    public void moveCreature(Coordinates coordinates, Coordinates nextCoordinates) {
-        Creature creature = creatureMap.remove(coordinates);
-        creatureMap.put(nextCoordinates, creature);
+    public void moveCreature(Coordinates fromCoordinates, Coordinates toCoordinates) {
+        Creature creature = creatureMap.remove(fromCoordinates);
+        creatureMap.put(toCoordinates, creature);
     }
 
-    public void removeStaticEntity(Grass grass) {
-        staticEntityMap.remove(grass.getCoordinates(), grass);
+    public void removeStaticEntity(StaticEntity staticEntity) {
+        staticEntityMap.remove(staticEntity.getCoordinates(), staticEntity);
     }
 }

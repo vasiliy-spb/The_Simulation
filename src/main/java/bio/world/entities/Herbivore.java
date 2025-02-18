@@ -22,15 +22,15 @@ public class Herbivore extends Creature implements Hunter<Grass> {
         Grass grass = target.get();
         Coordinates nextCoordinates;
         if (canEat(grass)) {
-            grass.takeDamage(this);
             nextCoordinates = grass.getCoordinates();
+            grass.takeDamage(this);
             worldMap.removeStaticEntity(grass);
         } else {
-            List<Coordinates> path = pathFinder.find(this.coordinates, grass.getCoordinates());
-            if (path.isEmpty()) {
+            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates());
+            if (pathToTarget.isEmpty()) {
                 return;
             }
-            nextCoordinates = path.get(0);
+            nextCoordinates = pathToTarget.get(0);
         }
         worldMap.moveCreature(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
