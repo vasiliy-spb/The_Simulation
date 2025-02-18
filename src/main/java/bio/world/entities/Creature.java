@@ -1,6 +1,8 @@
 package bio.world.entities;
 
 import bio.world.Coordinates;
+import bio.world.WorldMap;
+import bio.world.path_finders.PathFinder;
 
 public abstract class Creature extends Entity{
     private int moveFrequency;
@@ -10,5 +12,5 @@ public abstract class Creature extends Entity{
         super(coordinates);
     }
 
-    abstract void makeMove();
+    abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
 }

@@ -1,8 +1,6 @@
 package bio.world;
 
-import bio.world.entities.Creature;
-import bio.world.entities.Entity;
-import bio.world.entities.StaticEntity;
+import bio.world.entities.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,5 +55,56 @@ public class WorldMap {
 
     public void addCreature(Creature creature) {
         creatureMap.put(creature.getCoordinates(), creature);
+    }
+
+    public Set<Creature> getCreatures() {
+        Set<Creature> creatures = new HashSet<>(creatureMap.values());
+        return creatures;
+    }
+
+    public Set<StaticEntity> getStaticEntities() {
+        Set<StaticEntity> staticEntitySet = new HashSet<>(staticEntityMap.values());
+        return staticEntitySet;
+    }
+
+    public <P extends Prey<? extends Hunter<P>>, H extends Hunter<? extends Prey<H>>> Set<Coordinates> getObstaclesCoordinatesFor(Hunter<P> hunter, Prey<H> prey) {
+        return null;
+    }
+    public Set<Coordinates> getObstaclesCoordinatesFor(Entity entity) {
+//        System.out.print("For: " + entity.getCoordinates());
+        Set<Coordinates> obstacles = new HashSet<>();
+        if (entity instanceof Herbivore) {
+            obstacles.addAll(creatureMap.keySet());
+            for (StaticEntity staticEntity : staticEntityMap.values()) {
+                if (staticEntity instanceof Grass) {
+                    continue;
+                }
+                obstacles.add(staticEntity.getCoordinates());
+            }
+        } else if (entity instanceof Predator) {
+            for (Creature creature : creatureMap.values()) {
+                if (creature instanceof Predator) {
+                    continue;
+                }
+                obstacles.add(creature.getCoordinates());
+            }
+            for (StaticEntity staticEntity : staticEntityMap.values()) {
+                if (staticEntity instanceof Grass) {
+                    continue;
+                }
+                obstacles.add(staticEntity.getCoordinates());
+            }
+        }
+//        System.out.println(", obstacles: " + obstacles);
+        return obstacles;
+    }
+
+    public void moveCreature(Coordinates coordinates, Coordinates nextCoordinates) {
+        Creature creature = creatureMap.remove(coordinates);
+        creatureMap.put(nextCoordinates, creature);
+    }
+
+    public void removeStaticEntity(Grass grass) {
+        staticEntityMap.remove(grass.getCoordinates(), grass);
     }
 }

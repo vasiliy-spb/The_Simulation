@@ -1,6 +1,8 @@
 package bio.world.entities;
 
 import bio.world.Coordinates;
+import bio.world.WorldMap;
+import bio.world.path_finders.PathFinder;
 
 public class Predator extends Creature {
     private int attackPower;
@@ -10,7 +12,7 @@ public class Predator extends Creature {
     }
 
     @Override
-    void makeMove() {
+    public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
 
     }
 }

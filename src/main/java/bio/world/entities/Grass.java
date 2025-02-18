@@ -7,6 +7,7 @@ public class Grass extends StaticEntity implements Prey<Herbivore> {
 
     public Grass(Coordinates coordinates) {
         super(coordinates);
+        this.healthPoint = 5;
     }
 
     @Override
