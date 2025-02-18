@@ -20,7 +20,7 @@ public class TestSimulation {
     private final List<Action> actionList;
 
     public TestSimulation() {
-        String worldMapTemplate = readWorldMapTemplate("src/test/java/factories/worldMap_templates/template01.txt");
+        String worldMapTemplate = readWorldMapTemplate("src/test/java/factories/worldMap_templates/template02.txt");
         System.out.println("worldMapTemplate: \n" + worldMapTemplate);
         this.worldMap = WorldMapFactoryTest.createWorldMapByTemplate(worldMapTemplate);
         this.moveCounter = new MoveCounter();
