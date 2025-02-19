@@ -19,7 +19,7 @@ public class HerbivoresTests {
         int height = worldMapTemplate.split("\n").length;
         int width = worldMapTemplate.split("\n")[0].trim().split(" ").length;
         int moveCount = 28;
-        testSimulation.startHerbivoresOnly(moveCount);
+        testSimulation.startHerbivoresOnlyWithoutSpeed(moveCount);
         boolean hasNotGrass = true;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

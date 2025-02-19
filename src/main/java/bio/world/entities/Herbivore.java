@@ -19,6 +19,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         this.healthPoint = 10;
         this.filter = e -> e instanceof Grass;
         this.mapper = e -> (Grass) e;
+        this.turnFrequency = 2;
     }
 
     @Override

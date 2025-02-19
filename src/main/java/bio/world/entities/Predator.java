@@ -19,6 +19,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         super(coordinates);
         this.filter = e -> e instanceof Herbivore;
         this.mapper = e -> (Herbivore) e;
+        this.turnFrequency = 3;
     }
 
     @Override

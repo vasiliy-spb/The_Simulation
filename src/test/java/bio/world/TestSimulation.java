@@ -2,7 +2,6 @@ package bio.world;
 
 import bio.world.actions.*;
 import bio.world.entities.Entity;
-import bio.world.entities.Herbivore;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;
 import bio.world.factories.WorldMapFactoryTest;
@@ -16,16 +15,15 @@ import java.util.Optional;
 
 public class TestSimulation {
     private final WorldMap worldMap;
-    private final MoveCounter moveCounter;
+    private final TickCounter tickCounter;
     private final WorldMapRender worldMapRender;
     private final List<Action> initActionList;
     private final List<Action> turnActionList;
 
     public TestSimulation(String templateFilePath) {
         String worldMapTemplate = readWorldMapTemplate(templateFilePath);
-        System.out.println("worldMapTemplate: \n" + worldMapTemplate);
         this.worldMap = WorldMapFactoryTest.createWorldMapByTemplate(worldMapTemplate);
-        this.moveCounter = new MoveCounter();
+        this.tickCounter = new TickCounter();
         this.worldMapRender = new ConsoleMapRender(worldMap);
         this.initActionList = new ArrayList<>();
         this.turnActionList = new ArrayList<>();
@@ -44,7 +42,7 @@ public class TestSimulation {
         }
     }
 
-    public void start() {
+    public void startWithoutSpeed() {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         int maxEntityNumber = height * width;
@@ -70,11 +68,38 @@ public class TestSimulation {
         }
     }
 
-    public void startPredatorsOnly() {
-        startPredatorsOnly(1);
+    public void start() {
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
+        int maxEntityNumber = height * width;
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        int moveCount = 20;
+        while (tickCounter.getCurrentTick() < moveCount) {
+            System.out.printf("[move: %d]\n", tickCounter.getCurrentTick());
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+        }
     }
 
-    public void startPredatorsOnly(int moveCount) {
+    public void startPredatorsOnlyWithoutSpeed() {
+        startPredatorsOnlyWithoutSpeed(1);
+    }
+
+    public void startPredatorsOnlyWithoutSpeed(int moveCount) {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
@@ -96,6 +121,33 @@ public class TestSimulation {
         }
     }
 
+    public void startPredatorsOnly() {
+        startPredatorsOnly(1);
+    }
+
+    public void startPredatorsOnly(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new OnlyPredatorsMakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        while (tickCounter.getCurrentTick() < moveCount) {
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+            tickCounter.next();
+        }
+    }
+
     public Optional<Entity> getEntityByCoordinates(Coordinates coordinates) {
         try {
             return Optional.of(worldMap.getEntityByCoordinates(coordinates));
@@ -108,7 +160,7 @@ public class TestSimulation {
         return !worldMap.areBusy(coordinates);
     }
 
-    public void startHerbivoreFirst(int moveCount) {
+    public void startHerbivoreFirstWithoutSpeed(int moveCount) {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
@@ -133,11 +185,59 @@ public class TestSimulation {
         }
     }
 
-    public void startHerbivoresOnly(int moveCount) {
+    public void startHerbivoreFirst(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new HerbivoreFirstMakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        System.out.println("—————————— S T A R T ——————————");
+
+        while (tickCounter.getCurrentTick() < moveCount) {
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+            tickCounter.next();
+            System.out.println("—————————— END MOVE ——————————");
+        }
+    }
+
+    public void startHerbivoresOnlyWithoutSpeed(int moveCount) {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
         Action makeMoveAction = new OnlyHerbivoresMakeMoveAction(worldMap);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        while (moveCount-- > 0) {
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+        }
+    }
+
+    public void startHerbivoresOnly(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new OnlyHerbivoresMakeMoveWithSpeedAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
 
         for (Action action : initActionList) {

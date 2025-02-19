@@ -7,7 +7,7 @@ import bio.world.path_finders.PathFinder;
 import java.util.List;
 
 public abstract class Creature extends Entity {
-    private int moveFrequency;
+    protected int turnFrequency;
     protected int healthPoint;
 
     public Creature(Coordinates coordinates) {
@@ -24,6 +24,10 @@ public abstract class Creature extends Entity {
         int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
         int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
         return rowDiff < 2 && columnDiff < 2;
+    }
+
+    public boolean shouldMove(int currentTick) {
+        return currentTick % turnFrequency == 0;
     }
 
     protected void printEntities(List<? extends Entity> possibleTargetList) {
