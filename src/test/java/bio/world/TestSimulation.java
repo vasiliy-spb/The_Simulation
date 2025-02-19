@@ -73,6 +73,7 @@ public class TestSimulation {
     public void startPredatorsOnly() {
         startPredatorsOnly(1);
     }
+
     public void startPredatorsOnly(int moveCount) {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
@@ -96,7 +97,11 @@ public class TestSimulation {
     }
 
     public Optional<Entity> getEntityByCoordinates(Coordinates coordinates) {
-        return Optional.ofNullable(worldMap.getEntityByCoordinates(coordinates));
+        try {
+            return Optional.of(worldMap.getEntityByCoordinates(coordinates));
+        } catch (IllegalArgumentException iae) {
+            return Optional.empty();
+        }
     }
 
     public boolean areEmptyCoordinates(Coordinates coordinates) {
@@ -125,6 +130,28 @@ public class TestSimulation {
                 System.out.println();
             }
             System.out.println("—————————— END MOVE ——————————");
+        }
+    }
+
+    public void startHerbivoresOnly(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new OnlyHerbivoresMakeMoveAction(worldMap);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        while (moveCount-- > 0) {
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
         }
     }
 }
