@@ -1,10 +1,11 @@
 package bio.world;
 
 import bio.world.actions.*;
+import bio.world.auxiliary_actions.*;
 import bio.world.entities.Entity;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;
-import bio.world.factories.WorldMapFactoryTest;
+import bio.world.factories.WorldMapFactoryForTests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class TestSimulation {
     private final List<Action> turnActionList;
 
     public TestSimulation(String templateFilePath) {
-        this.worldMap = WorldMapFactoryTest.createWorldMapByTemplate(templateFilePath);
+        this.worldMap = WorldMapFactoryForTests.createWorldMapByTemplate(templateFilePath);
         this.tickCounter = new TickCounter();
         this.worldMapRender = new ConsoleMapRender(worldMap);
         this.initActionList = new ArrayList<>();
@@ -26,7 +27,7 @@ public class TestSimulation {
     }
 
     public TestSimulation(int height, int width) {
-        this.worldMap = WorldMapFactoryTest.getWorldMap(height, width);
+        this.worldMap = WorldMapFactoryForTests.getWorldMap(height, width);
         this.tickCounter = new TickCounter();
         this.worldMapRender = new ConsoleMapRender(worldMap);
         this.initActionList = new ArrayList<>();

@@ -4,7 +4,7 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.entities.Predator;
 
-public class PredatorFactoryTest extends TestEntityFactory<Predator> {
+public class PredatorFactoryForTestsForTests extends EntityFactoryForTests<Predator> {
     @Override
     public Predator createInstance(WorldMap worldMap) {
         Coordinates coordinates = createFreeCoordinates(worldMap);

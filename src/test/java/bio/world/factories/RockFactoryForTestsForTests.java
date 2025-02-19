@@ -4,7 +4,7 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.entities.Rock;
 
-public class RockFactoryTest extends TestEntityFactory<Rock> {
+public class RockFactoryForTestsForTests extends EntityFactoryForTests<Rock> {
     @Override
     public Rock createInstance(WorldMap worldMap) {
         Coordinates coordinates = createFreeCoordinates(worldMap);

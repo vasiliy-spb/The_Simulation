@@ -5,7 +5,7 @@ import bio.world.WorldMap;
 
 import java.util.Random;
 
-public abstract class TestEntityFactory<T> {
+public abstract class EntityFactoryForTests<T> {
     protected final Random random = new Random();
 
     public abstract T createInstance(WorldMap worldMap);

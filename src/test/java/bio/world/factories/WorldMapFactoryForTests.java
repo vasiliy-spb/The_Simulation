@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class WorldMapFactoryTest {
+public class WorldMapFactoryForTests {
     public static WorldMap getRandomWorldMap() {
         Random random = new Random();
         int height = random.nextInt(3, 10);

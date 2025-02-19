@@ -4,7 +4,7 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.entities.Grass;
 
-public class GrassFactoryTest extends TestEntityFactory<Grass> {
+public class GrassFactoryForTestsForTests extends EntityFactoryForTests<Grass> {
     @Override
     public Grass createInstance(WorldMap worldMap) {
         Coordinates coordinates = createFreeCoordinates(worldMap);

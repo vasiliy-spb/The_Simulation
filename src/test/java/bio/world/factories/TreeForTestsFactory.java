@@ -4,7 +4,7 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.entities.Tree;
 
-public class TreeFactoryTest extends TestEntityFactory<Tree> {
+public class TreeForTestsFactory extends EntityFactoryForTests<Tree> {
     @Override
     public Tree createInstance(WorldMap worldMap) {
         Coordinates coordinates = createFreeCoordinates(worldMap);

@@ -1,6 +1,8 @@
-package bio.world.actions;
+package bio.world.auxiliary_actions;
 
+import bio.world.TickCounter;
 import bio.world.WorldMap;
+import bio.world.actions.Action;
 import bio.world.entities.Creature;
 import bio.world.entities.Herbivore;
 import bio.world.entities.Predator;
@@ -9,24 +11,33 @@ import bio.world.path_finders.PathFinder;
 
 import java.util.Set;
 
-public class HerbivoreFirstMakeMoveAction implements Action {
+public class HerbivoreFirstMakeMoveWithSpeedAction implements Action {
     private final WorldMap worldMap;
+    private final TickCounter tickCounter;
     private final PathFinder pathFinder;
-    public HerbivoreFirstMakeMoveAction(WorldMap worldMap) {
+
+    public HerbivoreFirstMakeMoveWithSpeedAction(WorldMap worldMap, TickCounter tickCounter) {
         this.worldMap = worldMap;
-        this.pathFinder = new AStarPathFinder(this.worldMap);
+        this.tickCounter = tickCounter;
+        this.pathFinder = new AStarPathFinder(worldMap);
     }
+
     @Override
     public void perform() {
+        int currentTick = tickCounter.getCurrentTick();
         Set<Creature> creatureSet = worldMap.getCreatures();
         for (Creature creature : creatureSet) {
             if (creature instanceof Herbivore herbivore) {
-                herbivore.makeMove(worldMap, pathFinder);
+                if (herbivore.shouldMove(currentTick)) {
+                    herbivore.makeMove(worldMap, pathFinder);
+                }
             }
         }
         for (Creature creature : creatureSet) {
             if (creature instanceof Predator predator) {
-                predator.makeMove(worldMap, pathFinder);
+                if (predator.shouldMove(currentTick)) {
+                    predator.makeMove(worldMap, pathFinder);
+                }
             }
         }
     }
