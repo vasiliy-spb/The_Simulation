@@ -54,4 +54,36 @@ public class PredatorsTests {
         assertTrue(expectedEntity.isPresent() && expectedEntity.get() instanceof Predator);
     }
 
+    @Test
+    @DisplayName("Speed test: predator stopped in front of the herbivore")
+    public void checkTestcase04() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template06.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 21;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates fihishCoordinates = new Coordinates(6, 4);
+        assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Predator);
+    }
+
+    @Test
+    @DisplayName("Speed test: herbivore still alive")
+    public void checkTestcase05() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template06.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 21;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates herbivoresCoordinates = new Coordinates(7, 4);
+        assertTrue(testSimulation.getEntityByCoordinates(herbivoresCoordinates).get() instanceof Herbivore);
+    }
+
+    @Test
+    @DisplayName("Speed test: predator ate the herbivore")
+    public void checkTestcase06() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template06.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 22;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates fihishCoordinates = new Coordinates(7, 4);
+        assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Predator);
+    }
 }
