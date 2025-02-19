@@ -5,6 +5,9 @@ import bio.world.WorldMap;
 import bio.world.entities.*;
 import bio.world.render.Pictures;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -21,20 +24,42 @@ public class WorldMapFactoryTest {
         return new WorldMap(height, width);
     }
 
-    public static WorldMap createWorldMapByTemplate(String template) {
+    public static WorldMap createWorldMapByTemplate(String filePath) {
+        String template = readWorldMapTemplate(filePath);
         String[][] worldMapMatrix = createWorldMapMatrix(template);
+        WorldMap worldMap = getWorldMapByWorldMapMatrix(worldMapMatrix);
+        Map<Coordinates, Entity> entities = parseMatrix(worldMapMatrix);
+        putEntity(entities, worldMap);
+        return worldMap;
+    }
+
+    private static WorldMap getWorldMapByWorldMapMatrix(String[][] worldMapMatrix) {
         int height = worldMapMatrix.length;
         int width = worldMapMatrix[0].length;
-        WorldMap worldMap = getWorldMap(height, width);
-        Map<Coordinates, Entity> entityMap = parseMatrix(worldMapMatrix);
-        for (Entity entity : entityMap.values()) {
+        return getWorldMap(height, width);
+    }
+
+    private static void putEntity(Map<Coordinates, Entity> entities, WorldMap worldMap) {
+        for (Entity entity : entities.values()) {
             if (entity instanceof Creature creature) {
                 worldMap.addCreature(creature);
             } else if (entity instanceof StaticEntity staticEntity) {
                 worldMap.addStaticEntity(staticEntity);
             }
         }
-        return worldMap;
+    }
+
+    private static String readWorldMapTemplate(String filePath) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            StringBuilder template = new StringBuilder();
+            while (reader.ready()) {
+                template.append(reader.readLine()).append("\n");
+            }
+            return template.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Map<Coordinates, Entity> parseMatrix(String[][] worldMapMatrix) {
