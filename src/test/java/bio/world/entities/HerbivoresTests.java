@@ -31,4 +31,37 @@ public class HerbivoresTests {
         }
         assertTrue(hasNotGrass);
     }
+
+    @Test
+    @DisplayName("Speed test: herbivore stopped in front of the grass")
+    public void checkTestcase02() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template05.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 14;
+        testSimulation.startHerbivoresOnly(moveCount);
+        Coordinates fihishCoordinates = new Coordinates(0, 1);
+        assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Herbivore);
+    }
+
+    @Test
+    @DisplayName("Speed test: grass still exists")
+    public void checkTestcase03() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template05.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 14;
+        testSimulation.startHerbivoresOnly(moveCount);
+        Coordinates grassCoordinates = new Coordinates(0, 0);
+        assertTrue(testSimulation.getEntityByCoordinates(grassCoordinates).get() instanceof Grass);
+    }
+
+    @Test
+    @DisplayName("Speed test: herbivore ate the grass")
+    public void checkTestcase04() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template05.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 15;
+        testSimulation.startHerbivoresOnly(moveCount);
+        Coordinates fihishCoordinates = new Coordinates(0, 0);
+        assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Herbivore);
+    }
 }
