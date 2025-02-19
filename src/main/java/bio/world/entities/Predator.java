@@ -19,7 +19,9 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         super(coordinates);
         this.filter = e -> e instanceof Herbivore;
         this.mapper = e -> (Herbivore) e;
+        this.healthPoint = 30;
         this.turnFrequency = 3;
+        this.attackPower = 10;
     }
 
     @Override
@@ -81,6 +83,6 @@ public class Predator extends Creature implements Hunter<Herbivore> {
 
     @Override
     public int getDamage() {
-        return 10;
+        return attackPower;
     }
 }

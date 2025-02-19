@@ -16,9 +16,9 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
-        this.healthPoint = 10;
         this.filter = e -> e instanceof Grass;
         this.mapper = e -> (Grass) e;
+        this.healthPoint = 20;
         this.turnFrequency = 2;
     }
 

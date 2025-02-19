@@ -25,6 +25,14 @@ public class TestSimulation {
         this.turnActionList = new ArrayList<>();
     }
 
+    public TestSimulation(int height, int width) {
+        this.worldMap = WorldMapFactoryTest.getWorldMap(height, width);
+        this.tickCounter = new TickCounter();
+        this.worldMapRender = new ConsoleMapRender(worldMap);
+        this.initActionList = new ArrayList<>();
+        this.turnActionList = new ArrayList<>();
+    }
+
     public void startWithoutSpeed() {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
@@ -66,6 +74,31 @@ public class TestSimulation {
             worldMapRender.renderMap();
             System.out.println();
         }
+
+        int moveCount = 20;
+        while (tickCounter.getCurrentTick() < moveCount) {
+            System.out.printf("[move: %d]\n", tickCounter.getCurrentTick());
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+            tickCounter.next();
+        }
+    }
+
+    public void start(int countEntity) {
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+        }
+
+        System.out.println();
 
         int moveCount = 20;
         while (tickCounter.getCurrentTick() < moveCount) {

@@ -16,7 +16,7 @@ public class PredatorsTests {
     public void checkTestcase01() {
         String worldMapTemplate = "src/test/java/bio/world/entities/templates/template01.txt";
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
-        int moveCount = 8;
+        int moveCount = 9;
         testSimulation.startPredatorsOnlyWithoutSpeed(moveCount);
         Coordinates coordinates = new Coordinates(7, 4);
         Optional<Entity> expectedEntity = testSimulation.getEntityByCoordinates(coordinates);
@@ -28,7 +28,7 @@ public class PredatorsTests {
     public void checkTestcase02() {
         String worldMapTemplate = "src/test/java/bio/world/entities/templates/template01.txt";
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
-        int moveCount = 8;
+        int moveCount = 9;
         testSimulation.startPredatorsOnlyWithoutSpeed(moveCount);
         Coordinates grassCoordinates1 = new Coordinates(0, 1);
         Coordinates grassCoordinates2 = new Coordinates(1, 2);
@@ -81,7 +81,18 @@ public class PredatorsTests {
     public void checkTestcase06() {
         String worldMapTemplate = "src/test/java/bio/world/entities/templates/template06.txt";
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
-        int moveCount = 22;
+        int moveCount = 24;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates fihishCoordinates = new Coordinates(7, 4);
+        assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Herbivore);
+    }
+
+    @Test
+    @DisplayName("Speed test: predator ate the herbivore")
+    public void checkTestcase07() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template06.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 25;
         testSimulation.startPredatorsOnly(moveCount);
         Coordinates fihishCoordinates = new Coordinates(7, 4);
         assertTrue(testSimulation.getEntityByCoordinates(fihishCoordinates).get() instanceof Predator);

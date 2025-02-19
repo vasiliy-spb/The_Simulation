@@ -25,7 +25,7 @@ public class MakeMoveWithSpeedAction implements Action {
         int currentTick = tickCounter.getCurrentTick();
         for (Creature creature : creatureSet) {
             if (creature.shouldMove(currentTick)) {
-                System.out.println("—— Move " + creature.getClass().getSimpleName());
+//                System.out.println("—— Move " + creature.getClass().getSimpleName());
                 creature.makeMove(worldMap, pathFinder);
             }
         }
