@@ -7,12 +7,18 @@ import bio.world.path_finders.PathFinder;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Predator extends Creature implements Hunter<Herbivore> {
     private int attackPower;
+    private final Predicate<Entity> filter;
+    private final Function<Entity, Herbivore> mapper;
 
     public Predator(Coordinates coordinates) {
         super(coordinates);
+        this.filter = e -> e instanceof Herbivore;
+        this.mapper = e -> (Herbivore) e;
     }
 
     @Override
@@ -62,32 +68,14 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         return Optional.empty();
     }
 
-    private void printEntities(List<Herbivore> possibleTargetList) {
-        for (Herbivore herbivore : possibleTargetList) {
-            System.out.print(herbivore.getCoordinates() + ", ");
-        }
-        System.out.println();
-    }
-
-    private int calculateApproximateDistance(Coordinates from, Coordinates target) {
-//        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
-        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
-    }
-
-    private static List<Herbivore> createListOfTarget(WorldMap worldMap) {
+    private List<Herbivore> createListOfTarget(WorldMap worldMap) {
         Set<Creature> creatures = worldMap.getCreatures();
         List<Herbivore> possibleTargetList = creatures
                 .stream()
-                .filter(e -> e instanceof Herbivore)
-                .map(e -> (Herbivore) e)
+                .filter(this.filter)
+                .map(this.mapper)
                 .toList();
         return possibleTargetList;
-    }
-
-    private boolean canEat(Herbivore herbivore) {
-        int rowDiff = Math.abs(this.coordinates.row() - herbivore.getCoordinates().row());
-        int columnDiff = Math.abs(this.coordinates.column() - herbivore.getCoordinates().column());
-        return rowDiff < 2 && columnDiff < 2;
     }
 
     @Override

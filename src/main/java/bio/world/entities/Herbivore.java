@@ -7,11 +7,18 @@ import bio.world.path_finders.PathFinder;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
+    private final Predicate<Entity> filter;
+    private final Function<Entity, Grass> mapper;
+
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
         this.healthPoint = 10;
+        this.filter = e -> e instanceof Grass;
+        this.mapper = e -> (Grass) e;
     }
 
     @Override
@@ -63,32 +70,14 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         return Optional.empty();
     }
 
-    private void printEntities(List<Grass> possibleTargetList) {
-        for (Grass grass : possibleTargetList) {
-            System.out.print(grass.getCoordinates() + ", ");
-        }
-        System.out.println();
-    }
-
-    private int calculateApproximateDistance(Coordinates from, Coordinates target) {
-//        return Math.abs(from.row() - target.row()) + Math.abs(from.column() - target.column());
-        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
-    }
-
-    private static List<Grass> createListOfTarget(WorldMap worldMap) {
+    private List<Grass> createListOfTarget(WorldMap worldMap) {
         Set<StaticEntity> staticEntities = worldMap.getStaticEntities();
         List<Grass> possibleTargetList = staticEntities
                 .stream()
-                .filter(e -> e instanceof Grass)
-                .map(e -> (Grass) e)
+                .filter(this.filter)
+                .map(this.mapper)
                 .toList();
         return possibleTargetList;
-    }
-
-    private boolean canEat(Grass grass) {
-        int rowDiff = Math.abs(this.coordinates.row() - grass.getCoordinates().row());
-        int columnDiff = Math.abs(this.coordinates.column() - grass.getCoordinates().column());
-        return rowDiff < 2 && columnDiff < 2;
     }
 
     @Override
