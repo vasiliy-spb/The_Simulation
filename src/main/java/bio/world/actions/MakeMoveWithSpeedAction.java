@@ -6,7 +6,7 @@ import bio.world.entities.Creature;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 
-import java.util.Set;
+import java.util.List;
 
 public class MakeMoveWithSpeedAction implements Action {
     private final WorldMap worldMap;
@@ -21,11 +21,10 @@ public class MakeMoveWithSpeedAction implements Action {
 
     @Override
     public void perform() {
-        Set<Creature> creatureSet = worldMap.getCreatures();
+        List<Creature> creatures = worldMap.getCreatures();
         int currentTick = tickCounter.getCurrentTick();
-        for (Creature creature : creatureSet) {
+        for (Creature creature : creatures) {
             if (creature.shouldMove(currentTick)) {
-//                System.out.println("—— Move " + creature.getClass().getSimpleName());
                 creature.makeMove(worldMap, pathFinder);
             }
         }

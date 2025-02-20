@@ -5,11 +5,12 @@ import bio.world.entities.Creature;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 
-import java.util.Set;
+import java.util.List;
 
 public class MakeMoveAction implements Action {
     private final WorldMap worldMap;
     private final PathFinder pathFinder;
+
     public MakeMoveAction(WorldMap worldMap) {
         this.worldMap = worldMap;
         this.pathFinder = new AStarPathFinder(this.worldMap);
@@ -17,8 +18,8 @@ public class MakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        Set<Creature> creatureSet = worldMap.getCreatures();
-        for (Creature creature : creatureSet) {
+        List<Creature> creatures = worldMap.getCreatures();
+        for (Creature creature : creatures) {
             creature.makeMove(worldMap, pathFinder);
         }
     }

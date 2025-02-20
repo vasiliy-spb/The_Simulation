@@ -3,7 +3,6 @@ package bio.world;
 import bio.world.actions.*;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;
-import bio.world.entities.Herbivore;
 import bio.world.factories.*;
 import bio.world.menu.Menu;
 import bio.world.menu.MenuItems;
@@ -89,9 +88,7 @@ public class Simulation {
     }
 
     private boolean isGameOver() {
-        return worldMap.getCreatures()
-                .stream()
-                .noneMatch(c -> c instanceof Herbivore);
+        return worldMap.getHerbivores().isEmpty();
     }
 
     private int askMovesDelay() {

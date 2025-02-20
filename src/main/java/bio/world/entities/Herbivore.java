@@ -4,28 +4,25 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.path_finders.PathFinder;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
-    private final Predicate<Entity> filter;
-    private final Function<Entity, Grass> mapper;
-
+    private final int powerAttack;
+    private final Comparator<Grass> priorityTargetComparator;
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
-        this.filter = e -> e instanceof Grass;
-        this.mapper = e -> (Grass) e;
+        this.priorityTargetComparator = (t1, t2) ->
+                calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
+                        calculateApproximateDistance(this.coordinates, t2.getCoordinates());
         this.healthPoint = 20;
         this.turnFrequency = 2;
+        this.powerAttack = 10;
     }
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-//        System.out.println();
-//        System.out.println("Herbivore move: " + this.coordinates);
         if (!isAlive()) {
             worldMap.removeEntity(this);
             return;
@@ -36,7 +33,6 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         }
         Grass grass = target.get();
         Coordinates nextCoordinates;
-//        System.out.println("target = " + grass.getCoordinates());
         if (canEat(grass)) {
             nextCoordinates = grass.getCoordinates();
             grass.takeDamage(this);
@@ -53,37 +49,21 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     }
 
     private Optional<Grass> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
-        List<Grass> possibleTargetList = createListOfTarget(worldMap);
-//        System.out.println("possibleTargetList:");
-//        printEntities(possibleTargetList);
-        List<Grass> targetPriorityList = possibleTargetList
-                .stream()
-                .sorted((t1, t2) -> calculateApproximateDistance(this.coordinates, t1.getCoordinates()) - calculateApproximateDistance(this.coordinates, t2.getCoordinates()))
+        List<Grass> grasses = worldMap.getGrasses();
+        grasses = grasses.stream()
+                .sorted(this.priorityTargetComparator)
                 .toList();
-//        System.out.println("targetPriorityList:");
-//        printEntities(targetPriorityList);
-        for (Grass grass : targetPriorityList) {
-            List<Coordinates> path = pathFinder.find(this.coordinates, grass.getCoordinates());
-            if (!path.isEmpty() && path.get(path.size() - 1).equals(grass.getCoordinates())) {
+        for (Grass grass : grasses) {
+            if (hasPathFor(grass, pathFinder)) {
                 return Optional.of(grass);
             }
         }
         return Optional.empty();
     }
 
-    private List<Grass> createListOfTarget(WorldMap worldMap) {
-        Set<StaticEntity> staticEntities = worldMap.getStaticEntities();
-        List<Grass> possibleTargetList = staticEntities
-                .stream()
-                .filter(this.filter)
-                .map(this.mapper)
-                .toList();
-        return possibleTargetList;
-    }
-
     @Override
     public int getDamage() {
-        return 10;
+        return powerAttack;
     }
 
     public boolean isAlive() {

@@ -30,6 +30,11 @@ public abstract class Creature extends Entity {
         return currentTick % turnFrequency == 0;
     }
 
+    protected boolean hasPathFor(Entity entity, PathFinder pathFinder) {
+        List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates());
+        return !path.isEmpty() && path.get(path.size() - 1).equals(entity.getCoordinates());
+    }
+
     protected void printEntities(List<? extends Entity> possibleTargetList) {
         for (Entity entity : possibleTargetList) {
             System.out.print(entity.getCoordinates() + ", ");

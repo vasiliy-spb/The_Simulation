@@ -2,10 +2,7 @@ package bio.world;
 
 import bio.world.entities.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WorldMap {
@@ -47,22 +44,22 @@ public class WorldMap {
         return entities.get(coordinates);
     }
 
-    public Set<Creature> getCreatures() {
-        Set<Creature> creatures = entities.values()
+    public List<Herbivore> getHerbivores() {
+        List<Herbivore> herbivores = entities.values()
                 .stream()
-                .filter(e -> e instanceof Creature)
-                .map(e -> (Creature) e)
-                .collect(Collectors.toSet());
-        return creatures;
+                .filter(e -> e instanceof Herbivore)
+                .map(e -> (Herbivore) e)
+                .toList();
+        return herbivores;
     }
 
-    public Set<StaticEntity> getStaticEntities() {
-        Set<StaticEntity> staticEntitySet = entities.values()
+    public List<Grass> getGrasses() {
+        List<Grass> grasses = entities.values()
                 .stream()
-                .filter(e -> e instanceof StaticEntity)
-                .map(e -> (StaticEntity) e)
-                .collect(Collectors.toSet());
-        return staticEntitySet;
+                .filter(e -> e instanceof Grass)
+                .map(e -> (Grass) e)
+                .toList();
+        return grasses;
     }
 
     public Set<Coordinates> getObstaclesCoordinatesFor(Entity entity) {
@@ -92,5 +89,14 @@ public class WorldMap {
 
     public void removeEntity(Entity entity) {
         entities.remove(entity.getCoordinates(), entity);
+    }
+
+    public List<Creature> getCreatures() {
+        List<Creature> creatures = entities.values()
+                .stream()
+                .filter(e -> e instanceof Creature)
+                .map(e -> (Creature) e)
+                .toList();
+        return creatures;
     }
 }

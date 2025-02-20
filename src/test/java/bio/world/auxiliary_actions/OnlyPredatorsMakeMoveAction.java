@@ -7,11 +7,12 @@ import bio.world.entities.Predator;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 
-import java.util.Set;
+import java.util.List;
 
 public class OnlyPredatorsMakeMoveAction implements Action {
     private final WorldMap worldMap;
     private final PathFinder pathFinder;
+
     public OnlyPredatorsMakeMoveAction(WorldMap worldMap) {
         this.worldMap = worldMap;
         this.pathFinder = new AStarPathFinder(this.worldMap);
@@ -19,8 +20,8 @@ public class OnlyPredatorsMakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        Set<Creature> creatureSet = worldMap.getCreatures();
-        for (Creature creature : creatureSet) {
+        List<Creature> creatures = worldMap.getCreatures();
+        for (Creature creature : creatures) {
             if (creature instanceof Predator predator) {
                 predator.makeMove(worldMap, pathFinder);
             }

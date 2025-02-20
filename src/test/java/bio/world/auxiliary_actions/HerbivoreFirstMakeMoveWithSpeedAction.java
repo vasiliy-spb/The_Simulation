@@ -9,7 +9,7 @@ import bio.world.entities.Predator;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 
-import java.util.Set;
+import java.util.List;
 
 public class HerbivoreFirstMakeMoveWithSpeedAction implements Action {
     private final WorldMap worldMap;
@@ -25,15 +25,15 @@ public class HerbivoreFirstMakeMoveWithSpeedAction implements Action {
     @Override
     public void perform() {
         int currentTick = tickCounter.getCurrentTick();
-        Set<Creature> creatureSet = worldMap.getCreatures();
-        for (Creature creature : creatureSet) {
+        List<Creature> creatures = worldMap.getCreatures();
+        for (Creature creature : creatures) {
             if (creature instanceof Herbivore herbivore) {
                 if (herbivore.shouldMove(currentTick)) {
                     herbivore.makeMove(worldMap, pathFinder);
                 }
             }
         }
-        for (Creature creature : creatureSet) {
+        for (Creature creature : creatures) {
             if (creature instanceof Predator predator) {
                 if (predator.shouldMove(currentTick)) {
                     predator.makeMove(worldMap, pathFinder);
