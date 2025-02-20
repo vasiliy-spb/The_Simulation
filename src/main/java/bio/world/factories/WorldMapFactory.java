@@ -24,6 +24,7 @@ public class WorldMapFactory {
     }
 
     public static WorldMap createWorldMapWithUserParams() {
+        System.out.println("Введите стартовые параметры");
         String askHeightMessage = "Введите высоту карты (%d - %d): ".formatted(MIN_HEIGHT, MAX_HEIGHT);
         String askWidthMessage = "Введите ширину карты: (%d - %d)".formatted(MIN_WIDTH, MAX_WIDTH);
         String errorMessage = "Неправильный ввод.";
