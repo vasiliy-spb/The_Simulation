@@ -84,7 +84,6 @@ public class Simulation {
         for (Action action : turnActionList) {
             action.perform();
             worldMapRender.renderMap();
-            System.out.println();
         }
         tickCounter.next();
     }

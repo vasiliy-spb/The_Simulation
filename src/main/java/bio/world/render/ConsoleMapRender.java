@@ -36,6 +36,7 @@ public class ConsoleMapRender implements WorldMapRender {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     private static String getPicture(Entity entity) {
