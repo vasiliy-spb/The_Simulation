@@ -1,10 +1,41 @@
 package bio.world;
 
+import bio.world.factories.MenuFactory;
+import bio.world.menu.MainMenu;
+import bio.world.menu.MenuItems;
+import bio.world.menu.StartMenu;
+
 public class TestMain {
     public static void main(String[] args) {
+        StartMenu startMenu = MenuFactory.createStartMenu();
+        startMenu.showTitle();
+        MenuItems selectedStartMenuItem = startMenu.selectMenuItem();
+        if (selectedStartMenuItem.equals(MenuItems.EXIT)) {
+            return;
+        }
         Simulation simulation = new Simulation();
-//        simulation.startWithoutSpeed();
         simulation.start();
+
+        infinityLoop: while (true) {
+            MainMenu mainMenu = MenuFactory.createMainMenu();
+            mainMenu.showTitle();
+            MenuItems selectedMainMenuItem = mainMenu.selectMenuItem();
+            switch (selectedMainMenuItem) {
+                case REPEAT -> {
+                    System.out.println("— — — Здесь надо начать игру заново с теми же параметрами (но пока просто заново создаём симуляцию) — — —");
+                    Simulation nextSimulation = new Simulation();
+                    nextSimulation.start();
+                }
+                case CHANGE -> {
+                    Simulation nextSimulation = new Simulation();
+                    nextSimulation.start();
+                }
+                case EXIT -> {
+                    break infinityLoop;
+                }
+            }
+        }
+        System.out.println("Follow to white rabbit..");
 
 //        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template05.txt";
 //        TestSimulation testSimulation = new TestSimulation(templateFilePath);
@@ -18,3 +49,15 @@ public class TestMain {
 //        testSimulation.start(countEntities);
     }
 }
+
+
+/*
+
+на этой карте неправильно работает метод isGameOver()
+ .. 🐇 🗿 🐅 ☘️
+ 🗿 🌲 🌲 🌲 🗿
+ .. .. 🐅 🐅 🗿
+ 🐇 🐅 .. 🗿 🌲
+ 🌲 ☘️ ☘️ .. 🐅
+
+ */
