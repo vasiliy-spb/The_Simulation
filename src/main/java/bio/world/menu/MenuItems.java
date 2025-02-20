@@ -3,6 +3,8 @@ package bio.world.menu;
 public enum MenuItems {
     PLAY,
     REPEAT,
-    CHANGE,
+    CHANGE_INITIAL_PARAMETERS,
+    CHANGE_MOVES_DELAY,
+    CONTINUE,
     EXIT;
 }
