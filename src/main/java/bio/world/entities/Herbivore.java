@@ -27,7 +27,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 //        System.out.println();
 //        System.out.println("Herbivore move: " + this.coordinates);
         if (!isAlive()) {
-            worldMap.removeCreature(this);
+            worldMap.removeEntity(this);
             return;
         }
         Optional<Grass> target = findNearestTarget(worldMap, pathFinder);
@@ -40,7 +40,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         if (canEat(grass)) {
             nextCoordinates = grass.getCoordinates();
             grass.takeDamage(this);
-            worldMap.removeStaticEntity(grass);
+            worldMap.removeEntity(grass);
         } else {
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates());
             if (pathToTarget.isEmpty()) {
@@ -48,7 +48,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
             }
             nextCoordinates = pathToTarget.get(0);
         }
-        worldMap.moveCreature(this.coordinates, nextCoordinates);
+        worldMap.moveEntity(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }
 

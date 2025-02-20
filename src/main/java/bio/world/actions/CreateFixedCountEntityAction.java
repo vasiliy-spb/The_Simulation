@@ -45,35 +45,35 @@ public class CreateFixedCountEntityAction implements Action {
     private void createPredator(int count) {
         while (count-- > 0) {
             Predator predator = (Predator) createEntity(Predator.class);
-            worldMap.addCreature(predator);
+            worldMap.addEntity(predator);
         }
     }
 
     private void createHerbivore(int count) {
         while (count-- > 0) {
             Herbivore herbivore = (Herbivore) createEntity(Herbivore.class);
-            worldMap.addCreature(herbivore);
+            worldMap.addEntity(herbivore);
         }
     }
 
     private void createTree(int count) {
         while (count-- > 0) {
             Tree tree = (Tree) createEntity(Tree.class);
-            worldMap.addStaticEntity(tree);
+            worldMap.addEntity(tree);
         }
     }
 
     private void createRock(int count) {
         while (count-- > 0) {
             Rock rock = (Rock) createEntity(Rock.class);
-            worldMap.addStaticEntity(rock);
+            worldMap.addEntity(rock);
         }
     }
 
     private void createGrass(int count) {
         while (count-- > 0) {
             Grass grass = (Grass) createEntity(Grass.class);
-            worldMap.addStaticEntity(grass);
+            worldMap.addEntity(grass);
         }
     }
 

@@ -38,7 +38,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         if (canEat(herbivore)) {
             herbivore.takeDamage(this);
             if (!herbivore.isAlive()) {
-                worldMap.removeCreature(herbivore);
+                worldMap.removeEntity(herbivore);
                 nextCoordinates = herbivore.getCoordinates();
             }
         } else {
@@ -48,7 +48,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
             }
             nextCoordinates = pathToTarget.get(0);
         }
-        worldMap.moveCreature(this.coordinates, nextCoordinates);
+        worldMap.moveEntity(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }
 

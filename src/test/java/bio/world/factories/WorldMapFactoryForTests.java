@@ -29,7 +29,7 @@ public class WorldMapFactoryForTests {
         String[][] worldMapMatrix = createWorldMapMatrix(template);
         WorldMap worldMap = getWorldMapByWorldMapMatrix(worldMapMatrix);
         Map<Coordinates, Entity> entities = parseMatrix(worldMapMatrix);
-        putEntity(entities, worldMap);
+        putEntities(entities, worldMap);
         return worldMap;
     }
 
@@ -39,13 +39,9 @@ public class WorldMapFactoryForTests {
         return getWorldMap(height, width);
     }
 
-    private static void putEntity(Map<Coordinates, Entity> entities, WorldMap worldMap) {
+    private static void putEntities(Map<Coordinates, Entity> entities, WorldMap worldMap) {
         for (Entity entity : entities.values()) {
-            if (entity instanceof Creature creature) {
-                worldMap.addCreature(creature);
-            } else if (entity instanceof StaticEntity staticEntity) {
-                worldMap.addStaticEntity(staticEntity);
-            }
+            worldMap.addEntity(entity);
         }
     }
 

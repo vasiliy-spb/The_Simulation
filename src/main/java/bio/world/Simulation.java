@@ -24,32 +24,6 @@ public class Simulation {
         this.turnActionList = new ArrayList<>();
     }
 
-    public void startWithoutSpeed() {
-        int height = worldMap.getHeight();
-        int width = worldMap.getWidth();
-        int maxEntityNumber = height * width;
-        int countEntity = maxEntityNumber / 6;
-        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
-        initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveAction(worldMap);
-        turnActionList.add(makeMoveAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-            worldMapRender.renderMap();
-            System.out.println();
-        }
-
-        int moveCount = 6;
-        while (moveCount-- > 0) {
-            for (Action action : turnActionList) {
-                action.perform();
-                worldMapRender.renderMap();
-                System.out.println();
-            }
-        }
-    }
-
     public void start() {
         Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap);
         initActionList.add(createFixedCountEntityAction);
@@ -58,8 +32,6 @@ public class Simulation {
 
         for (Action action : initActionList) {
             action.perform();
-            worldMapRender.renderMap();
-            System.out.println();
         }
 
         while (!isGameOver()) {

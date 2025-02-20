@@ -6,18 +6,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class WorldMap {
     private final int height;
     private final int width;
-    private final Map<Coordinates, Creature> creatureMap;
-    private final Map<Coordinates, StaticEntity> staticEntityMap;
+    private final Map<Coordinates, Entity> entities;
 
     public WorldMap(int height, int width) {
         this.height = height;
         this.width = width;
-        this.creatureMap = new HashMap<>();
-        staticEntityMap = new HashMap<>();
+        this.entities = new HashMap<>();
     }
 
     public int getHeight() {
@@ -29,82 +28,69 @@ public class WorldMap {
     }
 
     public boolean areBusy(Coordinates coordinates) {
-        return creatureMap.containsKey(coordinates) || staticEntityMap.containsKey(coordinates);
+        return entities.containsKey(coordinates);
     }
 
-    public void addStaticEntity(StaticEntity staticEntity) {
-        staticEntityMap.put(staticEntity.getCoordinates(), staticEntity);
+    public void addEntity(Entity entity) {
+        entities.put(entity.getCoordinates(), entity);
     }
 
     public Set<Coordinates> getBusyCoordinates() {
-        Set<Coordinates> busyCoordinates = new HashSet<>();
-        busyCoordinates.addAll(creatureMap.keySet());
-        busyCoordinates.addAll(staticEntityMap.keySet());
+        Set<Coordinates> busyCoordinates = new HashSet<>(entities.keySet());
         return busyCoordinates;
     }
 
     public Entity getEntityByCoordinates(Coordinates coordinates) {
-        if (creatureMap.containsKey(coordinates)) {
-            return creatureMap.get(coordinates);
+        if (!entities.containsKey(coordinates)) {
+            throw new IllegalArgumentException();
         }
-        if (staticEntityMap.containsKey(coordinates)) {
-            return staticEntityMap.get(coordinates);
-        }
-        throw new IllegalArgumentException();
-    }
-
-    public void addCreature(Creature creature) {
-        creatureMap.put(creature.getCoordinates(), creature);
+        return entities.get(coordinates);
     }
 
     public Set<Creature> getCreatures() {
-        Set<Creature> creatures = new HashSet<>(creatureMap.values());
+        Set<Creature> creatures = entities.values()
+                .stream()
+                .filter(e -> e instanceof Creature)
+                .map(e -> (Creature) e)
+                .collect(Collectors.toSet());
         return creatures;
     }
 
     public Set<StaticEntity> getStaticEntities() {
-        Set<StaticEntity> staticEntitySet = new HashSet<>(staticEntityMap.values());
+        Set<StaticEntity> staticEntitySet = entities.values()
+                .stream()
+                .filter(e -> e instanceof StaticEntity)
+                .map(e -> (StaticEntity) e)
+                .collect(Collectors.toSet());
         return staticEntitySet;
     }
 
     public Set<Coordinates> getObstaclesCoordinatesFor(Entity entity) {
         Set<Coordinates> obstacles = new HashSet<>();
         if (entity instanceof Herbivore) {
-            obstacles.addAll(creatureMap.keySet());
-            for (StaticEntity staticEntity : staticEntityMap.values()) {
-                if (staticEntity instanceof Grass) {
+            for (Entity e : entities.values()) {
+                if (e instanceof Grass) {
                     continue;
                 }
-                obstacles.add(staticEntity.getCoordinates());
+                obstacles.add(e.getCoordinates());
             }
         } else if (entity instanceof Predator) {
-            for (Creature creature : creatureMap.values()) {
-                if (creature instanceof Herbivore) {
+            for (Entity e : entities.values()) {
+                if (e instanceof Grass || e instanceof Herbivore) {
                     continue;
                 }
-                obstacles.add(creature.getCoordinates());
-            }
-            for (StaticEntity staticEntity : staticEntityMap.values()) {
-                if (staticEntity instanceof Grass) {
-                    continue;
-                }
-                obstacles.add(staticEntity.getCoordinates());
+                obstacles.add(e.getCoordinates());
             }
         }
         return obstacles;
     }
 
-    public void moveCreature(Coordinates fromCoordinates, Coordinates toCoordinates) {
-        Creature creature = creatureMap.remove(fromCoordinates);
-        creatureMap.put(toCoordinates, creature);
-        staticEntityMap.remove(toCoordinates);
+    public void moveEntity(Coordinates fromCoordinates, Coordinates toCoordinates) {
+        Entity entity = entities.remove(fromCoordinates);
+        entities.put(toCoordinates, entity);
     }
 
-    public void removeStaticEntity(StaticEntity staticEntity) {
-        staticEntityMap.remove(staticEntity.getCoordinates(), staticEntity);
-    }
-
-    public void removeCreature(Creature creature) {
-        creatureMap.remove(creature.getCoordinates(), creature);
+    public void removeEntity(Entity entity) {
+        entities.remove(entity.getCoordinates(), entity);
     }
 }
