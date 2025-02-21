@@ -3,7 +3,6 @@ package bio.world;
 import bio.world.entities.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WorldMap {
     private final int height;
@@ -53,15 +52,6 @@ public class WorldMap {
         return herbivores;
     }
 
-    public List<Grass> getGrasses() {
-        List<Grass> grasses = entities.values()
-                .stream()
-                .filter(e -> e instanceof Grass)
-                .map(e -> (Grass) e)
-                .toList();
-        return grasses;
-    }
-
     public Set<Coordinates> getObstaclesCoordinatesFor(Entity entity) {
         Set<Coordinates> obstacles = new HashSet<>();
         if (entity instanceof Herbivore) {
@@ -98,5 +88,22 @@ public class WorldMap {
                 .map(e -> (Creature) e)
                 .toList();
         return creatures;
+    }
+
+    public List<Entity> getTargetsFor(Class<? extends Creature> eClass) {
+        List<Entity> targets = new ArrayList<>();
+        if (eClass.equals(Herbivore.class)) {
+            targets = entities.values()
+                    .stream()
+                    .filter(e -> e instanceof Grass)
+                    .toList();
+        }
+        if (eClass.equals(Predator.class)) {
+            targets = entities.values()
+                    .stream()
+                    .filter(e -> e instanceof Herbivore)
+                    .toList();
+        }
+        return targets;
     }
 }

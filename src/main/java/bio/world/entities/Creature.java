@@ -4,34 +4,40 @@ import bio.world.Coordinates;
 import bio.world.WorldMap;
 import bio.world.path_finders.PathFinder;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 public abstract class Creature extends Entity {
-    protected int turnFrequency;
     protected int healthPoint;
+    protected int turnFrequency;
+    protected final int attackPower;
+    private final Comparator<Entity> priorityTargetComparator;
 
-    public Creature(Coordinates coordinates) {
+    public Creature(Coordinates coordinates, int attackPower) {
         super(coordinates);
+        this.attackPower = attackPower;
+        this.priorityTargetComparator = (t1, t2) ->
+                calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
+                        calculateApproximateDistance(this.coordinates, t2.getCoordinates());
     }
 
     abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
 
-    protected int calculateApproximateDistance(Coordinates from, Coordinates target) {
-        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
+    protected Optional<Entity> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
+        List<Entity> targets = worldMap.getTargetsFor(this.getClass());
+        targets = targets.stream()
+                .sorted(this.priorityTargetComparator)
+                .toList();
+        for (Entity target : targets) {
+            if (hasPathFor(target, pathFinder)) {
+                return Optional.of(target);
+            }
+        }
+        return Optional.empty();
     }
 
-    protected boolean canEat(Entity entity) {
-        int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
-        int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
-        return rowDiff < 2 && columnDiff < 2;
-    }
-
-    public boolean shouldMove(int currentTick) {
-        return currentTick % turnFrequency == 0;
-    }
-
-    protected boolean hasPathFor(Entity entity, PathFinder pathFinder) {
+    private boolean hasPathFor(Entity entity, PathFinder pathFinder) {
         List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates());
         return !path.isEmpty() && path.get(path.size() - 1).equals(entity.getCoordinates());
     }
@@ -42,14 +48,25 @@ public abstract class Creature extends Entity {
             return;
         }
         Coordinates nextCoordinates = nextCoordinatesContainer.get();
+        moveTo(nextCoordinates, worldMap);
+    }
+
+    protected boolean canEat(Entity entity) {
+        int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
+        int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
+        return rowDiff < 2 && columnDiff < 2;
+    }
+
+    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
         worldMap.moveEntity(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }
 
-    protected void printEntities(List<? extends Entity> possibleTargetList) {
-        for (Entity entity : possibleTargetList) {
-            System.out.print(entity.getCoordinates() + ", ");
-        }
-        System.out.println();
+    public boolean shouldMove(int currentTick) {
+        return currentTick % turnFrequency == 0;
+    }
+
+    private int calculateApproximateDistance(Coordinates from, Coordinates target) {
+        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
     }
 }
