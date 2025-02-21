@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HerbivoresTests {
@@ -127,13 +128,13 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 10;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivores1finishCoordinates = new Coordinates(4, 2);
-        boolean herbivore1InPlace = false;
-        Optional<Entity> entity1Container = testSimulation.getEntityByCoordinates(herbivores1finishCoordinates);
-        if (entity1Container.isPresent()) {
-            herbivore1InPlace = entity1Container.get() instanceof Herbivore;
+        Coordinates herbivoresfinishCoordinates = new Coordinates(4, 2);
+        boolean herbivoreInPlace = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        if (entityContainer.isPresent()) {
+            herbivoreInPlace = entityContainer.get() instanceof Herbivore;
         }
-        assertTrue(herbivore1InPlace);
+        assertTrue(herbivoreInPlace);
     }
 
     @Test
@@ -143,12 +144,86 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 10;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivores1finishCoordinates = new Coordinates(2, 2);
-        boolean herbivore1InPlace = false;
-        Optional<Entity> entity1Container = testSimulation.getEntityByCoordinates(herbivores1finishCoordinates);
-        if (entity1Container.isPresent()) {
-            herbivore1InPlace = entity1Container.get() instanceof Herbivore;
+        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        boolean herbivoreInPlace = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        if (entityContainer.isPresent()) {
+            herbivoreInPlace = entityContainer.get() instanceof Herbivore;
         }
-        assertTrue(herbivore1InPlace);
+        assertTrue(herbivoreInPlace);
+    }
+
+    @Test
+    @DisplayName("Hunger test 1: herbivore loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase09() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template15.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 48;
+        testSimulation.startHerbivoresOnly(moveCount);
+        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        boolean herbivoreStillAlive = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        if (entityContainer.isPresent()) {
+            herbivoreStillAlive = entityContainer.get() instanceof Herbivore;
+        }
+        assertTrue(herbivoreStillAlive);
+    }
+
+    @Test
+    @DisplayName("Hunger test 2: herbivore loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase10() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template15.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 49;
+        testSimulation.startHerbivoresOnly(moveCount);
+        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        boolean herbivoreStillAlive = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        if (entityContainer.isPresent()) {
+            herbivoreStillAlive = entityContainer.get() instanceof Herbivore;
+        }
+        assertFalse(herbivoreStillAlive);
+    }
+
+    @Test
+    @DisplayName("Hunger test 3: herbivore loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase11() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template16.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 49;
+        Coordinates herbivoresStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresStartCoordinates);
+        Herbivore herbivore = (Herbivore) entityContainer.get();
+        testSimulation.startHerbivoresOnly(moveCount);
+        boolean herbivoreDoesNotExist = testSimulation.areEmptyCoordinates(herbivore.getCoordinates());
+        assertTrue(herbivoreDoesNotExist);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 1: herbivore refills its healthPoint after eat grass")
+    public void checkTestcase12() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template17.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 68;
+        Coordinates herbivoresStartCoordinates = new Coordinates(0, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresStartCoordinates);
+        Herbivore herbivore = (Herbivore) entityContainer.get();
+        testSimulation.startHerbivoresOnly(moveCount);
+        boolean herbivoreStillAlive = !testSimulation.areEmptyCoordinates(herbivore.getCoordinates());
+        assertTrue(herbivoreStillAlive);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 2: herbivore refills its healthPoint after eat grass")
+    public void checkTestcase13() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template17.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 69;
+        Coordinates herbivoresStartCoordinates = new Coordinates(0, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresStartCoordinates);
+        Herbivore herbivore = (Herbivore) entityContainer.get();
+        testSimulation.startHerbivoresOnly(moveCount);
+        boolean herbivoreDoesNotExist = testSimulation.areEmptyCoordinates(herbivore.getCoordinates());
+        assertTrue(herbivoreDoesNotExist);
     }
 }
