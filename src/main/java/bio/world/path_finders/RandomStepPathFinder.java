@@ -3,7 +3,9 @@ package bio.world.path_finders;
 import bio.world.Coordinates;
 import bio.world.WorldMap;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class RandomStepPathFinder implements PathFinder {
@@ -16,15 +18,15 @@ public class RandomStepPathFinder implements PathFinder {
 
     @Override
     public List<Coordinates> find(Coordinates fromCoordinates, Coordinates toCoordinates) {
-//        System.out.print("From: " + fromCoordinates.getPosition());
+        Optional<Coordinates> coordinatesContainer = findRandomStepFrom(fromCoordinates);
+        return coordinatesContainer.map(List::of).orElseGet(ArrayList::new);
+    }
+
+    @Override
+    public Optional<Coordinates> findRandomStepFrom(Coordinates fromCoordinates) {
         Random random = new Random();
-        List<Coordinates> path;
         if (!isMovePossible(fromCoordinates)) {
-            path = List.of(fromCoordinates);
-//            System.out.println("Move not possible..");
-//            System.out.println("worldMap = " + worldMap.getBusyCoordinates());
-//            System.out.print("To: " + fromCoordinates.getPosition());
-            return path;
+            return Optional.of(fromCoordinates);
         }
         Coordinates nextCoordinates;
         do {
@@ -34,9 +36,7 @@ public class RandomStepPathFinder implements PathFinder {
             int column = fromCoordinates.column() + direction[1];
             nextCoordinates = new Coordinates(row, column);
         } while (!areCoordinatesExist(nextCoordinates) || worldMap.areBusy(nextCoordinates));
-        path = List.of(nextCoordinates);
-//        System.out.print("To: " + nextCoordinates.getPosition());
-        return path;
+        return Optional.of(nextCoordinates);
     }
 
     private boolean isMovePossible(Coordinates fromCoordinates) {

@@ -26,6 +26,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
         Optional<Herbivore> target = findNearestTarget(worldMap, pathFinder);
         if (target.isEmpty()) {
+            makeRandomStep(worldMap, pathFinder);
             return;
         }
         Herbivore herbivore = target.get();

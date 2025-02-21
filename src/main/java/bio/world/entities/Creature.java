@@ -5,6 +5,7 @@ import bio.world.WorldMap;
 import bio.world.path_finders.PathFinder;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Creature extends Entity {
     protected int turnFrequency;
@@ -33,6 +34,16 @@ public abstract class Creature extends Entity {
     protected boolean hasPathFor(Entity entity, PathFinder pathFinder) {
         List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates());
         return !path.isEmpty() && path.get(path.size() - 1).equals(entity.getCoordinates());
+    }
+
+    protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
+        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
+        if (nextCoordinatesContainer.isEmpty()) {
+            return;
+        }
+        Coordinates nextCoordinates = nextCoordinatesContainer.get();
+        worldMap.moveEntity(this.coordinates, nextCoordinates);
+        this.setCoordinates(nextCoordinates);
     }
 
     protected void printEntities(List<? extends Entity> possibleTargetList) {

@@ -11,6 +11,7 @@ import java.util.Optional;
 public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
     private final int powerAttack;
     private final Comparator<Grass> priorityTargetComparator;
+
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
         this.priorityTargetComparator = (t1, t2) ->
@@ -29,6 +30,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         }
         Optional<Grass> target = findNearestTarget(worldMap, pathFinder);
         if (target.isEmpty()) {
+            makeRandomStep(worldMap, pathFinder);
             return;
         }
         Grass grass = target.get();

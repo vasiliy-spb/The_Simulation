@@ -7,6 +7,7 @@ import bio.world.entities.Entity;
 import java.util.*;
 
 public class AStarPathFinder implements PathFinder {
+    private static final int[][] DIRECTIONS = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
     private final WorldMap worldMap;
     private final Set<Coordinates> visited;
     private final Queue<PathNode> openList;
@@ -17,6 +18,43 @@ public class AStarPathFinder implements PathFinder {
         this.visited = new HashSet<>();
         this.openList = new PriorityQueue<>((p1, p2) -> Integer.compare(p1.value, p2.value));
         this.nodeMap = new HashMap<>();
+    }
+
+    @Override
+    public Optional<Coordinates> findRandomStepFrom(Coordinates fromCoordinates) {
+        Random random = new Random();
+        if (!isMovePossible(fromCoordinates)) {
+            return Optional.of(fromCoordinates);
+        }
+        Coordinates nextCoordinates;
+        do {
+            int directionIndex = random.nextInt(DIRECTIONS.length);
+            int[] direction = DIRECTIONS[directionIndex];
+            int row = fromCoordinates.row() + direction[0];
+            int column = fromCoordinates.column() + direction[1];
+            nextCoordinates = new Coordinates(row, column);
+        } while (!areCoordinatesExist(nextCoordinates) || worldMap.areBusy(nextCoordinates));
+        return Optional.of(nextCoordinates);
+    }
+
+    private boolean isMovePossible(Coordinates fromCoordinates) {
+        for (int[] direction : DIRECTIONS) {
+            int row = fromCoordinates.row() + direction[0];
+            int column = fromCoordinates.column() + direction[1];
+            Coordinates toCoordinates = new Coordinates(row, column);
+            if (areCoordinatesExist(toCoordinates) && !worldMap.areBusy(toCoordinates)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean areCoordinatesExist(Coordinates coordinates) {
+        int row = coordinates.row();
+        int column = coordinates.column();
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
+        return row >= 0 && row < height && column >= 0 && column < width;
     }
 
     public List<Coordinates> find(Coordinates start, Coordinates target) {
