@@ -128,9 +128,9 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 10;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivoresfinishCoordinates = new Coordinates(4, 2);
+        Coordinates herbivoresFinishCoordinates = new Coordinates(4, 2);
         boolean herbivoreInPlace = false;
-        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresFinishCoordinates);
         if (entityContainer.isPresent()) {
             herbivoreInPlace = entityContainer.get() instanceof Herbivore;
         }
@@ -144,9 +144,9 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 10;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        Coordinates herbivoresFinishCoordinates = new Coordinates(2, 2);
         boolean herbivoreInPlace = false;
-        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresFinishCoordinates);
         if (entityContainer.isPresent()) {
             herbivoreInPlace = entityContainer.get() instanceof Herbivore;
         }
@@ -160,9 +160,9 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 48;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        Coordinates herbivoresFinishCoordinates = new Coordinates(2, 2);
         boolean herbivoreStillAlive = false;
-        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresFinishCoordinates);
         if (entityContainer.isPresent()) {
             herbivoreStillAlive = entityContainer.get() instanceof Herbivore;
         }
@@ -176,9 +176,9 @@ public class HerbivoresTests {
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 49;
         testSimulation.startHerbivoresOnly(moveCount);
-        Coordinates herbivoresfinishCoordinates = new Coordinates(2, 2);
+        Coordinates herbivoresFinishCoordinates = new Coordinates(2, 2);
         boolean herbivoreStillAlive = false;
-        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresfinishCoordinates);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(herbivoresFinishCoordinates);
         if (entityContainer.isPresent()) {
             herbivoreStillAlive = entityContainer.get() instanceof Herbivore;
         }

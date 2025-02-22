@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PredatorsTests {
@@ -183,5 +184,79 @@ public class PredatorsTests {
             predatorInPlace = entityContainer.get() instanceof Predator;
         }
         assertTrue(predatorInPlace);
+    }
+
+    @Test
+    @DisplayName("Hunger test 1: predator loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase12() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template18.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 102;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates predatorFinishCoordinates = new Coordinates(2, 2);
+        boolean predatorStillAlive = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorFinishCoordinates);
+        if (entityContainer.isPresent()) {
+            predatorStillAlive = entityContainer.get() instanceof Predator;
+        }
+        assertTrue(predatorStillAlive);
+    }
+
+    @Test
+    @DisplayName("Hunger test 2: predator loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase13() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template18.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 103;
+        testSimulation.startPredatorsOnly(moveCount);
+        Coordinates predatorFinishCoordinates = new Coordinates(2, 2);
+        boolean predatorStillAlive = false;
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorFinishCoordinates);
+        if (entityContainer.isPresent()) {
+            predatorStillAlive = entityContainer.get() instanceof Predator;
+        }
+        assertFalse(predatorStillAlive);
+    }
+
+    @Test
+    @DisplayName("Hunger test 3: predator loses its healthPoint if it doesn't eat for too long")
+    public void checkTestcase14() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template19.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 103;
+        Coordinates predatorFinishCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorFinishCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+        testSimulation.startPredatorsOnly(moveCount);
+        boolean predatorDoesNotExist = testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        assertTrue(predatorDoesNotExist);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 1: predator refills its healthPoint after eat herbivore")
+    public void checkTestcase15() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template20.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 179;
+        Coordinates predatorStartCoordinates = new Coordinates(0, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+        testSimulation.startPredatorsOnly(moveCount);
+        boolean predatorStillAlive = !testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        assertTrue(predatorStillAlive);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 2: predator refills its healthPoint after eat herbivore")
+    public void checkTestcase16() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template20.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 180;
+        Coordinates predatorStartCoordinates = new Coordinates(0, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+        testSimulation.startPredatorsOnly(moveCount);
+        boolean predatorDoesNotExist = !testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        assertTrue(predatorDoesNotExist);
     }
 }

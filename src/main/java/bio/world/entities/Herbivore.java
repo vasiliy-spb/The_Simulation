@@ -79,4 +79,8 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
                 "healthPoint=" + healthPoint +
                 '}';
     }
+
+    public int getSatiety() {
+        return this.healthPoint;
+    }
 }
