@@ -37,8 +37,9 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         }
         Grass grass = (Grass) target.get();
         Coordinates nextCoordinates;
-        if (canEat(grass)) {
-            eat(worldMap, grass);
+        if (canAttack(grass)) {
+            attack(grass);
+            worldMap.removeEntity(grass);
             nextCoordinates = grass.getCoordinates();
         } else {
             countMoveWithoutFood++;
@@ -51,11 +52,11 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         moveTo(nextCoordinates, worldMap);
     }
 
-    private void eat(WorldMap worldMap, Grass grass) {
+    @Override
+    public void attack(Grass grass) {
         int satiety = grass.getSatiety();
         this.healthPoint = Math.min(this.healthPoint + satiety, INIT_HEALTH_POINT);
         grass.takeDamage(this);
-        worldMap.removeEntity(grass);
         countMoveWithoutFood = 0;
     }
 
@@ -64,22 +65,12 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         return attackPower;
     }
 
-    public boolean isAlive() {
-        return this.healthPoint > 0;
-    }
-
     @Override
     public void takeDamage(Predator hunter) {
         this.healthPoint -= hunter.getDamage();
     }
 
     @Override
-    public String toString() {
-        return "Herbivore{" +
-                "healthPoint=" + healthPoint +
-                '}';
-    }
-
     public int getSatiety() {
         return this.healthPoint;
     }

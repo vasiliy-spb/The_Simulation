@@ -12,6 +12,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
     private static final int INIT_HEALTH_POINT = 30;
     private static final int INIT_TURN_FREQUENCY = 3;
     private static final int INIT_ATTACK_POWER = 15;
+
     public Predator(Coordinates coordinates) {
         super(coordinates, INIT_ATTACK_POWER);
         this.healthPoint = INIT_HEALTH_POINT;
@@ -35,8 +36,8 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         }
         Herbivore herbivore = (Herbivore) target.get();
         Coordinates nextCoordinates = this.coordinates;
-        if (canEat(herbivore)) {
-            eat(herbivore);
+        if (canAttack(herbivore)) {
+            attack(herbivore);
             if (!herbivore.isAlive()) {
                 nextCoordinates = herbivore.getCoordinates();
                 worldMap.removeEntity(herbivore);
@@ -52,15 +53,12 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         moveTo(nextCoordinates, worldMap);
     }
 
-    private void eat(Herbivore herbivore) {
+    @Override
+    public void attack(Herbivore herbivore) {
         int satiety = Math.min(herbivore.getSatiety(), this.attackPower);
         this.healthPoint = Math.min(this.healthPoint + satiety, INIT_HEALTH_POINT);
         herbivore.takeDamage(this);
         countMoveWithoutFood = 0;
-    }
-
-    private boolean isAlive() {
-        return this.healthPoint > 0;
     }
 
     @Override

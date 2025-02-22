@@ -10,13 +10,9 @@ public class Grass extends StaticEntity implements Prey<Herbivore> {
         this.healthPoint = 5;
     }
 
+    @Override
     public int getSatiety() {
         return this.healthPoint;
-    }
-
-    @Override
-    public boolean isAlive() {
-        return healthPoint > 0;
     }
 
     @Override

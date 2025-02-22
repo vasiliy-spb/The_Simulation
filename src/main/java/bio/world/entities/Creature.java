@@ -24,6 +24,10 @@ public abstract class Creature extends Entity {
 
     abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
 
+    protected boolean isAlive() {
+        return this.healthPoint > 0;
+    }
+
     protected Optional<Entity> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
         List<Entity> targets = worldMap.getTargetsFor(this.getClass());
         targets = targets.stream()
@@ -51,7 +55,7 @@ public abstract class Creature extends Entity {
         moveTo(nextCoordinates, worldMap);
     }
 
-    protected boolean canEat(Entity entity) {
+    protected boolean canAttack(Entity entity) {
         int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
         int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
         return rowDiff < 2 && columnDiff < 2;
