@@ -26,13 +26,14 @@ public class TestMain {
     }
 
     private static void runMain() {
+        InitParamsHandler initParamsHandler = new InitParamsHandler();
         StartMenu startMenu = MenuFactory.createStartMenu();
         startMenu.showTitle();
         MenuItems selectedStartMenuItem = startMenu.selectMenuItem();
         if (selectedStartMenuItem.equals(MenuItems.EXIT)) {
             return;
         }
-        Simulation simulation = new Simulation();
+        Simulation simulation = new Simulation(initParamsHandler);
         simulation.start();
 
         infinityLoop:
@@ -42,12 +43,12 @@ public class TestMain {
             MenuItems selectedMainMenuItem = mainMenu.selectMenuItem();
             switch (selectedMainMenuItem) {
                 case REPEAT -> {
-                    System.out.println("— — — Здесь надо начать игру заново с теми же параметрами (но пока просто заново создаём симуляцию) — — —");
-                    Simulation nextSimulation = new Simulation();
+                    Simulation nextSimulation = new Simulation(initParamsHandler);
                     nextSimulation.start();
                 }
                 case CHANGE_INITIAL_PARAMETERS -> {
-                    Simulation nextSimulation = new Simulation();
+                    initParamsHandler = new InitParamsHandler();
+                    Simulation nextSimulation = new Simulation(initParamsHandler);
                     nextSimulation.start();
                 }
                 case EXIT -> {

@@ -12,28 +12,76 @@ import bio.world.render.WorldMapRender;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Simulation {
-    private final WorldMap worldMap;
+    private WorldMap worldMap;
     private final TickCounter tickCounter;
     private final WorldMapRender worldMapRender;
     private final List<Action> initActionList;
     private final List<Action> turnActionList;
     private final PauseHandler pauseHandler;
     private int movesDelay;
+    private final InitParamsHandler initParamsHandler;
 
-    public Simulation() {
-        this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
+    public Simulation(InitParamsHandler initParamsHandler) {
+        this.initParamsHandler = initParamsHandler;
         this.tickCounter = new TickCounter();
-        this.worldMapRender = new ConsoleMapRender(worldMap);
         this.initActionList = new ArrayList<>();
         this.turnActionList = new ArrayList<>();
         this.pauseHandler = new PauseHandler();
         this.movesDelay = 0;
+        if (initParamsHandler.hasSavedParams()) {
+            createWorldMap();
+            initWithSavedParams();
+        } else {
+            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
+            init();
+        }
+        this.worldMapRender = new ConsoleMapRender(worldMap);
+    }
+
+    private void createWorldMap() {
+        Optional<InitParams> initParamsContainer = initParamsHandler.getInitParams();
+        if (initParamsContainer.isEmpty()) {
+            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
+            return;
+        }
+        InitParams initParams = initParamsContainer.get();
+        this.worldMap = WorldMapFactory.createWorldMapWithParams(initParams);
+    }
+
+    private void initWithSavedParams() {
+        Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
+        initActionList.add(createSavedCountEntityAction);
+        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+        turnActionList.add(growGrassAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+        }
+
+        this.movesDelay = askMovesDelay();
+    }
+
+    private void init() {
+        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+        turnActionList.add(growGrassAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+        }
+
+        this.movesDelay = askMovesDelay();
     }
 
     public void start() {
-        init();
         while (!isGameOver()) {
             try {
                 pauseHandler.checkPause();
@@ -47,21 +95,6 @@ public class Simulation {
             } catch (IOException | InterruptedException ignored) {
             }
         }
-    }
-
-    private void init() {
-        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap);
-        initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
-        turnActionList.add(makeMoveAction);
-        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
-        turnActionList.add(growGrassAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-        }
-
-        this.movesDelay = askMovesDelay();
     }
 
     private boolean shouldInterrupt() {

@@ -1,6 +1,7 @@
 package bio.world.factories;
 
 import bio.world.WorldMap;
+import bio.world.InitParams;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;
 
@@ -36,5 +37,11 @@ public class WorldMapFactory {
     private static int askIntegerParams(String askMessage, String errorMessage, int minValue, int maxValue) {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(askMessage, errorMessage, minValue, maxValue);
         return integerDialog.input();
+    }
+
+    public static WorldMap createWorldMapWithParams(InitParams initParams) {
+        int height = initParams.height();
+        int width = initParams.width();
+        return getInstance(height, width);
     }
 }
