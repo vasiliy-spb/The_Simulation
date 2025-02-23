@@ -106,4 +106,12 @@ public class WorldMap {
         }
         return targets;
     }
+
+    public List<Grass> getGrasses() {
+        List<Grass> grasses = entities.values().stream()
+                .filter(e -> e instanceof Grass)
+                .map(e -> (Grass) e)
+                .toList();
+        return grasses;
+    }
 }

@@ -273,4 +273,29 @@ public class TestSimulation {
             tickCounter.next();
         }
     }
+
+    public void startWithGrassGrow() {
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, 0);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+        Action growGrassAction = new GrassGrowingAction(worldMap);
+        turnActionList.add(growGrassAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+        }
+
+        System.out.println();
+
+        int moveCount = 120;
+        while (tickCounter.getCurrentTick() < moveCount) {
+            System.out.printf("[move: %d]\n", tickCounter.getCurrentTick());
+            for (Action action : turnActionList) {
+                action.perform();
+            }
+            worldMapRender.renderMap();
+            tickCounter.next();
+        }
+    }
 }

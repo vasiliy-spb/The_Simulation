@@ -54,6 +54,8 @@ public class Simulation {
         initActionList.add(createFixedCountEntityAction);
         Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
+        Action growGrassAction = new GrassGrowingAction(worldMap);
+        turnActionList.add(growGrassAction);
 
         for (Action action : initActionList) {
             action.perform();
@@ -82,8 +84,8 @@ public class Simulation {
     private void nextTurn() {
         for (Action action : turnActionList) {
             action.perform();
-            worldMapRender.renderMap();
         }
+        worldMapRender.renderMap();
         tickCounter.next();
     }
 

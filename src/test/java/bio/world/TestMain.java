@@ -11,8 +11,12 @@ public class TestMain {
 
 //        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template05.txt";
 //        TestSimulation testSimulation = new TestSimulation(templateFilePath);
-////        testSimulation.startWithoutSpeed();
+//        testSimulation.startWithoutSpeed();
 //        testSimulation.start();
+
+//        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template06.txt";
+//        TestSimulation testSimulation = new TestSimulation(templateFilePath);
+//        testSimulation.startWithGrassGrow();
 
 //        int height = 25;
 //        int width = 45;
@@ -54,15 +58,3 @@ public class TestMain {
         System.out.println("Follow the white rabbit..");
     }
 }
-
-
-/*
-
-на этой карте неправильно работает метод isGameOver()
- .. 🐇 🗿 🐅 ☘️
- 🗿 🌲 🌲 🌲 🗿
- .. .. 🐅 🐅 🗿
- 🐇 🐅 .. 🗿 🌲
- 🌲 ☘️ ☘️ .. 🐅
-
- */
