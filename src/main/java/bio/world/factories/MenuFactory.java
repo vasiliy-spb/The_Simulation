@@ -27,12 +27,13 @@ public class MenuFactory {
         String mainTitleMessage = "СИМУЛЯЦИЯ ЗАВЕРШЕНА";
         String mainSelectMessage = """
                 Выберите пункт меню:
-                1 — Играть ещё раз
-                2 — Выйти
+                1 — Перезапустить симуляцию
+                2 — Играть заново
+                3 — Выйти
                 """;
         String mainErrorMessage = "Неправильный ввод.";
         int minMainMenuItem = 1;
-        int maxMainMenuItem = 2;
+        int maxMainMenuItem = 3;
         MainMenu mainMenu = new MainMenu(mainTitleMessage, mainSelectMessage, mainErrorMessage, minMainMenuItem, maxMainMenuItem);
         return mainMenu;
     }

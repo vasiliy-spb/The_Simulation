@@ -1,5 +1,7 @@
 package bio.world.actions;
 
+import bio.world.InitParams;
+import bio.world.InitParamsHandler;
 import bio.world.WorldMap;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;
@@ -11,9 +13,11 @@ import java.util.Map;
 public class CreateCustomCountEntityAction implements Action {
     private final WorldMap worldMap;
     private final Map<Class<? extends Entity>, EntityFactory<? extends Entity>> factories;
+    private final InitParamsHandler initParamsHandler;
 
-    public CreateCustomCountEntityAction(WorldMap worldMap) {
+    public CreateCustomCountEntityAction(WorldMap worldMap, InitParamsHandler initParamsHandler) {
         this.worldMap = worldMap;
+        this.initParamsHandler = initParamsHandler;
         factories = Map.of(
                 Grass.class, new GrassFactory(),
                 Rock.class, new RockFactory(),
@@ -31,26 +35,30 @@ public class CreateCustomCountEntityAction implements Action {
         createGrass(initParams.countGrasses());
         createHerbivore(initParams.countHerbivores());
         createPredator(initParams.countPredators());
+        initParamsHandler.saveInitParams(initParams);
+        initParamsHandler.saveStartingPosition(worldMap);
     }
 
     private InitParams askInitParams() {
-        int availableCountEntities = worldMap.getHeight() * worldMap.getWidth();
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
+        int availableCountEntities = height * width;
         String askMessage = "Введите количество %s (%d - %d): ";
         String errorMessage = "Неправильный ввод.";
-        int countTrees = askIntegerParams(askMessage.formatted("деревьев", 1, availableCountEntities - 4), errorMessage, 1, availableCountEntities - 4);
+        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", 1, availableCountEntities - 4), errorMessage, 1, availableCountEntities - 4);
         availableCountEntities -= countTrees;
-        int countRocks = askIntegerParams(askMessage.formatted("камней", 1, availableCountEntities - 3), errorMessage, 1, availableCountEntities - 3);
+        int countRocks = askIntegerParameter(askMessage.formatted("камней", 1, availableCountEntities - 3), errorMessage, 1, availableCountEntities - 3);
         availableCountEntities -= countRocks;
-        int countGrasses = askIntegerParams(askMessage.formatted("травы", 1, availableCountEntities - 2), errorMessage, 1, availableCountEntities - 2);
+        int countGrasses = askIntegerParameter(askMessage.formatted("травы", 1, availableCountEntities - 2), errorMessage, 1, availableCountEntities - 2);
         availableCountEntities -= countGrasses;
-        int countHerbivores = askIntegerParams(askMessage.formatted("травоядных", 1, availableCountEntities - 1), errorMessage, 1, availableCountEntities - 1);
+        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", 1, availableCountEntities - 1), errorMessage, 1, availableCountEntities - 1);
         availableCountEntities -= countHerbivores;
-        int countPredators = askIntegerParams(askMessage.formatted("хищников", 1, availableCountEntities), errorMessage, 1, availableCountEntities);
-        InitParams initParams = new InitParams(countTrees, countRocks, countGrasses, countHerbivores, countPredators);
+        int countPredators = askIntegerParameter(askMessage.formatted("хищников", 1, availableCountEntities), errorMessage, 1, availableCountEntities);
+        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators);
         return initParams;
     }
 
-    private static int askIntegerParams(String askMessage, String errorMessage, int minValue, int maxValue) {
+    private static int askIntegerParameter(String askMessage, String errorMessage, int minValue, int maxValue) {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(askMessage, errorMessage, minValue, maxValue);
         return integerDialog.input();
     }
