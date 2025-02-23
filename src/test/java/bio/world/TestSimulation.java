@@ -279,7 +279,7 @@ public class TestSimulation {
         initActionList.add(createFixedCountEntityAction);
         Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
-        Action growGrassAction = new GrassGrowingAction(worldMap);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);
 
         for (Action action : initActionList) {

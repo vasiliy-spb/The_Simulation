@@ -11,4 +11,9 @@ public class GrassFactory extends EntityFactory<Grass> {
         Grass grass = new Grass(coordinates);
         return grass;
     }
+
+    public Grass createInstanceBy(Coordinates coordinates) {
+        Grass grass = new Grass(coordinates);
+        return grass;
+    }
 }
