@@ -1,7 +1,5 @@
 package bio.world.entities;
 
-import bio.world.Coordinates;
-
 public class Grass extends StaticEntity implements Prey<Herbivore> {
     private int healthPoint;
 

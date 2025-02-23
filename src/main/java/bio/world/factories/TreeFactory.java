@@ -1,6 +1,6 @@
 package bio.world.factories;
 
-import bio.world.Coordinates;
+import bio.world.entities.Coordinates;
 import bio.world.entities.Tree;
 
 public class TreeFactory extends EntityFactory<Tree> {

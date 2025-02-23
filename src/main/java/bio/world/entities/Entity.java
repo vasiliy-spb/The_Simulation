@@ -1,7 +1,5 @@
 package bio.world.entities;
 
-import bio.world.Coordinates;
-
 public abstract class Entity {
     protected Coordinates coordinates;
 

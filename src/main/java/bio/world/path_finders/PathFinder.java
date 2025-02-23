@@ -1,6 +1,6 @@
 package bio.world.path_finders;
 
-import bio.world.Coordinates;
+import bio.world.entities.Coordinates;
 
 import java.util.List;
 import java.util.Optional;

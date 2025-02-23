@@ -1,6 +1,8 @@
-package bio.world;
+package bio.world.simulation.init;
 
+import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.map.WorldMap;
 
 import java.util.HashMap;
 import java.util.Map;

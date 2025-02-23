@@ -1,5 +1,8 @@
-package bio.world;
+package bio.world.simulation;
 
+import bio.world.simulation.init.InitParams;
+import bio.world.simulation.init.InitParamsHandler;
+import bio.world.map.WorldMap;
 import bio.world.actions.*;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;

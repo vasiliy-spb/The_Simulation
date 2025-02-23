@@ -1,8 +1,8 @@
 package bio.world.actions;
 
-import bio.world.Coordinates;
-import bio.world.TickCounter;
-import bio.world.WorldMap;
+import bio.world.entities.Coordinates;
+import bio.world.simulation.TickCounter;
+import bio.world.map.WorldMap;
 import bio.world.entities.Grass;
 import bio.world.entities.Herbivore;
 import bio.world.factories.GrassFactory;

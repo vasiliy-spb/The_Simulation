@@ -4,6 +4,8 @@ import bio.world.factories.MenuFactory;
 import bio.world.menu.MainMenu;
 import bio.world.menu.MenuItems;
 import bio.world.menu.StartMenu;
+import bio.world.simulation.Simulation;
+import bio.world.simulation.init.InitParamsHandler;
 
 public class Main {
     public static void main(String[] args) {

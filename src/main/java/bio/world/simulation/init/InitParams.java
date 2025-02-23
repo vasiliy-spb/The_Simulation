@@ -1,4 +1,4 @@
-package bio.world;
+package bio.world.simulation.init;
 
 public record InitParams(
         int height,

@@ -1,4 +1,4 @@
-package bio.world;
+package bio.world.simulation;
 
 public class TickCounter {
     private int currentTick;

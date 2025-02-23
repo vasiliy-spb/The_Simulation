@@ -1,6 +1,6 @@
 package bio.world.factories;
 
-import bio.world.Coordinates;
+import bio.world.entities.Coordinates;
 import bio.world.entities.Rock;
 
 public class RockFactory extends EntityFactory<Rock> {

@@ -1,6 +1,6 @@
 package bio.world.auxiliary_actions;
 
-import bio.world.WorldMap;
+import bio.world.map.WorldMap;
 import bio.world.actions.Action;
 import bio.world.entities.Creature;
 import bio.world.entities.Herbivore;

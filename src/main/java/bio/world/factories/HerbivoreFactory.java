@@ -1,6 +1,6 @@
 package bio.world.factories;
 
-import bio.world.Coordinates;
+import bio.world.entities.Coordinates;
 import bio.world.entities.Herbivore;
 
 public class HerbivoreFactory extends EntityFactory<Herbivore> {

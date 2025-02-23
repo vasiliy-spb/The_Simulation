@@ -1,5 +1,6 @@
-package bio.world;
+package bio.world.map;
 
+import bio.world.entities.Coordinates;
 import bio.world.entities.*;
 
 import java.util.*;

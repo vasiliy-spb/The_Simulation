@@ -1,7 +1,7 @@
 package bio.world.auxiliary_actions;
 
-import bio.world.TickCounter;
-import bio.world.WorldMap;
+import bio.world.simulation.TickCounter;
+import bio.world.map.WorldMap;
 import bio.world.actions.Action;
 import bio.world.entities.Herbivore;
 import bio.world.path_finders.AStarPathFinder;

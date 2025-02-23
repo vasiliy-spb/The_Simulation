@@ -1,7 +1,7 @@
 package bio.world.render;
 
-import bio.world.Coordinates;
-import bio.world.WorldMap;
+import bio.world.entities.Coordinates;
+import bio.world.map.WorldMap;
 import bio.world.entities.*;
 
 import java.util.Set;

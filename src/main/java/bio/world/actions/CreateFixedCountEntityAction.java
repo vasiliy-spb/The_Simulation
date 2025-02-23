@@ -1,6 +1,6 @@
 package bio.world.actions;
 
-import bio.world.WorldMap;
+import bio.world.map.WorldMap;
 import bio.world.entities.*;
 import bio.world.factories.*;
 

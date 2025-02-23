@@ -1,7 +1,7 @@
 package bio.world.factories;
 
-import bio.world.WorldMap;
-import bio.world.InitParams;
+import bio.world.map.WorldMap;
+import bio.world.simulation.init.InitParams;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;
 

@@ -1,7 +1,7 @@
 package bio.world.actions;
 
-import bio.world.TickCounter;
-import bio.world.WorldMap;
+import bio.world.simulation.TickCounter;
+import bio.world.map.WorldMap;
 import bio.world.entities.Creature;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
