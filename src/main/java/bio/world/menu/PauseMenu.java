@@ -12,7 +12,7 @@ public class PauseMenu extends AbstractMenu {
 
     @Override
     public MenuItems selectMenuItem() {
-        Dialog<Character> characterDialog = new CharacterDialog(this.selectMessage, this.errorMessage, Set.of('1', '\0'));
+        Dialog<Character> characterDialog = new CharacterDialog(this.selectMessage, this.errorMessage, Set.of('1', '2', '\0'));
         Character ch = characterDialog.input();
         return switch (ch) {
             case '\0' -> MenuItems.CONTINUE;
