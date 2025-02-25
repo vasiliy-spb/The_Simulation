@@ -1,5 +1,6 @@
 package bio.world.auxiliary_actions;
 
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
 import bio.world.entities.Creature;
@@ -21,14 +22,14 @@ public class HerbivoreFirstMakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        List<Creature> creatures = worldMap.getCreatures();
-        for (Creature creature : creatures) {
-            if (creature instanceof Herbivore herbivore) {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Herbivore herbivore) {
                 herbivore.makeMove(worldMap, pathFinder);
             }
         }
-        for (Creature creature : creatures) {
-            if (creature instanceof Predator predator) {
+        for (Entity entity : entities) {
+            if (entity instanceof Predator predator) {
                 predator.makeMove(worldMap, pathFinder);
             }
         }

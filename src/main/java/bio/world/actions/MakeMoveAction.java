@@ -1,5 +1,6 @@
 package bio.world.actions;
 
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.entities.Creature;
 import bio.world.path_finders.AStarPathFinder;
@@ -18,9 +19,11 @@ public class MakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        List<Creature> creatures = worldMap.getCreatures();
-        for (Creature creature : creatures) {
-            creature.makeMove(worldMap, pathFinder);
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Creature creature) {
+                creature.makeMove(worldMap, pathFinder);
+            }
         }
     }
 }

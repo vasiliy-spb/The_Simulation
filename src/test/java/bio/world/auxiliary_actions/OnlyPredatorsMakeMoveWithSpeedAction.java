@@ -1,5 +1,7 @@
 package bio.world.auxiliary_actions;
 
+import bio.world.entities.Entity;
+import bio.world.entities.Herbivore;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
@@ -24,9 +26,9 @@ public class OnlyPredatorsMakeMoveWithSpeedAction implements Action {
     @Override
     public void perform() {
         int currentTick = tickCounter.getCurrentTick();
-        List<Creature> creatures = worldMap.getCreatures();
-        for (Creature creature : creatures) {
-            if (creature instanceof Predator predator) {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Predator predator) {
                 if (predator.shouldMove(currentTick)) {
                     predator.makeMove(worldMap, pathFinder);
                 }

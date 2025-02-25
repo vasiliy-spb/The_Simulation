@@ -9,16 +9,16 @@ import bio.world.simulation.init.InitParamsHandler;
 
 public class TestMain {
     public static void main(String[] args) {
-        runMain();
+//        runMain();
 
 //        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template05.txt";
 //        TestSimulation testSimulation = new TestSimulation(templateFilePath);
 //        testSimulation.startWithoutSpeed();
 //        testSimulation.start();
 
-//        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template06.txt";
-//        TestSimulation testSimulation = new TestSimulation(templateFilePath);
-//        testSimulation.startWithGrassGrow();
+        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template06.txt";
+        TestSimulation testSimulation = new TestSimulation(templateFilePath);
+        testSimulation.startWithGrassGrow();
 
 //        int height = 25;
 //        int width = 45;

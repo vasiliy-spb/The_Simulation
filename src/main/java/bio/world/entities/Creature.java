@@ -6,6 +6,7 @@ import bio.world.path_finders.PathFinder;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Creature extends Entity {
     protected int healthPoint;
@@ -28,22 +29,27 @@ public abstract class Creature extends Entity {
     }
 
     protected Optional<Entity> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
-        List<Entity> targets = worldMap.getTargetsFor(this.getClass());
+        List<Entity> targets = getTargetEntities(worldMap);
         targets = targets.stream()
                 .sorted(this.priorityTargetComparator)
                 .toList();
         for (Entity target : targets) {
-            if (hasPathFor(target, pathFinder)) {
+            if (hasPathFor(target, worldMap, pathFinder)) {
                 return Optional.of(target);
             }
         }
         return Optional.empty();
     }
 
-    private boolean hasPathFor(Entity entity, PathFinder pathFinder) {
-        List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates());
+    protected abstract List<Entity> getTargetEntities(WorldMap worldMap);
+
+    private boolean hasPathFor(Entity entity, WorldMap worldMap, PathFinder pathFinder) {
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap);
+        List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates(), obstacles);
         return !path.isEmpty() && path.get(path.size() - 1).equals(entity.getCoordinates());
     }
+
+    protected abstract Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap);
 
     protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
         Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);

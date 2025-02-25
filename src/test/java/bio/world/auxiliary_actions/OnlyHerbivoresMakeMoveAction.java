@@ -1,5 +1,6 @@
 package bio.world.auxiliary_actions;
 
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
 import bio.world.entities.Herbivore;
@@ -19,9 +20,11 @@ public class OnlyHerbivoresMakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        List<Herbivore> herbivores = worldMap.getHerbivores();
-        for (Herbivore herbivore : herbivores) {
-            herbivore.makeMove(worldMap, pathFinder);
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Herbivore herbivore) {
+                herbivore.makeMove(worldMap, pathFinder);
+            }
         }
     }
 }

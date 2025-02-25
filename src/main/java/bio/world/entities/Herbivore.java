@@ -3,8 +3,7 @@ package bio.world.entities;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
     private int countMoveWithoutFood;
@@ -42,13 +41,36 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
             nextCoordinates = grass.getCoordinates();
         } else {
             countMoveWithoutFood++;
-            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates());
+            Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap);
+            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 return;
             }
             nextCoordinates = pathToTarget.get(0);
         }
         moveTo(nextCoordinates, worldMap);
+    }
+
+    @Override
+    protected List<Entity> getTargetEntities(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Entity> targets = entities.stream()
+                .filter(e -> e instanceof Grass)
+                .toList();
+        return targets;
+    }
+
+    @Override
+    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        Set<Coordinates> obstacles = new HashSet<>();
+        for (Entity entity : entities) {
+            if (entity instanceof Grass) {
+                continue;
+            }
+            obstacles.add(entity.getCoordinates());
+        }
+        return obstacles;
     }
 
     @Override

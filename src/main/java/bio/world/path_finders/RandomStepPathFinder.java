@@ -3,10 +3,7 @@ package bio.world.path_finders;
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class RandomStepPathFinder implements PathFinder {
     private final WorldMap worldMap;
@@ -17,7 +14,7 @@ public class RandomStepPathFinder implements PathFinder {
     }
 
     @Override
-    public List<Coordinates> find(Coordinates fromCoordinates, Coordinates toCoordinates) {
+    public List<Coordinates> find(Coordinates fromCoordinates, Coordinates toCoordinates, Set<Coordinates> obstacles) {
         Optional<Coordinates> coordinatesContainer = findRandomStepFrom(fromCoordinates);
         return coordinatesContainer.map(List::of).orElseGet(ArrayList::new);
     }

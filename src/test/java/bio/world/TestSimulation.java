@@ -291,7 +291,7 @@ public class TestSimulation {
 
         System.out.println();
 
-        int moveCount = 120;
+        int moveCount = 360;
         while (tickCounter.getCurrentTick() < moveCount) {
             System.out.printf("[move: %d]\n", tickCounter.getCurrentTick());
             for (Action action : turnActionList) {

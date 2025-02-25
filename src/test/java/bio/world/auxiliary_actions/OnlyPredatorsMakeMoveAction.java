@@ -1,5 +1,6 @@
 package bio.world.auxiliary_actions;
 
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
 import bio.world.entities.Creature;
@@ -20,9 +21,9 @@ public class OnlyPredatorsMakeMoveAction implements Action {
 
     @Override
     public void perform() {
-        List<Creature> creatures = worldMap.getCreatures();
-        for (Creature creature : creatures) {
-            if (creature instanceof Predator predator) {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Predator predator) {
                 predator.makeMove(worldMap, pathFinder);
             }
         }

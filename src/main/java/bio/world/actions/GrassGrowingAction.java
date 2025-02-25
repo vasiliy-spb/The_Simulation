@@ -1,6 +1,7 @@
 package bio.world.actions;
 
 import bio.world.entities.Coordinates;
+import bio.world.entities.Entity;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.entities.Grass;
@@ -46,16 +47,24 @@ public class GrassGrowingAction implements Action {
     }
 
     private int calculateCountAdditionalGrass(List<Coordinates> emptyCoordinates) {
-        List<Grass> grasses = worldMap.getGrasses();
-        List<Herbivore> herbivores = worldMap.getHerbivores();
-        int herbivoreGrassDiff = herbivores.size() - grasses.size();
-
+        int herbivoreGrassBalance = calculateHerbivoreGrassBalance();
         int countAdditionalGrass = 1;
-        if (!herbivores.isEmpty()) {
-            countAdditionalGrass = Math.min(emptyCoordinates.size() / 2, herbivoreGrassDiff / 2);
+        if (herbivoreGrassBalance > 0) {
+            countAdditionalGrass = Math.min(emptyCoordinates.size() / 2, herbivoreGrassBalance / 2);
             countAdditionalGrass = Math.max(countAdditionalGrass, 1);
         }
         return countAdditionalGrass;
+    }
+
+    private int calculateHerbivoreGrassBalance() {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Entity> grassEntities = entities.stream()
+                .filter(e -> e instanceof Grass)
+                .toList();
+        List<Entity> herbivoreEntities = entities.stream()
+                .filter(e -> e instanceof Herbivore)
+                .toList();
+        return herbivoreEntities.size() - grassEntities.size();
     }
 
     private List<Coordinates> createEmptyCoordinates() {

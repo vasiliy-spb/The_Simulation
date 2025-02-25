@@ -3,8 +3,7 @@ package bio.world.entities;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Predator extends Creature implements Hunter<Herbivore> {
     private int countMoveWithoutFood;
@@ -43,13 +42,36 @@ public class Predator extends Creature implements Hunter<Herbivore> {
             }
         } else {
             countMoveWithoutFood++;
-            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, herbivore.getCoordinates());
+            Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap);
+            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, herbivore.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 return;
             }
             nextCoordinates = pathToTarget.get(0);
         }
         moveTo(nextCoordinates, worldMap);
+    }
+
+    @Override
+    protected List<Entity> getTargetEntities(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Entity> targets = entities.stream()
+                .filter(e -> e instanceof Herbivore)
+                .toList();
+        return targets;
+    }
+
+    @Override
+    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        Set<Coordinates> obstacles = new HashSet<>();
+        for (Entity entity : entities) {
+            if (entity instanceof Grass || entity instanceof Herbivore) {
+                continue;
+            }
+            obstacles.add(entity.getCoordinates());
+        }
+        return obstacles;
     }
 
     @Override

@@ -2,7 +2,6 @@ package bio.world.path_finders;
 
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
-import bio.world.entities.Entity;
 
 import java.util.*;
 
@@ -57,9 +56,7 @@ public class AStarPathFinder implements PathFinder {
         return row >= 0 && row < height && column >= 0 && column < width;
     }
 
-    public List<Coordinates> find(Coordinates start, Coordinates target) {
-        Entity entity = worldMap.getEntityByCoordinates(start);
-        Set<Coordinates> obstacles = worldMap.getObstaclesCoordinatesFor(entity);
+    public List<Coordinates> find(Coordinates start, Coordinates target, Set<Coordinates> obstacles) {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         int approximateDistanceToTarget = calculateApproximateDistance(start, target);

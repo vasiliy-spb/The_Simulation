@@ -1,5 +1,7 @@
 package bio.world.simulation;
 
+import bio.world.entities.Entity;
+import bio.world.entities.Herbivore;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;
@@ -126,7 +128,14 @@ public class Simulation {
     }
 
     private boolean isGameOver() {
-        return worldMap.getHerbivores().isEmpty();
+        List<Entity> entities = worldMap.getAllEntities();
+        int countHerbivore = 0;
+        for (Entity entity : entities) {
+            if (entity instanceof Herbivore) {
+                countHerbivore++;
+            }
+        }
+        return countHerbivore == 0;
     }
 
     private int askMovesDelay() {

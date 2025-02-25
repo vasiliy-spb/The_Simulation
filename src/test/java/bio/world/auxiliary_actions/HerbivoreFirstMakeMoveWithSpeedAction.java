@@ -1,5 +1,6 @@
 package bio.world.auxiliary_actions;
 
+import bio.world.entities.Entity;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
@@ -25,16 +26,16 @@ public class HerbivoreFirstMakeMoveWithSpeedAction implements Action {
     @Override
     public void perform() {
         int currentTick = tickCounter.getCurrentTick();
-        List<Creature> creatures = worldMap.getCreatures();
-        for (Creature creature : creatures) {
-            if (creature instanceof Herbivore herbivore) {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Herbivore herbivore) {
                 if (herbivore.shouldMove(currentTick)) {
                     herbivore.makeMove(worldMap, pathFinder);
                 }
             }
         }
-        for (Creature creature : creatures) {
-            if (creature instanceof Predator predator) {
+        for (Entity entity : entities) {
+            if (entity instanceof Predator predator) {
                 if (predator.shouldMove(currentTick)) {
                     predator.makeMove(worldMap, pathFinder);
                 }

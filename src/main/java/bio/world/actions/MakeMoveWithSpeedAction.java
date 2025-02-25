@@ -1,5 +1,6 @@
 package bio.world.actions;
 
+import bio.world.entities.Entity;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.entities.Creature;
@@ -21,11 +22,13 @@ public class MakeMoveWithSpeedAction implements Action {
 
     @Override
     public void perform() {
-        List<Creature> creatures = worldMap.getCreatures();
         int currentTick = tickCounter.getCurrentTick();
-        for (Creature creature : creatures) {
-            if (creature.shouldMove(currentTick)) {
-                creature.makeMove(worldMap, pathFinder);
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Creature creature) {
+                if (creature.shouldMove(currentTick)) {
+                    creature.makeMove(worldMap, pathFinder);
+                }
             }
         }
     }

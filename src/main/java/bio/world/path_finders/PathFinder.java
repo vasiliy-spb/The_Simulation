@@ -4,9 +4,10 @@ import bio.world.entities.Coordinates;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface PathFinder {
-    List<Coordinates> find(Coordinates fromCoordinates, Coordinates toCoordinates);
+    List<Coordinates> find(Coordinates fromCoordinates, Coordinates toCoordinates, Set<Coordinates> obstacles);
 
     Optional<Coordinates> findRandomStepFrom(Coordinates fromCoordinates);
 }
