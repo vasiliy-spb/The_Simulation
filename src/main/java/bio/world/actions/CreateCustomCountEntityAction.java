@@ -36,7 +36,7 @@ public class CreateCustomCountEntityAction implements Action {
         createHerbivore(initParams.countHerbivores());
         createPredator(initParams.countPredators());
         initParamsHandler.saveInitParams(initParams);
-        initParamsHandler.saveStartingPosition(worldMap);
+        initParamsHandler.saveEntityPosition(worldMap);
     }
 
     private InitParams askInitParams() {

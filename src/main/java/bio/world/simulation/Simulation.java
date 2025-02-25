@@ -36,7 +36,7 @@ public class Simulation {
         this.turnActionList = new ArrayList<>();
         this.pauseHandler = new PauseHandler();
         this.movesDelay = 0;
-        if (initParamsHandler.hasSavedParams()) {
+        if (initParamsHandler.hasSavedData()) {
             createWorldMap();
             initWithSavedParams();
         } else {
@@ -47,7 +47,7 @@ public class Simulation {
     }
 
     private void createWorldMap() {
-        Optional<InitParams> initParamsContainer = initParamsHandler.getInitParams();
+        Optional<InitParams> initParamsContainer = initParamsHandler.getSavedInitParams();
         if (initParamsContainer.isEmpty()) {
             this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
             return;

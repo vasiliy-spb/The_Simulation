@@ -28,7 +28,7 @@ public class CreateSavedCountEntityAction implements Action {
 
     @Override
     public void perform() {
-        Optional<Map<Integer, Class<? extends Entity>>> startingPositionContainer = initParamsHandler.getPosition();
+        Optional<Map<Integer, Class<? extends Entity>>> startingPositionContainer = initParamsHandler.getSavedPosition();
         if (startingPositionContainer.isEmpty()) {
             throw new IllegalStateException();
         }

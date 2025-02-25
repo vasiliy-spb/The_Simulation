@@ -4,39 +4,52 @@ import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class InitParamsHandler {
-    private InitParams initParams;
-    private Map<Integer, Class<? extends Entity>> position;
+    private static final InitParams EMPTY_INIT_PARAMS = new InitParams(0, 0, 0, 0, 0, 0, 0);
+    private InitParams savedInitParams;
+    private Map<Integer, Class<? extends Entity>> savedEntityPositions;
+
+    public InitParamsHandler() {
+        this.savedInitParams = EMPTY_INIT_PARAMS;
+        this.savedEntityPositions = new HashMap<>();
+    }
 
     public void saveInitParams(InitParams initParams) {
-        this.initParams = initParams;
+        this.savedInitParams = initParams;
     }
 
-    public Optional<InitParams> getInitParams() {
-        return Optional.ofNullable(initParams);
+    public Optional<InitParams> getSavedInitParams() {
+        if (isInitParamsEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(savedInitParams);
     }
 
-    public void saveStartingPosition(WorldMap worldMap) {
-        position = new HashMap<>();
+    private boolean isInitParamsEmpty() {
+        return savedInitParams.equals(EMPTY_INIT_PARAMS);
+    }
+
+    public void saveEntityPosition(WorldMap worldMap) {
+        this.savedEntityPositions = new HashMap<>();
         int height = worldMap.getHeight();
-        Set<Coordinates> occupiedCoordinates = worldMap.getBusyCoordinates();
-        for (Coordinates coordinates : occupiedCoordinates) {
-            Entity entity = worldMap.getEntityByCoordinates(coordinates);
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            Coordinates coordinates = entity.getCoordinates();
             int key = coordinates.row() * height + coordinates.column();
-            position.put(key, entity.getClass());
+            this.savedEntityPositions.put(key, entity.getClass());
         }
     }
 
-    public Optional<Map<Integer, Class<? extends Entity>>> getPosition() {
-        return Optional.ofNullable(position);
+    public Optional<Map<Integer, Class<? extends Entity>>> getSavedPosition() {
+        if (savedEntityPositions.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(new HashMap<>(savedEntityPositions));
     }
 
-    public boolean hasSavedParams() {
-        return this.initParams != null && this.position != null;
+    public boolean hasSavedData() {
+        return !isInitParamsEmpty() && !savedEntityPositions.isEmpty();
     }
 }
