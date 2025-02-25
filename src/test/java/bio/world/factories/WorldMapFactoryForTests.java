@@ -3,7 +3,6 @@ package bio.world.factories;
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
-import bio.world.render.Pictures;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +10,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import static bio.world.render.ConsoleEntityIcons.*;
 
 public class WorldMapFactoryForTests {
     public static WorldMap getRandomWorldMap() {
@@ -64,16 +65,12 @@ public class WorldMapFactoryForTests {
             for (int j = 0; j < worldMapMatrix[i].length; j++) {
                 Coordinates coordinates = new Coordinates(i, j);
                 String ceil = worldMapMatrix[i][j];
-                if (ceil.equals(Pictures.GRASS.getValue())) {
-                    entityMap.put(coordinates, new Grass(coordinates));
-                } else if (ceil.equals(Pictures.STONE.getValue())) {
-                    entityMap.put(coordinates, new Rock(coordinates));
-                } else if (ceil.equals(Pictures.SPRUCE_TREE.getValue())) {
-                    entityMap.put(coordinates, new Tree(coordinates));
-                } else if (ceil.equals(Pictures.RABBIT.getValue())) {
-                    entityMap.put(coordinates, new Herbivore(coordinates));
-                } else if (ceil.equals(Pictures.TIGER.getValue())) {
-                    entityMap.put(coordinates, new Predator(coordinates));
+                switch (ceil) {
+                    case GRASS_ICON -> entityMap.put(coordinates, new Grass(coordinates));
+                    case ROCK_ICON -> entityMap.put(coordinates, new Rock(coordinates));
+                    case TREE_ICON -> entityMap.put(coordinates, new Tree(coordinates));
+                    case HERBIVORE_ICON -> entityMap.put(coordinates, new Herbivore(coordinates));
+                    case PREDATOR_ICON -> entityMap.put(coordinates, new Predator(coordinates));
                 }
             }
         }

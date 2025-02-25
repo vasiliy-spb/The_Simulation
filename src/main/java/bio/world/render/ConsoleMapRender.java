@@ -4,12 +4,19 @@ import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
 
+import java.util.Map;
 import java.util.Set;
 
-public class ConsoleMapRender implements WorldMapRender {
-    public static final String GREEN = "\033[0;32m";   // GREEN
-    public static final String RESET = "\033[0m";  // Text Reset
+import static bio.world.render.ConsoleEntityIcons.*;
 
+public class ConsoleMapRender implements WorldMapRender {
+    private static final Map<Class<? extends Entity>, String> ENTITY_PICTURES = Map.of(
+            Tree.class, TREE_ICON,
+            Rock.class, ROCK_ICON,
+            Grass.class, GRASS_ICON,
+            Herbivore.class, HERBIVORE_ICON,
+            Predator.class, PREDATOR_ICON
+    );
     private final WorldMap worldMap;
 
     public ConsoleMapRender(WorldMap worldMap) {
@@ -21,37 +28,26 @@ public class ConsoleMapRender implements WorldMapRender {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         Set<Coordinates> busyCoordinates = worldMap.getBusyCoordinates();
+        StringBuilder worldMapRepresentation = new StringBuilder();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Coordinates coordinates = new Coordinates(i, j);
                 if (!busyCoordinates.contains(coordinates)) {
-                    System.out.print(GREEN + " .." + RESET);
+                    worldMapRepresentation.append(EMPTY_CELL);
                     continue;
                 }
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
 
-                String picture = getPicture(entity);
+                String picture = getEntityIcon(entity);
 
-                System.out.print(" " + picture);
+                worldMapRepresentation.append(String.format(" %2s", picture));
             }
-            System.out.println();
+            worldMapRepresentation.append("\n");
         }
-        System.out.println();
+        System.out.println(worldMapRepresentation);
     }
 
-    private static String getPicture(Entity entity) {
-        String picture = "";
-        if (entity instanceof Grass) {
-            picture = Pictures.GRASS.getValue();
-        } else if (entity instanceof Rock) {
-            picture = Pictures.STONE.getValue();
-        } else if (entity instanceof Tree) {
-            picture = Pictures.SPRUCE_TREE.getValue();
-        } else if (entity instanceof Herbivore) {
-            picture = Pictures.RABBIT.getValue();
-        } else if (entity instanceof Predator) {
-            picture = Pictures.TIGER.getValue();
-        }
-        return picture;
+    private String getEntityIcon(Entity entity) {
+        return ENTITY_PICTURES.getOrDefault(entity.getClass(), "");
     }
 }
