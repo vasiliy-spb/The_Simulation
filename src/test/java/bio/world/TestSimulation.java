@@ -44,7 +44,7 @@ public class TestSimulation {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveAction(worldMap);
+        Action makeMoveAction = new MakeMoveWithoutSpeedAction(worldMap);
         turnActionList.add(makeMoveAction);
 
         for (Action action : initActionList) {
@@ -70,7 +70,7 @@ public class TestSimulation {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
 
         for (Action action : initActionList) {
@@ -94,7 +94,7 @@ public class TestSimulation {
     public void start(int countEntity) {
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
 
         for (Action action : initActionList) {
@@ -280,7 +280,7 @@ public class TestSimulation {
     public void startWithGrassGrow() {
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, 0);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);

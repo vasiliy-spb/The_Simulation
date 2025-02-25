@@ -59,7 +59,7 @@ public class Simulation {
     private void initWithSavedParams() {
         Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
         initActionList.add(createSavedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);
@@ -74,7 +74,7 @@ public class Simulation {
     private void init() {
         Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);
