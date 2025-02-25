@@ -49,8 +49,7 @@ public class WorldMap {
     }
 
     public Set<Coordinates> getBusyCoordinates() {
-        Set<Coordinates> busyCoordinates = new HashSet<>(entities.keySet());
-        return busyCoordinates;
+        return new HashSet<>(entities.keySet());
     }
 
     public boolean areBusy(Coordinates coordinates) {
