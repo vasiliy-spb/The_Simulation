@@ -68,18 +68,18 @@ public class GrassGrowingAction implements Action {
     }
 
     private List<Coordinates> createEmptyCoordinates() {
-        Set<Coordinates> occupiedCoordinates = worldMap.getBusyCoordinates();
+        Set<Coordinates> busyCoordinates = worldMap.getBusyCoordinates();
         List<Coordinates> emptyCoordinates = new ArrayList<>();
-
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Coordinates coordinates = new Coordinates(i, j);
-                if (occupiedCoordinates.contains(coordinates)) {
+                if (busyCoordinates.contains(coordinates)) {
                     continue;
                 }
                 emptyCoordinates.add(coordinates);
+                busyCoordinates.add(coordinates);
             }
         }
         return emptyCoordinates;
