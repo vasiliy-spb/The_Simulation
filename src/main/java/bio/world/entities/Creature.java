@@ -8,14 +8,16 @@ import java.util.*;
 public abstract class Creature extends Entity {
     protected int healthPoint;
     protected int turnFrequency;
-    protected final int attackPower;
+    protected int attackDistance;
+    protected int attackPower;
     protected int countMoveWithoutFood;
     protected final Comparator<Entity> priorityTargetComparator;
 
-    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackPower, int countMoveWithoutFood) {
+    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood) {
         super(coordinates);
         this.healthPoint = healthPoint;
         this.turnFrequency = turnFrequency;
+        this.attackDistance = attackDistance;
         this.attackPower = attackPower;
         this.countMoveWithoutFood = countMoveWithoutFood;
         this.priorityTargetComparator = (t1, t2) ->
@@ -29,7 +31,17 @@ public abstract class Creature extends Entity {
         return this.healthPoint > 0;
     }
 
-    protected abstract List<? extends Entity> getTargetEntities(WorldMap worldMap);
+    protected List<? extends Entity> getTargetEntitiesInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Entity> targets = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (targetTypes.contains(entity.getClass())) {
+                targets.add(entity);
+            }
+        }
+        targets.sort(priorityTargetComparator);
+        return targets;
+    }
 
     protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Set<Class<? extends Entity>> notObstaclesTypes) {
         List<Entity> entities = worldMap.getAllEntities();
@@ -55,7 +67,7 @@ public abstract class Creature extends Entity {
     protected boolean canAttack(Entity entity) {
         int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
         int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
-        return rowDiff < 2 && columnDiff < 2;
+        return rowDiff <= attackDistance && columnDiff <= attackDistance;
     }
 
     protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {

@@ -8,13 +8,15 @@ import java.util.*;
 public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
     private static final int INIT_HEALTH_POINT = 20;
     private static final int INIT_TURN_FREQUENCY = 2;
+    private static final int ATTACK_DISTANCE = 1;
     private static final int INIT_ATTACK_POWER = 10;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> notObstaclesTypes = Set.of(Grass.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class);
+    private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Grass.class);
 
     public Herbivore(Coordinates coordinates) {
-        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
+        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
     }
 
     @Override
@@ -27,11 +29,14 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
             return;
         }
 
-        List<Grass> grasses = getTargetEntities(worldMap);
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, notObstaclesTypes);
+        List<? extends Entity> targets = getTargetEntitiesInPriorityOrder(worldMap, TARGET_TYPES);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
-        for (Grass grass : grasses) {
+        for (Entity target : targets) {
+            if (!(target instanceof Grass grass)) {
+                continue;
+            }
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 continue;
@@ -55,17 +60,6 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         } else {
             moveTo(nextCoordinates, worldMap);
         }
-    }
-
-    @Override
-    protected List<Grass> getTargetEntities(WorldMap worldMap) {
-        List<Entity> entities = worldMap.getAllEntities();
-        List<Grass> targets = entities.stream()
-                .filter(e -> e instanceof Grass)
-                .map(e -> (Grass) e)
-                .sorted(priorityTargetComparator)
-                .toList();
-        return targets;
     }
 
     @Override

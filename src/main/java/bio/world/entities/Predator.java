@@ -8,13 +8,15 @@ import java.util.*;
 public class Predator extends Creature implements Hunter<Herbivore> {
     private static final int INIT_HEALTH_POINT = 30;
     private static final int INIT_TURN_FREQUENCY = 3;
+    private static final int ATTACK_DISTANCE = 1;
     private static final int INIT_ATTACK_POWER = 15;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> notObstaclesTypes = Set.of(Grass.class, Herbivore.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class, Herbivore.class);
+    private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class);
 
     public Predator(Coordinates coordinates) {
-        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
+        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
     }
 
     @Override
@@ -27,11 +29,14 @@ public class Predator extends Creature implements Hunter<Herbivore> {
             return;
         }
 
-        List<Herbivore> herbivores = getTargetEntities(worldMap);
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, notObstaclesTypes);
+        List<? extends Entity> targets = getTargetEntitiesInPriorityOrder(worldMap, TARGET_TYPES);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
-        for (Herbivore herbivore : herbivores) {
+        for (Entity target : targets) {
+            if (!(target instanceof Herbivore herbivore)) {
+                continue;
+            }
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, herbivore.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 continue;
@@ -57,17 +62,6 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         } else {
             moveTo(nextCoordinates, worldMap);
         }
-    }
-
-    @Override
-    protected List<Herbivore> getTargetEntities(WorldMap worldMap) {
-        List<Entity> entities = worldMap.getAllEntities();
-        List<Herbivore> targets = entities.stream()
-                .filter(e -> e instanceof Herbivore)
-                .map(e -> (Herbivore) e)
-                .sorted(priorityTargetComparator)
-                .toList();
-        return targets;
     }
 
     @Override
