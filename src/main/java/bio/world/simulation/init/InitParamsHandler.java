@@ -33,11 +33,11 @@ public class InitParamsHandler {
 
     public void saveEntityPosition(WorldMap worldMap) {
         this.savedEntityPositions = new HashMap<>();
-        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
         List<Entity> entities = worldMap.getAllEntities();
         for (Entity entity : entities) {
             Coordinates coordinates = entity.getCoordinates();
-            int key = coordinates.row() * height + coordinates.column();
+            int key = coordinates.row() * width + coordinates.column();
             this.savedEntityPositions.put(key, entity.getClass());
         }
     }

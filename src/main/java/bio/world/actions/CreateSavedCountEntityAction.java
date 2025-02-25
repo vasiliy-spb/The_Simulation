@@ -32,12 +32,12 @@ public class CreateSavedCountEntityAction implements Action {
         if (startingPositionContainer.isEmpty()) {
             throw new IllegalStateException();
         }
-        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
         Map<Integer, Class<? extends Entity>> startingPosition = startingPositionContainer.get();
         for (Map.Entry<Integer, Class<? extends Entity>> entry : startingPosition.entrySet()) {
             int key = entry.getKey();
-            int row = key / height;
-            int column = key % height;
+            int row = key / width;
+            int column = key % width;
             Coordinates coordinates = new Coordinates(row, column);
             Class<? extends Entity> eClass = entry.getValue();
             Entity entity = factories.get(eClass).createInstanceBy(coordinates);
