@@ -6,72 +6,68 @@ import bio.world.path_finders.PathFinder;
 import java.util.*;
 
 public class Predator extends Creature implements Hunter<Herbivore> {
-    private int countMoveWithoutFood;
     private static final int INIT_HEALTH_POINT = 30;
     private static final int INIT_TURN_FREQUENCY = 3;
     private static final int INIT_ATTACK_POWER = 15;
+    private static final int INIT_COUNT_WITHOUT_FOOD = 0;
+    private static final int HUNGER_BORDER = 5;
+    private final Set<Class<? extends Entity>> notObstaclesTypes = Set.of(Grass.class, Herbivore.class);
 
     public Predator(Coordinates coordinates) {
-        super(coordinates, INIT_ATTACK_POWER);
-        this.healthPoint = INIT_HEALTH_POINT;
-        this.turnFrequency = INIT_TURN_FREQUENCY;
+        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
     }
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        if (countMoveWithoutFood >= 5) {
+        if (countMoveWithoutFood >= HUNGER_BORDER) {
             this.healthPoint--;
         }
         if (!isAlive()) {
             worldMap.removeEntity(this);
             return;
         }
-        Optional<Entity> target = findNearestTarget(worldMap, pathFinder);
-        if (target.isEmpty()) {
-            countMoveWithoutFood++;
-            makeRandomStep(worldMap, pathFinder);
-            return;
-        }
-        Herbivore herbivore = (Herbivore) target.get();
+
+        List<Herbivore> herbivores = getTargetEntities(worldMap);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, notObstaclesTypes);
         Coordinates nextCoordinates = this.coordinates;
-        if (canAttack(herbivore)) {
-            attack(herbivore);
-            if (!herbivore.isAlive()) {
-                nextCoordinates = herbivore.getCoordinates();
-                worldMap.removeEntity(herbivore);
-            }
-        } else {
-            countMoveWithoutFood++;
-            Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap);
+        boolean ateInThisMove = false;
+        for (Herbivore herbivore : herbivores) {
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, herbivore.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
-                return;
-            }
-            nextCoordinates = pathToTarget.get(0);
-        }
-        moveTo(nextCoordinates, worldMap);
-    }
-
-    @Override
-    protected List<Entity> getTargetEntities(WorldMap worldMap) {
-        List<Entity> entities = worldMap.getAllEntities();
-        List<Entity> targets = entities.stream()
-                .filter(e -> e instanceof Herbivore)
-                .toList();
-        return targets;
-    }
-
-    @Override
-    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap) {
-        List<Entity> entities = worldMap.getAllEntities();
-        Set<Coordinates> obstacles = new HashSet<>();
-        for (Entity entity : entities) {
-            if (entity instanceof Grass || entity instanceof Herbivore) {
                 continue;
             }
-            obstacles.add(entity.getCoordinates());
+            if (canAttack(herbivore)) {
+                attack(herbivore);
+                if (!herbivore.isAlive()) {
+                    nextCoordinates = herbivore.getCoordinates();
+                    worldMap.removeEntity(herbivore);
+                }
+                countMoveWithoutFood = INIT_COUNT_WITHOUT_FOOD;
+                ateInThisMove = true;
+            } else {
+                nextCoordinates = pathToTarget.get(0);
+            }
+            break;
         }
-        return obstacles;
+        if (!ateInThisMove) {
+            countMoveWithoutFood++;
+        }
+        if (nextCoordinates.equals(this.coordinates) && !ateInThisMove) {
+            makeRandomStep(worldMap, pathFinder);
+        } else {
+            moveTo(nextCoordinates, worldMap);
+        }
+    }
+
+    @Override
+    protected List<Herbivore> getTargetEntities(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Herbivore> targets = entities.stream()
+                .filter(e -> e instanceof Herbivore)
+                .map(e -> (Herbivore) e)
+                .sorted(priorityTargetComparator)
+                .toList();
+        return targets;
     }
 
     @Override
@@ -79,7 +75,6 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         int satiety = Math.min(herbivore.getSatiety(), this.attackPower);
         this.healthPoint = Math.min(this.healthPoint + satiety, INIT_HEALTH_POINT);
         herbivore.takeDamage(this);
-        countMoveWithoutFood = 0;
     }
 
     @Override

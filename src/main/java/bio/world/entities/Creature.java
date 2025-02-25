@@ -3,20 +3,21 @@ package bio.world.entities;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Creature extends Entity {
     protected int healthPoint;
     protected int turnFrequency;
     protected final int attackPower;
-    private final Comparator<Entity> priorityTargetComparator;
+    protected int countMoveWithoutFood;
+    protected final Comparator<Entity> priorityTargetComparator;
 
-    public Creature(Coordinates coordinates, int attackPower) {
+    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackPower, int countMoveWithoutFood) {
         super(coordinates);
+        this.healthPoint = healthPoint;
+        this.turnFrequency = turnFrequency;
         this.attackPower = attackPower;
+        this.countMoveWithoutFood = countMoveWithoutFood;
         this.priorityTargetComparator = (t1, t2) ->
                 calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
                         calculateApproximateDistance(this.coordinates, t2.getCoordinates());
@@ -28,28 +29,19 @@ public abstract class Creature extends Entity {
         return this.healthPoint > 0;
     }
 
-    protected Optional<Entity> findNearestTarget(WorldMap worldMap, PathFinder pathFinder) {
-        List<Entity> targets = getTargetEntities(worldMap);
-        targets = targets.stream()
-                .sorted(this.priorityTargetComparator)
-                .toList();
-        for (Entity target : targets) {
-            if (hasPathFor(target, worldMap, pathFinder)) {
-                return Optional.of(target);
+    protected abstract List<? extends Entity> getTargetEntities(WorldMap worldMap);
+
+    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Set<Class<? extends Entity>> notObstaclesTypes) {
+        List<Entity> entities = worldMap.getAllEntities();
+        Set<Coordinates> obstacles = new HashSet<>();
+        for (Entity entity : entities) {
+            if (notObstaclesTypes.contains(entity.getClass())) {
+                continue;
             }
+            obstacles.add(entity.getCoordinates());
         }
-        return Optional.empty();
+        return obstacles;
     }
-
-    protected abstract List<Entity> getTargetEntities(WorldMap worldMap);
-
-    private boolean hasPathFor(Entity entity, WorldMap worldMap, PathFinder pathFinder) {
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap);
-        List<Coordinates> path = pathFinder.find(this.coordinates, entity.getCoordinates(), obstacles);
-        return !path.isEmpty() && path.get(path.size() - 1).equals(entity.getCoordinates());
-    }
-
-    protected abstract Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap);
 
     protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
         Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
