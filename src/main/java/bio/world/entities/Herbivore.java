@@ -35,14 +35,18 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
+
         for (Entity target : targets) {
+
             if (!(target instanceof Grass grass)) {
                 continue;
             }
+
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, grass.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 continue;
             }
+
             if (canAttack(grass)) {
                 attack(grass);
                 worldMap.removeEntity(grass);
@@ -52,11 +56,14 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
             } else {
                 nextCoordinates = pathToTarget.get(0);
             }
+
             break;
         }
+
         if (!ateInThisMove) {
             countMoveWithoutFood++;
         }
+
         if (nextCoordinates.equals(this.coordinates)) {
             makeRandomStep(worldMap, pathFinder);
         } else {

@@ -32,14 +32,18 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
+
         for (Entity target : targets) {
+
             if (!(target instanceof Herbivore herbivore)) {
                 continue;
             }
+
             List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, herbivore.getCoordinates(), obstacles);
             if (pathToTarget.isEmpty()) {
                 continue;
             }
+
             if (canAttack(herbivore)) {
                 attack(herbivore);
                 if (!herbivore.isAlive()) {
@@ -51,11 +55,14 @@ public class Predator extends Creature implements Hunter<Herbivore> {
             } else {
                 nextCoordinates = pathToTarget.get(0);
             }
+
             break;
         }
+
         if (!ateInThisMove) {
             countMoveWithoutFood++;
         }
+
         if (nextCoordinates.equals(this.coordinates) && !ateInThisMove) {
             makeRandomStep(worldMap, pathFinder);
         } else {
