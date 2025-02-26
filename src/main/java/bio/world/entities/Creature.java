@@ -11,15 +11,17 @@ public abstract class Creature extends Entity {
     protected int attackDistance;
     protected int attackPower;
     protected int countMoveWithoutFood;
+    protected int hungerBorder;
     protected final Comparator<Entity> priorityTargetComparator;
 
-    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood) {
+    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
         super(coordinates);
         this.healthPoint = healthPoint;
         this.turnFrequency = turnFrequency;
         this.attackDistance = attackDistance;
         this.attackPower = attackPower;
         this.countMoveWithoutFood = countMoveWithoutFood;
+        this.hungerBorder = hungerBorder;
         this.priorityTargetComparator = (t1, t2) ->
                 calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
                         calculateApproximateDistance(this.coordinates, t2.getCoordinates());
@@ -27,11 +29,21 @@ public abstract class Creature extends Entity {
 
     abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
 
+    protected void checkHealth() {
+        if (isHungry()) {
+            this.healthPoint--;
+        }
+    }
+
+    private boolean isHungry() {
+        return countMoveWithoutFood >= this.hungerBorder;
+    }
+
     protected boolean isAlive() {
         return this.healthPoint > 0;
     }
 
-    protected List<? extends Entity> getTargetEntitiesInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
+    protected List<? extends Entity> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
         List<Entity> entities = worldMap.getAllEntities();
         List<Entity> targets = new ArrayList<>();
         for (Entity entity : entities) {

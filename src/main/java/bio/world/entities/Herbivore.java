@@ -16,20 +16,19 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Grass.class);
 
     public Herbivore(Coordinates coordinates) {
-        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD);
+        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD, HUNGER_BORDER);
     }
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        if (countMoveWithoutFood >= HUNGER_BORDER) {
-            this.healthPoint--;
-        }
+        checkHealth();
+
         if (!isAlive()) {
             worldMap.removeEntity(this);
             return;
         }
 
-        List<? extends Entity> targets = getTargetEntitiesInPriorityOrder(worldMap, TARGET_TYPES);
+        List<? extends Entity> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
