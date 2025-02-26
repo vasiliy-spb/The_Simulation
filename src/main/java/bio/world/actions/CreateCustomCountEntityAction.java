@@ -70,9 +70,11 @@ public class CreateCustomCountEntityAction implements Action {
 
     private void createEntities(Class<? extends Entity> eClass, int count) {
         EntityFactory<? extends Entity> factory = factories.get(eClass);
+
         if (factory == null) {
             throw new IllegalArgumentException();
         }
+
         while (count-- > 0) {
             Entity entity = factory.createInstance(worldMap);
             worldMap.addEntity(entity);

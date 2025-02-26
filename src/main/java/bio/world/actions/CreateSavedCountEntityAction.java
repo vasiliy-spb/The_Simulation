@@ -29,18 +29,28 @@ public class CreateSavedCountEntityAction implements Action {
     @Override
     public void perform() {
         Optional<Map<Integer, Class<? extends Entity>>> startingPositionContainer = initParamsHandler.getSavedPosition();
+
         if (startingPositionContainer.isEmpty()) {
             throw new IllegalStateException();
         }
+
         int width = worldMap.getWidth();
         Map<Integer, Class<? extends Entity>> startingPosition = startingPositionContainer.get();
         for (Map.Entry<Integer, Class<? extends Entity>> entry : startingPosition.entrySet()) {
+
             int key = entry.getKey();
             int row = key / width;
             int column = key % width;
             Coordinates coordinates = new Coordinates(row, column);
             Class<? extends Entity> eClass = entry.getValue();
-            Entity entity = factories.get(eClass).createInstanceBy(coordinates);
+
+            EntityFactory<? extends Entity> factory = factories.get(eClass);
+
+            if (factory == null) {
+                throw new IllegalArgumentException();
+            }
+
+            Entity entity = factory.createInstanceBy(coordinates);
             worldMap.addEntity(entity);
         }
     }
