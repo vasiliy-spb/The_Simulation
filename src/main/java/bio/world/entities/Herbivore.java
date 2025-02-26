@@ -14,9 +14,11 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     private static final int HUNGER_BORDER = 5;
     private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class);
     private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Grass.class);
+    private int satiety;
 
     public Herbivore(Coordinates coordinates) {
         super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD, HUNGER_BORDER);
+        this.satiety = this.healthPoint;
     }
 
     @Override
@@ -76,10 +78,11 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     @Override
     public void takeDamage(Predator hunter) {
         healthPoint -= hunter.getDamage();
+        satiety = Math.min(satiety, healthPoint);
     }
 
     @Override
     public int getSatiety() {
-        return healthPoint;
+        return satiety;
     }
 }
