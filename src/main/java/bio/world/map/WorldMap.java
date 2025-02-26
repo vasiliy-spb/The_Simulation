@@ -25,9 +25,11 @@ public class WorldMap {
     }
 
     public Entity getEntityByCoordinates(Coordinates coordinates) {
+
         if (!entities.containsKey(coordinates)) {
             throw new IllegalArgumentException();
         }
+
         return entities.get(coordinates);
     }
 
