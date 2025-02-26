@@ -11,6 +11,7 @@ import bio.world.factories.*;
 import java.util.Map;
 
 public class CreateCustomCountEntityAction implements Action {
+    private static final int MIN_NUMBER_OF_ENTITY = 1;
     private final WorldMap worldMap;
     private final Map<Class<? extends Entity>, EntityFactory<? extends Entity>> factories;
     private final InitParamsHandler initParamsHandler;
@@ -30,11 +31,13 @@ public class CreateCustomCountEntityAction implements Action {
     @Override
     public void perform() {
         InitParams initParams = askInitParams();
-        createRock(initParams.countRocks());
-        createTree(initParams.countTrees());
-        createGrass(initParams.countGrasses());
-        createHerbivore(initParams.countHerbivores());
-        createPredator(initParams.countPredators());
+
+        createEntities(Tree.class, initParams.countTrees());
+        createEntities(Rock.class, initParams.countRocks());
+        createEntities(Grass.class, initParams.countGrasses());
+        createEntities(Herbivore.class, initParams.countHerbivores());
+        createEntities(Predator.class, initParams.countPredators());
+
         initParamsHandler.saveInitParams(initParams);
         initParamsHandler.saveEntityPosition(worldMap);
     }
@@ -45,15 +48,17 @@ public class CreateCustomCountEntityAction implements Action {
         int availableCountEntities = height * width;
         String askMessage = "Введите количество %s (%d - %d): ";
         String errorMessage = "Неправильный ввод.";
-        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", 1, availableCountEntities - 4), errorMessage, 1, availableCountEntities - 4);
+
+        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", MIN_NUMBER_OF_ENTITY, availableCountEntities - 4), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 4);
         availableCountEntities -= countTrees;
-        int countRocks = askIntegerParameter(askMessage.formatted("камней", 1, availableCountEntities - 3), errorMessage, 1, availableCountEntities - 3);
+        int countRocks = askIntegerParameter(askMessage.formatted("камней", MIN_NUMBER_OF_ENTITY, availableCountEntities - 3), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 3);
         availableCountEntities -= countRocks;
-        int countGrasses = askIntegerParameter(askMessage.formatted("травы", 1, availableCountEntities - 2), errorMessage, 1, availableCountEntities - 2);
+        int countGrasses = askIntegerParameter(askMessage.formatted("травы", MIN_NUMBER_OF_ENTITY, availableCountEntities - 2), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 2);
         availableCountEntities -= countGrasses;
-        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", 1, availableCountEntities - 1), errorMessage, 1, availableCountEntities - 1);
+        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", MIN_NUMBER_OF_ENTITY, availableCountEntities - 1), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 1);
         availableCountEntities -= countHerbivores;
-        int countPredators = askIntegerParameter(askMessage.formatted("хищников", 1, availableCountEntities), errorMessage, 1, availableCountEntities);
+        int countPredators = askIntegerParameter(askMessage.formatted("хищников", MIN_NUMBER_OF_ENTITY, availableCountEntities), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities);
+
         InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators);
         return initParams;
     }
@@ -63,46 +68,14 @@ public class CreateCustomCountEntityAction implements Action {
         return integerDialog.input();
     }
 
-    private void createPredator(int count) {
-        while (count-- > 0) {
-            Predator predator = (Predator) createEntity(Predator.class);
-            worldMap.addEntity(predator);
-        }
-    }
-
-    private void createHerbivore(int count) {
-        while (count-- > 0) {
-            Herbivore herbivore = (Herbivore) createEntity(Herbivore.class);
-            worldMap.addEntity(herbivore);
-        }
-    }
-
-    private void createTree(int count) {
-        while (count-- > 0) {
-            Tree tree = (Tree) createEntity(Tree.class);
-            worldMap.addEntity(tree);
-        }
-    }
-
-    private void createRock(int count) {
-        while (count-- > 0) {
-            Rock rock = (Rock) createEntity(Rock.class);
-            worldMap.addEntity(rock);
-        }
-    }
-
-    private void createGrass(int count) {
-        while (count-- > 0) {
-            Grass grass = (Grass) createEntity(Grass.class);
-            worldMap.addEntity(grass);
-        }
-    }
-
-    private Entity createEntity(Class<? extends Entity> eClass) {
+    private void createEntities(Class<? extends Entity> eClass, int count) {
         EntityFactory<? extends Entity> factory = factories.get(eClass);
         if (factory == null) {
             throw new IllegalArgumentException();
         }
-        return factory.createInstance(worldMap);
+        while (count-- > 0) {
+            Entity entity = factory.createInstance(worldMap);
+            worldMap.addEntity(entity);
+        }
     }
 }
