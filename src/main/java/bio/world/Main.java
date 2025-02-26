@@ -13,6 +13,7 @@ public class Main {
         MenuItems selectedStartMenuItem = askStartMenuItems();
 
         if (selectedStartMenuItem.equals(MenuItems.EXIT)) {
+            finish();
             return;
         }
 
@@ -25,6 +26,10 @@ public class Main {
         StartMenu startMenu = MenuFactory.createStartMenu();
         startMenu.showTitle();
         return startMenu.selectMenuItem();
+    }
+
+    private static void finish() {
+        System.out.println("Follow the white rabbit..");
     }
 
     private static void startSimulation(InitParamsHandler initParamsHandler) {
@@ -52,9 +57,5 @@ public class Main {
         MainMenu mainMenu = MenuFactory.createMainMenu();
         mainMenu.showTitle();
         return mainMenu.selectMenuItem();
-    }
-
-    private static void finish() {
-        System.out.println("Follow the white rabbit..");
     }
 }
