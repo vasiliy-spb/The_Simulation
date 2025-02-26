@@ -29,13 +29,16 @@ public class ConsoleMapRender implements WorldMapRender {
         int width = worldMap.getWidth();
         Set<Coordinates> busyCoordinates = worldMap.getBusyCoordinates();
         StringBuilder worldMapRepresentation = new StringBuilder();
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Coordinates coordinates = new Coordinates(i, j);
+
                 if (!busyCoordinates.contains(coordinates)) {
                     worldMapRepresentation.append(EMPTY_CELL);
                     continue;
                 }
+
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
 
                 String picture = getEntityIcon(entity);
@@ -44,6 +47,7 @@ public class ConsoleMapRender implements WorldMapRender {
             }
             worldMapRepresentation.append("\n");
         }
+
         System.out.println(worldMapRepresentation);
     }
 
