@@ -18,31 +18,31 @@ public class AStarPathFinder implements PathFinder {
             new Direction(1, 1, 14)
     );
     private final WorldMap worldMap;
-    private final Set<Coordinates> visited;
+    private final Set<Coordinates> visitedCoordinates;
     private final Queue<PathNode> openList;
-    private final Map<Coordinates, PathNode> nodeMap;
+    private final Map<Coordinates, PathNode> nodeRegistry;
     private final Random random;
 
     public AStarPathFinder(WorldMap worldMap) {
         this.worldMap = worldMap;
-        this.visited = new HashSet<>();
+        this.visitedCoordinates = new HashSet<>();
         this.openList = new PriorityQueue<>((p1, p2) -> Integer.compare(p1.cost, p2.cost));
-        this.nodeMap = new HashMap<>();
+        this.nodeRegistry = new HashMap<>();
         this.random = new Random();
     }
 
     @Override
-    public Optional<Coordinates> findRandomStepFrom(Coordinates currentCoordinates) {
-        if (!isMovePossibleFrom(currentCoordinates)) {
-            return Optional.of(currentCoordinates);
+    public Optional<Coordinates> findRandomStepFrom(Coordinates coordinates) {
+        if (!isMovePossibleFrom(coordinates)) {
+            return Optional.of(coordinates);
         }
-        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(currentCoordinates);
+        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(coordinates);
         return Optional.of(nextCoordinates);
     }
 
-    private boolean isMovePossibleFrom(Coordinates fromCoordinates) {
+    private boolean isMovePossibleFrom(Coordinates coordinates) {
         for (int i = 0; i < OFFSETS_TO_NEIGHBOURS.length; i++) {
-            Coordinates toCoordinates = createNeighbouringCoordinates(fromCoordinates, i);
+            Coordinates toCoordinates = createNeighbouringCoordinates(coordinates, i);
             if (areCoordinatesAvailable(toCoordinates)) {
                 return true;
             }
@@ -94,10 +94,10 @@ public class AStarPathFinder implements PathFinder {
                     break;
                 }
                 foundTarget = canFindTargetFrom(current, target, obstacles);
-                visited.add(current.coordinates);
+                visitedCoordinates.add(current.coordinates);
             }
         }
-        PathNode targetNode = nodeMap.get(target);
+        PathNode targetNode = nodeRegistry.get(target);
         clearSearchStorages();
         return buildPathTo(targetNode);
     }
@@ -106,10 +106,10 @@ public class AStarPathFinder implements PathFinder {
         int heuristicDistance = calculateManhattanDistance(start, target);
         PathNode startNode = new PathNode(start, heuristicDistance, heuristicDistance, null);
         PathNode targetNode = new PathNode(target, 0, Integer.MAX_VALUE, null);
-        nodeMap.put(start, startNode);
-        nodeMap.put(target, targetNode);
+        nodeRegistry.put(start, startNode);
+        nodeRegistry.put(target, targetNode);
         openList.offer(startNode);
-        visited.add(start);
+        visitedCoordinates.add(start);
     }
 
     private int calculateManhattanDistance(Coordinates from, Coordinates target) {
@@ -133,10 +133,10 @@ public class AStarPathFinder implements PathFinder {
         return false;
     }
 
-    private static Coordinates createCoordinatesForDirection(Direction direction, PathNode current) {
+    private static Coordinates createCoordinatesForDirection(Direction direction, PathNode currentNode) {
         return new Coordinates(
-                current.coordinates.row() + direction.rowOffset(),
-                current.coordinates.column() + direction.columnOffset());
+                currentNode.coordinates.row() + direction.rowOffset(),
+                currentNode.coordinates.column() + direction.columnOffset());
     }
 
     private boolean shouldSkipCoordinates(Coordinates coordinates, Set<Coordinates> obstacles) {
@@ -146,7 +146,7 @@ public class AStarPathFinder implements PathFinder {
         if (obstacles.contains(coordinates)) {
             return true;
         }
-        return visited.contains(coordinates);
+        return visitedCoordinates.contains(coordinates);
     }
 
     private boolean areCoordinatesWithinBounds(Coordinates coordinates) {
@@ -155,16 +155,16 @@ public class AStarPathFinder implements PathFinder {
         return coordinates.row() >= 0 && coordinates.row() < height && coordinates.column() >= 0 && coordinates.column() < width;
     }
 
-    private boolean canReachTargetWithDirection(Direction direction, PathNode currentNode, Coordinates nextCoordinates, Coordinates targetCoordinates) {
-        int heuristicDistance = calculateManhattanDistance(nextCoordinates, targetCoordinates);
+    private boolean canReachTargetWithDirection(Direction direction, PathNode currentNode, Coordinates nextCoordinates, Coordinates targetsCoordinates) {
+        int heuristicDistance = calculateManhattanDistance(nextCoordinates, targetsCoordinates);
         int nextNodeCost = currentNode.cost + direction.multiplier() + heuristicDistance;
-        PathNode nextNode = nodeMap.getOrDefault(nextCoordinates, new PathNode(nextCoordinates, heuristicDistance, nextNodeCost, currentNode));
+        PathNode nextNode = nodeRegistry.getOrDefault(nextCoordinates, new PathNode(nextCoordinates, heuristicDistance, nextNodeCost, currentNode));
         if (nextNodeCost < nextNode.cost) {
             nextNode.cost = nextNodeCost;
             nextNode.parent = currentNode;
         }
         if (isNodeNewOrImproved(nextNode, heuristicDistance)) {
-            nodeMap.put(nextCoordinates, nextNode);
+            nodeRegistry.put(nextCoordinates, nextNode);
             openList.offer(nextNode);
         }
         return heuristicDistance == 0;
@@ -172,14 +172,14 @@ public class AStarPathFinder implements PathFinder {
 
     private boolean isNodeNewOrImproved(PathNode node, int heuristicDistance) {
         Coordinates coordinates = node.coordinates;
-        return !nodeMap.containsKey(coordinates) ||
-                nodeMap.get(coordinates).heuristicDistance > heuristicDistance;
+        return !nodeRegistry.containsKey(coordinates) ||
+                nodeRegistry.get(coordinates).heuristicDistance > heuristicDistance;
     }
 
     private void clearSearchStorages() {
-        visited.clear();
+        visitedCoordinates.clear();
         openList.clear();
-        nodeMap.clear();
+        nodeRegistry.clear();
     }
 
     private List<Coordinates> buildPathTo(PathNode targetNode) {
