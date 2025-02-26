@@ -21,9 +21,11 @@ public class InitParamsHandler {
     }
 
     public Optional<InitParams> getSavedInitParams() {
+
         if (isInitParamsEmpty()) {
             return Optional.empty();
         }
+
         return Optional.of(savedInitParams);
     }
 
@@ -35,6 +37,7 @@ public class InitParamsHandler {
         this.savedEntityPositions = new HashMap<>();
         int width = worldMap.getWidth();
         List<Entity> entities = worldMap.getAllEntities();
+
         for (Entity entity : entities) {
             Coordinates coordinates = entity.getCoordinates();
             int key = coordinates.row() * width + coordinates.column();
@@ -43,9 +46,11 @@ public class InitParamsHandler {
     }
 
     public Optional<Map<Integer, Class<? extends Entity>>> getSavedPosition() {
+
         if (savedEntityPositions.isEmpty()) {
             return Optional.empty();
         }
+
         return Optional.of(new HashMap<>(savedEntityPositions));
     }
 
