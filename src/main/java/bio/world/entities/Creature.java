@@ -46,11 +46,13 @@ public abstract class Creature extends Entity {
     protected List<? extends Entity> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
         List<Entity> entities = worldMap.getAllEntities();
         List<Entity> targets = new ArrayList<>();
+
         for (Entity entity : entities) {
             if (targetTypes.contains(entity.getClass())) {
                 targets.add(entity);
             }
         }
+
         targets.sort(priorityTargetComparator);
         return targets;
     }
@@ -58,33 +60,39 @@ public abstract class Creature extends Entity {
     protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Set<Class<? extends Entity>> notObstaclesTypes) {
         List<Entity> entities = worldMap.getAllEntities();
         Set<Coordinates> obstacles = new HashSet<>();
+
         for (Entity entity : entities) {
+
             if (notObstaclesTypes.contains(entity.getClass())) {
                 continue;
             }
+
             obstacles.add(entity.getCoordinates());
         }
+
         return obstacles;
     }
 
     protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
         Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
+
         if (nextCoordinatesContainer.isEmpty()) {
             return;
         }
+
         Coordinates nextCoordinates = nextCoordinatesContainer.get();
         moveTo(nextCoordinates, worldMap);
+    }
+
+    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
+        worldMap.moveEntity(this.coordinates, nextCoordinates);
+        this.setCoordinates(nextCoordinates);
     }
 
     protected boolean canAttack(Entity entity) {
         int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
         int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
         return rowDiff <= attackDistance && columnDiff <= attackDistance;
-    }
-
-    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
-        worldMap.moveEntity(this.coordinates, nextCoordinates);
-        this.setCoordinates(nextCoordinates);
     }
 
     public boolean shouldMove(int currentTick) {
