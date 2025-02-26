@@ -63,6 +63,29 @@ public class TestSimulation {
         }
     }
 
+    public void startWithMoveCount(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action makeMoveAction = new HerbivoreFirstMakeMoveWithSpeedAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        while (moveCount-- > 0) {
+            for (Action action : turnActionList) {
+                action.perform();
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+            tickCounter.next();
+        }
+    }
+
     public void start() {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();

@@ -24,6 +24,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
         checkHealth();
+        updateSatiety();
 
         if (!isAlive()) {
             worldMap.removeEntity(this);
@@ -65,8 +66,9 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
 
     @Override
     public void attack(Grass grass) {
-        int satiety = grass.getSatiety();
-        this.healthPoint = Math.min(this.healthPoint + satiety, INIT_HEALTH_POINT);
+        int grassSatiety = grass.getSatiety();
+        this.healthPoint = Math.min(this.healthPoint + grassSatiety, INIT_HEALTH_POINT);
+        updateSatiety();
         grass.takeDamage(this);
     }
 
@@ -78,7 +80,11 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     @Override
     public void takeDamage(Predator hunter) {
         healthPoint -= hunter.getDamage();
-        satiety = Math.min(satiety, healthPoint);
+        updateSatiety();
+    }
+
+    private void updateSatiety() {
+        satiety = healthPoint;
     }
 
     @Override

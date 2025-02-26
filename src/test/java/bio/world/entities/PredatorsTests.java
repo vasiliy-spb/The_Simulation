@@ -255,7 +255,35 @@ public class PredatorsTests {
         Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
         Predator predator = (Predator) entityContainer.get();
         testSimulation.startPredatorsOnly(moveCount);
-        boolean predatorDoesNotExist = !testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        boolean predatorStillAlive = !testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        assertTrue(predatorStillAlive);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 3: predator refills its healthPoint partially after eat herbivore, who are hunger")
+    public void checkTestcase17() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template21.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 144;
+        Coordinates predatorStartCoordinates = new Coordinates(1, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+        testSimulation.startWithMoveCount(moveCount);
+        boolean predatorStillAlive = !testSimulation.areEmptyCoordinates(predator.getCoordinates());
+        assertTrue(predatorStillAlive);
+    }
+
+    @Test
+    @DisplayName("Recovery health test 4: predator refills its healthPoint partially after eat herbivore, who are hunger")
+    public void checkTestcase18() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template21.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 145;
+        Coordinates predatorStartCoordinates = new Coordinates(1, 0);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+        testSimulation.startWithMoveCount(moveCount);
+        boolean predatorDoesNotExist = testSimulation.areEmptyCoordinates(predator.getCoordinates());
         assertTrue(predatorDoesNotExist);
     }
 }
