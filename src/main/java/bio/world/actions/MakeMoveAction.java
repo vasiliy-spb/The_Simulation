@@ -24,6 +24,7 @@ public class MakeMoveAction implements Action {
     public void perform() {
         int currentTick = tickCounter.getCurrentTick();
         List<Entity> entities = worldMap.getAllEntities();
+
         for (Entity entity : entities) {
             if (entity instanceof Creature creature) {
                 if (creature.shouldMove(currentTick)) {
