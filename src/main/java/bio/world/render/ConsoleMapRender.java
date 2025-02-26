@@ -10,6 +10,7 @@ import java.util.Set;
 import static bio.world.render.ConsoleEntityIcons.*;
 
 public class ConsoleMapRender implements WorldMapRender {
+    private static final String DISPLAY_INFO = "ENTER — Пауза";
     private static final Map<Class<? extends Entity>, String> ENTITY_PICTURES = Map.of(
             Tree.class, TREE_ICON,
             Rock.class, ROCK_ICON,
@@ -48,6 +49,7 @@ public class ConsoleMapRender implements WorldMapRender {
             worldMapRepresentation.append("\n");
         }
 
+        worldMapRepresentation.append(DISPLAY_INFO).append("\n");
         System.out.println(worldMapRepresentation);
     }
 
