@@ -29,8 +29,10 @@ public class WorldMapFactory {
         String askHeightMessage = "Введите высоту карты (%d - %d): ".formatted(MIN_HEIGHT, MAX_HEIGHT);
         String askWidthMessage = "Введите ширину карты: (%d - %d)".formatted(MIN_WIDTH, MAX_WIDTH);
         String errorMessage = "Неправильный ввод.";
+
         int height = askIntegerParams(askHeightMessage, errorMessage, MIN_HEIGHT, MAX_HEIGHT);
         int width = askIntegerParams(askWidthMessage, errorMessage, MIN_WIDTH, MAX_WIDTH);
+
         return getInstance(height, width);
     }
 
