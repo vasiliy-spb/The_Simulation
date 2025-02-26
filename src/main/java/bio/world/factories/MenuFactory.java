@@ -19,6 +19,7 @@ public class MenuFactory {
         String startErrorMessage = "Неправильный ввод.";
         int minStartMenuItem = 1;
         int maxStartMenuItem = 2;
+
         StartMenu startMenu = new StartMenu(startTitleMessage, startSelectMessage, startErrorMessage, minStartMenuItem, maxStartMenuItem);
         return startMenu;
     }
@@ -34,6 +35,7 @@ public class MenuFactory {
         String mainErrorMessage = "Неправильный ввод.";
         int minMainMenuItem = 1;
         int maxMainMenuItem = 3;
+
         MainMenu mainMenu = new MainMenu(mainTitleMessage, mainSelectMessage, mainErrorMessage, minMainMenuItem, maxMainMenuItem);
         return mainMenu;
     }
@@ -49,6 +51,7 @@ public class MenuFactory {
         String mainErrorMessage = "Неправильный ввод.";
         int minMainMenuItem = 1;
         int maxMainMenuItem = 2;
+
         PauseMenu pauseMenu = new PauseMenu(mainTitleMessage, mainSelectMessage, mainErrorMessage, minMainMenuItem, maxMainMenuItem);
         return pauseMenu;
     }
