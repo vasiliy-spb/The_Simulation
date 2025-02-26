@@ -10,35 +10,51 @@ import bio.world.simulation.init.InitParamsHandler;
 public class Main {
     public static void main(String[] args) {
         InitParamsHandler initParamsHandler = new InitParamsHandler();
-        StartMenu startMenu = MenuFactory.createStartMenu();
-        startMenu.showTitle();
-        MenuItems selectedStartMenuItem = startMenu.selectMenuItem();
+        MenuItems selectedStartMenuItem = askStartMenuItems();
+
         if (selectedStartMenuItem.equals(MenuItems.EXIT)) {
             return;
         }
-        Simulation simulation = new Simulation(initParamsHandler);
-        simulation.start();
 
-        infinityLoop:
+        startSimulation(initParamsHandler);
+        repeatSimulation(initParamsHandler);
+        finish();
+    }
+
+    private static MenuItems askStartMenuItems() {
+        StartMenu startMenu = MenuFactory.createStartMenu();
+        startMenu.showTitle();
+        return startMenu.selectMenuItem();
+    }
+
+    private static void startSimulation(InitParamsHandler initParamsHandler) {
+        Simulation nextSimulation = new Simulation(initParamsHandler);
+        nextSimulation.start();
+    }
+
+    private static void repeatSimulation(InitParamsHandler initParamsHandler) {
         while (true) {
-            MainMenu mainMenu = MenuFactory.createMainMenu();
-            mainMenu.showTitle();
-            MenuItems selectedMainMenuItem = mainMenu.selectMenuItem();
-            switch (selectedMainMenuItem) {
-                case REPEAT -> {
-                    Simulation nextSimulation = new Simulation(initParamsHandler);
-                    nextSimulation.start();
-                }
-                case CHANGE_INITIAL_PARAMETERS -> {
-                    initParamsHandler = new InitParamsHandler();
-                    Simulation nextSimulation = new Simulation(initParamsHandler);
-                    nextSimulation.start();
-                }
-                case EXIT -> {
-                    break infinityLoop;
-                }
+            MenuItems selectedMainMenuItem = askMainMenuItems();
+
+            if (selectedMainMenuItem.equals(MenuItems.EXIT)) {
+                break;
             }
+
+            if (selectedMainMenuItem.equals(MenuItems.CHANGE_INITIAL_PARAMETERS)) {
+                initParamsHandler = new InitParamsHandler();
+            }
+
+            startSimulation(initParamsHandler);
         }
+    }
+
+    private static MenuItems askMainMenuItems() {
+        MainMenu mainMenu = MenuFactory.createMainMenu();
+        mainMenu.showTitle();
+        return mainMenu.selectMenuItem();
+    }
+
+    private static void finish() {
         System.out.println("Follow the white rabbit..");
     }
 }
