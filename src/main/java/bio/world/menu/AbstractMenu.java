@@ -16,11 +16,6 @@ public abstract class AbstractMenu implements Menu {
     }
 
     @Override
-    public void showMessage(String message) {
-        System.out.println(message);
-    }
-
-    @Override
     public void showTitle() {
         System.out.println(title);
     }

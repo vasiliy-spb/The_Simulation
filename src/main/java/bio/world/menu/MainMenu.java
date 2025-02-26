@@ -12,6 +12,7 @@ public class MainMenu extends AbstractMenu {
     public MenuItems selectMenuItem() {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(this.selectMessage, this.errorMessage, this.minItemNumber, this.maxItemNumber);
         int selectedMenuItem = integerDialog.input();
+
         return switch (selectedMenuItem) {
             case 1 -> MenuItems.REPEAT;
             case 2 -> MenuItems.CHANGE_INITIAL_PARAMETERS;

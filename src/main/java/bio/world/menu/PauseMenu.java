@@ -14,6 +14,7 @@ public class PauseMenu extends AbstractMenu {
     public MenuItems selectMenuItem() {
         Dialog<Character> characterDialog = new CharacterDialog(this.selectMessage, this.errorMessage, Set.of('1', '2', '\0'));
         Character ch = characterDialog.input();
+
         return switch (ch) {
             case '\0' -> MenuItems.CONTINUE;
             case '1' -> MenuItems.CHANGE_MOVES_DELAY;

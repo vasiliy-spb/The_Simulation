@@ -12,6 +12,7 @@ public class StartMenu extends AbstractMenu {
     public MenuItems selectMenuItem() {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(this.selectMessage, this.errorMessage, this.minItemNumber, this.maxItemNumber);
         int selectedMenuItem = integerDialog.input();
+
         return switch (selectedMenuItem) {
             case 1 -> MenuItems.PLAY;
             case 2 -> MenuItems.EXIT;
