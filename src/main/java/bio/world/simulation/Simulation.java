@@ -36,6 +36,7 @@ public class Simulation {
         this.turnActionList = new ArrayList<>();
         this.pauseHandler = new PauseHandler();
         this.movesDelay = 0;
+
         if (initParamsHandler.hasSavedData()) {
             createWorldMap();
             initWithSavedParams();
@@ -43,15 +44,18 @@ public class Simulation {
             this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
             init();
         }
+
         this.worldMapRender = new ConsoleMapRender(worldMap);
     }
 
     private void createWorldMap() {
         Optional<InitParams> initParamsContainer = initParamsHandler.getSavedInitParams();
+
         if (initParamsContainer.isEmpty()) {
             this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
             return;
         }
+
         InitParams initParams = initParamsContainer.get();
         this.worldMap = WorldMapFactory.createWorldMapWithParams(initParams);
     }
@@ -87,18 +91,21 @@ public class Simulation {
     }
 
     public void start() {
-        while (!isGameOver()) {
-            try {
+        try {
+            while (!isGameOver()) {
                 pauseHandler.checkPause();
+
                 if (pauseHandler.isPauseOn()) {
                     if (shouldInterrupt()) {
                         return;
                     }
                 }
+
                 Thread.sleep(movesDelay);
                 nextTurn();
-            } catch (IOException | InterruptedException ignored) {
+
             }
+        } catch (IOException | InterruptedException ignored) {
         }
     }
 
@@ -106,6 +113,7 @@ public class Simulation {
         Menu pauseMenu = MenuFactory.createPauseMenu();
         pauseMenu.showTitle();
         MenuItems selectedMenuItem = pauseMenu.selectMenuItem();
+
         switch (selectedMenuItem) {
             case CONTINUE -> pauseHandler.togglePause();
             case CHANGE_MOVES_DELAY -> {
@@ -116,6 +124,7 @@ public class Simulation {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -130,11 +139,13 @@ public class Simulation {
     private boolean isGameOver() {
         List<Entity> entities = worldMap.getAllEntities();
         int countHerbivore = 0;
+
         for (Entity entity : entities) {
             if (entity instanceof Herbivore) {
                 countHerbivore++;
             }
         }
+
         return countHerbivore == 0;
     }
 
@@ -150,8 +161,10 @@ public class Simulation {
         String errorMessage = "Неправильный ввод.";
         int minValue = 1;
         int maxValue = 5;
+
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(title, errorMessage, minValue, maxValue);
         int selectedSpeed = integerDialog.input();
+
         return switch (selectedSpeed) {
             case 1 -> 1000;
             case 2 -> 500;
