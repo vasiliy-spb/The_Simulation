@@ -74,6 +74,7 @@ public class WorldMapFactoryForTests {
                     case TREE_ICON -> entityMap.put(coordinates, new Tree(coordinates));
                     case HERBIVORE_ICON -> entityMap.put(coordinates, new Herbivore(coordinates));
                     case PREDATOR_ICON -> entityMap.put(coordinates, new Predator(coordinates));
+                    case HUNTSMEN_ICON -> entityMap.put(coordinates, new Huntsmen(coordinates));
                 }
             }
         }

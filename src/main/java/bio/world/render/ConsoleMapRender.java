@@ -16,7 +16,8 @@ public class ConsoleMapRender implements WorldMapRender {
             Rock.class, ROCK_ICON,
             Grass.class, GRASS_ICON,
             Herbivore.class, HERBIVORE_ICON,
-            Predator.class, PREDATOR_ICON
+            Predator.class, PREDATOR_ICON,
+            Huntsmen.class, HUNTSMEN_ICON
     );
     private final WorldMap worldMap;
 

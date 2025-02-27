@@ -16,15 +16,19 @@ public class TestMain {
 //        testSimulation.startWithoutSpeed();
 //        testSimulation.start();
 
-        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template06.txt";
-        TestSimulation testSimulation = new TestSimulation(templateFilePath);
-        testSimulation.startWithGrassGrow();
+//        String templateFilePath = "src/test/java/bio/world/factories/worldMap_templates/template06.txt";
+//        TestSimulation testSimulation = new TestSimulation(templateFilePath);
+//        testSimulation.startWithGrassGrow();
 
 //        int height = 25;
 //        int width = 45;
 //        int countEntities = height * width / 8;
 //        TestSimulation testSimulation = new TestSimulation(height, width);
 //        testSimulation.start(countEntities);
+
+        String templateFilePath = "src/test/java/bio/world/factories_for_tests/worldMap_templates/template07.txt";
+        TestSimulation testSimulation = new TestSimulation(templateFilePath);
+        testSimulation.startWithMoveCountWithHuntsmen(20);
     }
 
     private static void runMain() {

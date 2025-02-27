@@ -5,7 +5,7 @@ import bio.world.path_finders.PathFinder;
 
 import java.util.*;
 
-public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator> {
+public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<Herbivore>> {
     private static final int INIT_HEALTH_POINT = 20;
     private static final int INIT_TURN_FREQUENCY = 2;
     private static final int ATTACK_DISTANCE = 1;
@@ -84,12 +84,6 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
         return attackPower;
     }
 
-    @Override
-    public void takeDamage(Predator hunter) {
-        healthPoint -= hunter.getDamage();
-        updateSatiety();
-    }
-
     private void updateSatiety() {
         satiety = healthPoint;
     }
@@ -97,5 +91,11 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Predator>
     @Override
     public int getSatiety() {
         return satiety;
+    }
+
+    @Override
+    public void takeDamage(Hunter<Herbivore> hunter) {
+        healthPoint -= hunter.getDamage();
+        updateSatiety();
     }
 }
