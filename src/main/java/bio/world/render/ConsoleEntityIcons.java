@@ -7,6 +7,7 @@ public class ConsoleEntityIcons {
     public static final String GRASS_ICON = "☘\uFE0F";
     public static final String ROCK_ICON = "\uD83D\uDDFF";
     public static final String TREE_ICON = "\uD83C\uDF32";
+    public static final String FLASH_ICON = "\uD83D\uDCA5";
     private static final String GREEN_COLOR = "\033[0;32m";
     private static final String RESET_COLOR = "\033[0m";
     public static final String EMPTY_CELL = GREEN_COLOR + " .." + RESET_COLOR;

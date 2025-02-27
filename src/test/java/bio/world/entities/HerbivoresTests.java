@@ -1,6 +1,8 @@
 package bio.world.entities;
 
 import bio.world.TestSimulation;
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

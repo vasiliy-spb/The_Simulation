@@ -1,6 +1,11 @@
 package bio.world.simulation.init;
 
 import bio.world.entities.*;
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.Rock;
+import bio.world.entities.statical.Tree;
 import bio.world.factories.*;
 import bio.world.factories_for_tests.WorldMapFactoryForTests;
 import bio.world.map.WorldMap;

@@ -1,6 +1,11 @@
 package bio.world.actions_for_tests;
 
 import bio.world.actions.Action;
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.Rock;
+import bio.world.entities.statical.Tree;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
 import bio.world.factories.*;

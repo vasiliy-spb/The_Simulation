@@ -1,4 +1,4 @@
-package bio.world.entities;
+package bio.world.entities.regular;
 
 public interface Prey<H> {
     int getSatiety();

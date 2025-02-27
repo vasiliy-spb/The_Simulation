@@ -1,5 +1,7 @@
-package bio.world.entities;
+package bio.world.entities.regular;
 
+import bio.world.entities.Coordinates;
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -39,7 +41,7 @@ public abstract class Creature extends Entity {
         return countMoveWithoutFood >= this.hungerBorder;
     }
 
-    protected boolean isAlive() {
+    public boolean isAlive() {
         return this.healthPoint > 0;
     }
 

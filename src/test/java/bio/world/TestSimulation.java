@@ -90,8 +90,12 @@ public class TestSimulation {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
+        turnActionList.add(removeTemporaryEntityAction);
         Action makeMoveAction = new MakeMoveWithHuntsmenAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        turnActionList.add(createFlashAction);
 
         for (Action action : initActionList) {
             action.perform();
@@ -102,9 +106,9 @@ public class TestSimulation {
         while (moveCount-- > 0) {
             for (Action action : turnActionList) {
                 action.perform();
-                worldMapRender.renderMap();
-                System.out.println();
             }
+            worldMapRender.renderMap();
+            System.out.println();
             tickCounter.next();
         }
     }

@@ -2,7 +2,7 @@ package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
-import bio.world.entities.Herbivore;
+import bio.world.entities.regular.Herbivore;
 
 public class HerbivoreFactoryForTestsForTests extends EntityFactoryForTests<Herbivore> {
     @Override

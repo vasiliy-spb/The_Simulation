@@ -1,7 +1,7 @@
 package bio.world.simulation;
 
 import bio.world.entities.Entity;
-import bio.world.entities.Herbivore;
+import bio.world.entities.regular.Herbivore;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;

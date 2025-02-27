@@ -1,5 +1,7 @@
-package bio.world.entities;
+package bio.world.entities.regular;
 
+import bio.world.entities.Coordinates;
+import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -56,8 +58,10 @@ public class Huntsmen extends Human implements Hunter<Creature> {
         }
         if (!shoot()) {
             decreaseSharpshooting();
+            System.out.println("Промахнулся");
             return;
         }
+        System.out.println("Попал");
         increaseSharpshooting();
         p.takeDamage(this);
     }
@@ -72,44 +76,29 @@ public class Huntsmen extends Human implements Hunter<Creature> {
         sharpshooting = Math.min(sharpshooting, MIN_SHARPSHOOTING);
     }
 
-    /*
-    Находит список целей
-        если цели есть
-            -> проходит по списку целей
-                если между ним и целью нет препятствий
-                    -> стреляет
-                    если выстрел успешный
-                        -> цель получает урон
-                        обновляет меткость
-                    иначе
-                        -> ничего
-                    выстрел сделан = true
-                    break;
-                иначе
-                    -> переходит к следующей цели
-        иначе
-            -> делает случайный ход
-
-        если выстрел не сделан
-            -> делает случайный ход
-     */
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+        System.out.println("Ходит Huntsmen");
         List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         if (targets.isEmpty()) {
+            System.out.println("Цели не найдены - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
             return;
         }
         boolean madeShot = false;
         for (Creature target : targets) {
+            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
             if (!canAttack(target)) {
+                System.out.println("Нельзя атаковать");
                 continue;
             }
+            System.out.println("Атакует");
             attack(target);
             madeShot = true;
             break;
         }
 
         if (!madeShot) {
+            System.out.println("Выстрел не сделан - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
         }
     }

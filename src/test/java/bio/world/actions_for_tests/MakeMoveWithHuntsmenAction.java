@@ -1,9 +1,9 @@
 package bio.world.actions_for_tests;
 
 import bio.world.actions.Action;
-import bio.world.entities.Creature;
+import bio.world.entities.regular.Creature;
 import bio.world.entities.Entity;
-import bio.world.entities.Huntsmen;
+import bio.world.entities.regular.Huntsmen;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;

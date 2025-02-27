@@ -2,7 +2,7 @@ package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
-import bio.world.entities.Predator;
+import bio.world.entities.regular.Predator;
 
 public class PredatorFactoryForTestsForTests extends EntityFactoryForTests<Predator> {
     @Override

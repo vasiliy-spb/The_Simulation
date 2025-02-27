@@ -1,7 +1,7 @@
 package bio.world.factories;
 
 import bio.world.entities.Coordinates;
-import bio.world.entities.Herbivore;
+import bio.world.entities.regular.Herbivore;
 
 public class HerbivoreFactory extends EntityFactory<Herbivore> {
     @Override

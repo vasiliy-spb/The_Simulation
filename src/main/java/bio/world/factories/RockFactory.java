@@ -1,7 +1,7 @@
 package bio.world.factories;
 
 import bio.world.entities.Coordinates;
-import bio.world.entities.Rock;
+import bio.world.entities.statical.Rock;
 
 public class RockFactory extends EntityFactory<Rock> {
     @Override

@@ -1,6 +1,12 @@
 package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Huntsmen;
+import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.Rock;
+import bio.world.entities.statical.Tree;
 import bio.world.factories.*;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;

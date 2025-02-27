@@ -1,5 +1,10 @@
 package bio.world.actions;
 
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.Rock;
+import bio.world.entities.statical.Tree;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;

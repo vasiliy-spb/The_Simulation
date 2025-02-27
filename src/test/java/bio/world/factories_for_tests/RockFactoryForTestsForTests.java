@@ -2,7 +2,7 @@ package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;
-import bio.world.entities.Rock;
+import bio.world.entities.statical.Rock;
 
 public class RockFactoryForTestsForTests extends EntityFactoryForTests<Rock> {
     @Override

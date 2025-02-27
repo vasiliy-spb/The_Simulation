@@ -1,7 +1,7 @@
 package bio.world.factories;
 
 import bio.world.entities.Coordinates;
-import bio.world.entities.Tree;
+import bio.world.entities.statical.Tree;
 
 public class TreeFactory extends EntityFactory<Tree> {
     @Override

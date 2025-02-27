@@ -4,7 +4,7 @@ import bio.world.entities.Entity;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
-import bio.world.entities.Herbivore;
+import bio.world.entities.regular.Herbivore;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 

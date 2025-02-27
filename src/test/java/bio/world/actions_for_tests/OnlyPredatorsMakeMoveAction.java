@@ -3,7 +3,7 @@ package bio.world.actions_for_tests;
 import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
-import bio.world.entities.Predator;
+import bio.world.entities.regular.Predator;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
 
