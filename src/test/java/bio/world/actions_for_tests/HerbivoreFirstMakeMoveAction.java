@@ -1,9 +1,8 @@
-package bio.world.auxiliary_actions;
+package bio.world.actions_for_tests;
 
 import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.actions.Action;
-import bio.world.entities.Creature;
 import bio.world.entities.Herbivore;
 import bio.world.entities.Predator;
 import bio.world.path_finders.AStarPathFinder;

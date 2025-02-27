@@ -1,4 +1,4 @@
-package bio.world.auxiliary_actions;
+package bio.world.actions_for_tests;
 
 import bio.world.actions.Action;
 import bio.world.entities.Entity;

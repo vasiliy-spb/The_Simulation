@@ -1,4 +1,4 @@
-package bio.world.factories;
+package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
 import bio.world.map.WorldMap;

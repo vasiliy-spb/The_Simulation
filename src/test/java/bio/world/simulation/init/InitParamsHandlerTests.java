@@ -2,6 +2,7 @@ package bio.world.simulation.init;
 
 import bio.world.entities.*;
 import bio.world.factories.*;
+import bio.world.factories_for_tests.WorldMapFactoryForTests;
 import bio.world.map.WorldMap;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;

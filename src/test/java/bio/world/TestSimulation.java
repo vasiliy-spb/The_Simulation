@@ -1,13 +1,13 @@
 package bio.world;
 
 import bio.world.actions.*;
-import bio.world.auxiliary_actions.*;
+import bio.world.actions_for_tests.*;
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;
-import bio.world.factories.WorldMapFactoryForTests;
+import bio.world.factories_for_tests.WorldMapFactoryForTests;
 import bio.world.simulation.TickCounter;
 
 import java.util.ArrayList;

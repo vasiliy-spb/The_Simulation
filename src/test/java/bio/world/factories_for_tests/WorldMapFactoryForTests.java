@@ -1,6 +1,7 @@
-package bio.world.factories;
+package bio.world.factories_for_tests;
 
 import bio.world.entities.Coordinates;
+import bio.world.factories.*;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
 import bio.world.simulation.init.InitParams;
