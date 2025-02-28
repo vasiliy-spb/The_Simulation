@@ -14,7 +14,9 @@ import bio.world.dialogs.IntegerMinMaxDialog;
 import bio.world.entities.*;
 import bio.world.factories.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class CreateCustomCountEntityAction implements Action {
     private static final int MIN_NUMBER_OF_ENTITY = 1;
@@ -53,35 +55,44 @@ public class CreateCustomCountEntityAction implements Action {
     private InitParams askInitParams() {
         int height = worldMap.getHeight();
         int width = worldMap.getWidth();
+
         int availableCountEntities = height * width;
         String askMessage = "Введите количество %s (%d - %d): ";
         String errorMessage = "Неправильный ввод.";
+        Stack<String> russianEntityNames = getRussianEntityNames();
+        int minSummaryNextEntitiesCount = factories.size();
+        int[] valuesForInitParams = {height, width, 0, 0, 0, 0, 0, 0};
+        int valuesArrayIndex = 2;
 
-        int minSummaryNextEntitiesCount = 5;
-        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
-        availableCountEntities -= countTrees;
-        minSummaryNextEntitiesCount--;
-        int countRocks = askIntegerParameter(askMessage.formatted("камней", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
-        availableCountEntities -= countRocks;
-        minSummaryNextEntitiesCount--;
-        int countGrasses = askIntegerParameter(askMessage.formatted("травы", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
-        availableCountEntities -= countGrasses;
-        minSummaryNextEntitiesCount--;
-        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
-        availableCountEntities -= countHerbivores;
-        minSummaryNextEntitiesCount--;
-        int countPredators = askIntegerParameter(askMessage.formatted("хищников", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
-        availableCountEntities -= countPredators;
-        minSummaryNextEntitiesCount--;
-        int countHuntsmen = askIntegerParameter(askMessage.formatted("охотников", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
+        while (!russianEntityNames.empty()) {
+            minSummaryNextEntitiesCount--;
 
-        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators, countHuntsmen);
-        return initParams;
+            String russianName = russianEntityNames.pop();
+            int maxValue = availableCountEntities - minSummaryNextEntitiesCount;
+            String message = askMessage.formatted(russianName, MIN_NUMBER_OF_ENTITY, maxValue);
+
+            int countEntity = askIntegerParameter(message, errorMessage, MIN_NUMBER_OF_ENTITY, maxValue);
+
+            valuesForInitParams[valuesArrayIndex++] = countEntity;
+            availableCountEntities -= countEntity;
+        }
+
+        return createInitParamsFrom(valuesForInitParams);
     }
 
-    private static int askIntegerParameter(String askMessage, String errorMessage, int minValue, int maxValue) {
+    private Stack<String> getRussianEntityNames() {
+        Stack<String> russianEntityNames = new Stack<>();
+        russianEntityNames.addAll(List.of("охотников", "хищников", "травоядных", "травы", "камней", "деревьев"));
+        return russianEntityNames;
+    }
+
+    private int askIntegerParameter(String askMessage, String errorMessage, int minValue, int maxValue) {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(askMessage, errorMessage, minValue, maxValue);
         return integerDialog.input();
+    }
+
+    private InitParams createInitParamsFrom(int[] valuesForInitParams) {
+        return new InitParams(valuesForInitParams[0], valuesForInitParams[1], valuesForInitParams[2], valuesForInitParams[3], valuesForInitParams[4], valuesForInitParams[5], valuesForInitParams[6], valuesForInitParams[7]);
     }
 
     private void createEntities(Class<? extends Entity> eClass, int count) {
