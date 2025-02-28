@@ -63,13 +63,15 @@ public class Simulation {
     private void initWithSavedParams() {
         Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
         initActionList.add(createSavedCountEntityAction);
+
         Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
-        turnActionList.add(removeTemporaryEntityAction);
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
-        turnActionList.add(makeMoveAction);
         Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
-        turnActionList.add(createFlashAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+
+        turnActionList.add(removeTemporaryEntityAction);
+        turnActionList.add(makeMoveAction);
+        turnActionList.add(createFlashAction);
         turnActionList.add(growGrassAction);
 
         for (Action action : initActionList) {
@@ -77,83 +79,6 @@ public class Simulation {
         }
 
         this.movesDelay = askMovesDelay();
-    }
-
-    private void init() {
-        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
-        initActionList.add(createFixedCountEntityAction);
-        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
-        turnActionList.add(removeTemporaryEntityAction);
-        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
-        turnActionList.add(makeMoveAction);
-        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
-        turnActionList.add(createFlashAction);
-        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
-        turnActionList.add(growGrassAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-        }
-
-        this.movesDelay = askMovesDelay();
-    }
-
-    public void start() {
-        try {
-            while (!isGameOver()) {
-                pauseHandler.checkPause();
-
-                if (pauseHandler.isPauseOn()) {
-                    if (shouldInterrupt()) {
-                        return;
-                    }
-                }
-
-                Thread.sleep(movesDelay);
-                nextTurn();
-
-            }
-        } catch (IOException | InterruptedException ignored) {
-        }
-    }
-
-    private boolean shouldInterrupt() {
-        Menu pauseMenu = MenuFactory.createPauseMenu();
-        pauseMenu.showTitle();
-        MenuItems selectedMenuItem = pauseMenu.selectMenuItem();
-
-        switch (selectedMenuItem) {
-            case CONTINUE -> pauseHandler.togglePause();
-            case CHANGE_MOVES_DELAY -> {
-                movesDelay = askMovesDelay();
-                pauseHandler.togglePause();
-            }
-            case EXIT -> {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private void nextTurn() {
-        for (Action action : turnActionList) {
-            action.perform();
-        }
-        worldMapRender.renderMap();
-        tickCounter.next();
-    }
-
-    private boolean isGameOver() {
-        List<Entity> entities = worldMap.getAllEntities();
-
-        for (Entity entity : entities) {
-            if (entity instanceof Creature) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private int askMovesDelay() {
@@ -172,6 +97,10 @@ public class Simulation {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(title, errorMessage, minValue, maxValue);
         int selectedSpeed = integerDialog.input();
 
+        return getMoveDelayForSpeed(selectedSpeed);
+    }
+
+    private int getMoveDelayForSpeed(int selectedSpeed) {
         return switch (selectedSpeed) {
             case 1 -> 1000;
             case 2 -> 500;
@@ -180,5 +109,90 @@ public class Simulation {
             case 5 -> 50;
             default -> throw new IllegalStateException("Unexpected value: " + selectedSpeed);
         };
+    }
+
+    private void init() {
+        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
+        initActionList.add(createFixedCountEntityAction);
+
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+
+        turnActionList.add(removeTemporaryEntityAction);
+        turnActionList.add(makeMoveAction);
+        turnActionList.add(createFlashAction);
+        turnActionList.add(growGrassAction);
+
+        for (Action action : initActionList) {
+            action.perform();
+        }
+
+        this.movesDelay = askMovesDelay();
+    }
+
+    public void start() {
+        worldMapRender.renderMap();
+
+        try {
+            while (!isGameOver()) {
+                pauseHandler.checkPause();
+
+                if (pauseHandler.isPauseOn()) {
+                    if (shouldInterrupt()) {
+                        return;
+                    }
+                }
+
+                Thread.sleep(movesDelay);
+                nextTurn();
+
+            }
+        } catch (IOException | InterruptedException ignored) {
+        }
+    }
+
+    private boolean isGameOver() {
+        List<Entity> entities = worldMap.getAllEntities();
+
+        for (Entity entity : entities) {
+            if (entity instanceof Creature) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shouldInterrupt() {
+        MenuItems selectedMenuItem = askPauseMenuItem();
+
+        switch (selectedMenuItem) {
+            case CONTINUE -> pauseHandler.togglePause();
+            case CHANGE_MOVES_DELAY -> {
+                movesDelay = askMovesDelay();
+                pauseHandler.togglePause();
+            }
+            case EXIT -> {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static MenuItems askPauseMenuItem() {
+        Menu pauseMenu = MenuFactory.createPauseMenu();
+        pauseMenu.showTitle();
+        MenuItems selectedMenuItem = pauseMenu.selectMenuItem();
+        return selectedMenuItem;
+    }
+
+    private void nextTurn() {
+        for (Action action : turnActionList) {
+            action.perform();
+        }
+        worldMapRender.renderMap();
+        tickCounter.next();
     }
 }
