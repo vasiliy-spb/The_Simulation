@@ -2,6 +2,7 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.temporary.Flash;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -16,7 +17,7 @@ public class Huntsmen extends Human implements Hunter<Creature> {
     private static final int MIN_SHARPSHOOTING = 20;
     private static final int MAX_SHARPSHOOTING = 100;
     private final Random shotRandom;
-    private static final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class);
+    private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Flash.class);
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
     private static final Comparator<Entity> priorityTargetComparator = (t1, t2) -> {
         if (t1 instanceof Predator p1 && t2 instanceof Predator p2) {
