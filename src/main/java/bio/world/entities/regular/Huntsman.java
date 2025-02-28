@@ -19,6 +19,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
     private final Random shotRandom;
     private static final HuntsmenScope HUNTSMEN_SCOPE = new HuntsmenScope();
     private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Flash.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
     private static final Comparator<Entity> priorityTargetComparator = (t1, t2) -> {
         if (t1 instanceof Predator p1 && t2 instanceof Predator p2) {
@@ -102,7 +103,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
     }
 
     private void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
-        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
+        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, NOT_OBSTACLES_TYPES_FOR_MOVE);
 
         if (nextCoordinatesContainer.isEmpty()) {
             return;

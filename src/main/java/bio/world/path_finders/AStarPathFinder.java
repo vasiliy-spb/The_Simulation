@@ -1,6 +1,8 @@
 package bio.world.path_finders;
 
 import bio.world.entities.Coordinates;
+import bio.world.entities.Entity;
+import bio.world.entities.regular.Grass;
 import bio.world.map.WorldMap;
 
 import java.util.*;
@@ -32,26 +34,37 @@ public class AStarPathFinder implements PathFinder {
     }
 
     @Override
-    public Optional<Coordinates> findRandomStepFrom(Coordinates coordinates) {
-        if (!isMovePossibleFrom(coordinates)) {
+    public Optional<Coordinates> findRandomStepFrom(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
+        if (!isMovePossibleFrom(coordinates, notObstaclesTypes)) {
             return Optional.of(coordinates);
         }
-        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(coordinates);
+        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(coordinates, notObstaclesTypes);
         return Optional.of(nextCoordinates);
     }
 
-    private boolean isMovePossibleFrom(Coordinates coordinates) {
+    private boolean isMovePossibleFrom(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
         for (int i = 0; i < OFFSETS_TO_NEIGHBOURS.length; i++) {
             Coordinates toCoordinates = createNeighbouringCoordinates(coordinates, i);
-            if (areCoordinatesAvailable(toCoordinates)) {
+            if (areCoordinatesAvailable(toCoordinates, notObstaclesTypes)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean areCoordinatesAvailable(Coordinates coordinates) {
-        return areCoordinatesValid(coordinates) && !worldMap.areBusy(coordinates);
+    private boolean areCoordinatesAvailable(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
+        boolean coordinatesValid = areCoordinatesValid(coordinates);
+        if (!coordinatesValid) {
+            return false;
+        }
+
+        boolean coordinatesFree = !worldMap.areBusy(coordinates);
+        if (coordinatesFree) {
+            return true;
+        }
+
+        Entity entity = worldMap.getEntityByCoordinates(coordinates);
+        return notObstaclesTypes.contains(entity.getClass());
     }
 
     private boolean areCoordinatesValid(Coordinates coordinates) {
@@ -69,12 +82,12 @@ public class AStarPathFinder implements PathFinder {
         return new Coordinates(row, column);
     }
 
-    private Coordinates generateRandomCoordinatesNextTo(Coordinates currentCoordinates) {
+    private Coordinates generateRandomCoordinatesNextTo(Coordinates currentCoordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
         Coordinates nextCoordinates;
         do {
             int neighboursIndex = getRandomNeighbourIndex();
             nextCoordinates = createNeighbouringCoordinates(currentCoordinates, neighboursIndex);
-        } while (!areCoordinatesAvailable(nextCoordinates));
+        } while (!areCoordinatesAvailable(nextCoordinates, notObstaclesTypes));
         return nextCoordinates;
     }
 

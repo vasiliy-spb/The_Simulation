@@ -14,7 +14,8 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
     private static final int INIT_ATTACK_POWER = 15;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class, Herbivore.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class, Herbivore.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
     private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class);
 
     public Predator(Coordinates coordinates) {
@@ -23,6 +24,7 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+        System.out.println("Move");
         checkHealth();
 
         if (!isAlive()) {
@@ -31,7 +33,7 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
 
         List<? extends Entity> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES_FOR_FINDER);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
 
@@ -66,7 +68,7 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
 
         if (nextCoordinates.equals(this.coordinates) && !ateInThisMove) {
-            makeRandomStep(worldMap, pathFinder);
+            makeRandomStep(worldMap, pathFinder, NOT_OBSTACLES_TYPES_FOR_MOVE);
         } else {
             moveTo(nextCoordinates, worldMap);
         }
