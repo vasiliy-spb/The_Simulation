@@ -351,4 +351,34 @@ public class TestSimulation {
             tickCounter.next();
         }
     }
+
+    public void startHuntsmenOnly(int moveCount) {
+        int countEntity = 0;
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+        initActionList.add(createFixedCountEntityAction);
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
+        turnActionList.add(removeTemporaryEntityAction);
+        Action makeMoveAction = new OnlyHuntsmenMakeMoveAction(worldMap, tickCounter);
+        turnActionList.add(makeMoveAction);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        turnActionList.add(createFlashAction);
+
+
+        for (Action action : initActionList) {
+            action.perform();
+            worldMapRender.renderMap();
+            System.out.println();
+        }
+
+        while (tickCounter.getCurrentTick() < moveCount) {
+            for (Action action : turnActionList) {
+                action.perform();
+            }
+            if (tickCounter.getCurrentTick() % 5 == 0 || tickCounter.getCurrentTick() % 5 == 1) {
+                worldMapRender.renderMap();
+                System.out.println();
+            }
+            tickCounter.next();
+        }
+    }
 }

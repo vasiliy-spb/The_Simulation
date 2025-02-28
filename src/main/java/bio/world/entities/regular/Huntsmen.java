@@ -49,30 +49,32 @@ public class Huntsmen extends Human implements Hunter<Creature> {
     }
 
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        System.out.println("Ходит Huntsmen");
+//        System.out.println();
+//        System.out.println("Ходит Huntsmen, [" + coordinates.row() + " - " + coordinates.column() + "]");
         List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         if (targets.isEmpty()) {
-            System.out.println("Цели не найдены - делает случайный ход");
+//            System.out.println("Цели не найдены - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
             return;
         }
         boolean madeShot = false;
         for (Creature target : targets) {
-            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
+//            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
             if (!canAttack(target, worldMap)) {
-                System.out.println("Нельзя атаковать");
+//                System.out.println("Нельзя атаковать");
                 continue;
             }
-            System.out.println("Атакует");
+//            System.out.println("Атакует");
             attack(target);
             madeShot = true;
             break;
         }
 
         if (!madeShot) {
-            System.out.println("Выстрел не сделан - делает случайный ход");
+//            System.out.println("Выстрел не сделан - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
         }
+//        System.out.println("sharpshooting = " + sharpshooting);
     }
 
     private List<Creature> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
@@ -126,27 +128,28 @@ public class Huntsmen extends Human implements Hunter<Creature> {
         }
         if (!shoot()) {
             decreaseSharpshooting();
-            System.out.println("Промахнулся");
+//            System.out.println("Промахнулся");
             return;
         }
-        System.out.println("Попал");
+//        System.out.println("Попал");
         increaseSharpshooting();
         p.takeDamage(this);
     }
 
     private boolean shoot() {
         int successShotBound = shotRandom.nextInt(MAX_SHARPSHOOTING + 1);
+//        System.out.println("successShotBound = " + successShotBound);
         return successShotBound <= sharpshooting;
     }
 
     private void decreaseSharpshooting() {
         sharpshooting--;
-        sharpshooting = Math.min(sharpshooting, MIN_SHARPSHOOTING);
+        sharpshooting = Math.max(sharpshooting, MIN_SHARPSHOOTING);
     }
 
     private void increaseSharpshooting() {
         sharpshooting++;
-        sharpshooting = Math.max(sharpshooting, MAX_SHARPSHOOTING);
+        sharpshooting = Math.min(sharpshooting, MAX_SHARPSHOOTING);
     }
 
     @Override
