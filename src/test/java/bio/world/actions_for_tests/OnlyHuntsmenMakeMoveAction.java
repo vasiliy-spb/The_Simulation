@@ -2,8 +2,7 @@ package bio.world.actions_for_tests;
 
 import bio.world.actions.Action;
 import bio.world.entities.Entity;
-import bio.world.entities.regular.Herbivore;
-import bio.world.entities.regular.Huntsmen;
+import bio.world.entities.regular.Huntsman;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.AStarPathFinder;
 import bio.world.path_finders.PathFinder;
@@ -29,9 +28,9 @@ public class OnlyHuntsmenMakeMoveAction implements Action {
 
         List<Entity> entities = worldMap.getAllEntities();
         for (Entity entity : entities) {
-            if (entity instanceof Huntsmen huntsmen) {
-                if (huntsmen.shouldMove(currentTick)) {
-                    huntsmen.makeMove(worldMap, pathFinder);
+            if (entity instanceof Huntsman huntsman) {
+                if (huntsman.shouldMove(currentTick)) {
+                    huntsman.makeMove(worldMap, pathFinder);
                 }
             }
         }

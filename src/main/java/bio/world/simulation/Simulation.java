@@ -1,7 +1,7 @@
 package bio.world.simulation;
 
 import bio.world.entities.Entity;
-import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Creature;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;
@@ -63,8 +63,12 @@ public class Simulation {
     private void initWithSavedParams() {
         Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
         initActionList.add(createSavedCountEntityAction);
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
+        turnActionList.add(removeTemporaryEntityAction);
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        turnActionList.add(createFlashAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);
 
@@ -78,8 +82,12 @@ public class Simulation {
     private void init() {
         Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
         initActionList.add(createFixedCountEntityAction);
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
+        turnActionList.add(removeTemporaryEntityAction);
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        turnActionList.add(createFlashAction);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
         turnActionList.add(growGrassAction);
 
@@ -138,15 +146,14 @@ public class Simulation {
 
     private boolean isGameOver() {
         List<Entity> entities = worldMap.getAllEntities();
-        int countHerbivore = 0;
 
         for (Entity entity : entities) {
-            if (entity instanceof Herbivore) {
-                countHerbivore++;
+            if (entity instanceof Creature) {
+                return false;
             }
         }
 
-        return countHerbivore == 0;
+        return true;
     }
 
     private int askMovesDelay() {

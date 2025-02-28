@@ -1,6 +1,7 @@
 package bio.world.actions;
 
 import bio.world.entities.Entity;
+import bio.world.entities.regular.Huntsman;
 import bio.world.simulation.TickCounter;
 import bio.world.map.WorldMap;
 import bio.world.entities.regular.Creature;
@@ -29,6 +30,11 @@ public class MakeMoveAction implements Action {
             if (entity instanceof Creature creature) {
                 if (creature.shouldMove(currentTick)) {
                     creature.makeMove(worldMap, pathFinder);
+                }
+            }
+            if (entity instanceof Huntsman huntsman) {
+                if (huntsman.shouldMove(currentTick)) {
+                    huntsman.makeMove(worldMap, pathFinder);
                 }
             }
         }

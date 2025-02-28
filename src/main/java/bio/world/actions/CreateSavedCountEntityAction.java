@@ -3,6 +3,7 @@ package bio.world.actions;
 import bio.world.entities.Coordinates;
 import bio.world.entities.regular.Grass;
 import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
@@ -27,7 +28,8 @@ public class CreateSavedCountEntityAction implements Action {
                 Rock.class, new RockFactory(),
                 Tree.class, new TreeFactory(),
                 Herbivore.class, new HerbivoreFactory(),
-                Predator.class, new PredatorFactory()
+                Predator.class, new PredatorFactory(),
+                Huntsman.class, new HuntsmanFactory()
         );
     }
 

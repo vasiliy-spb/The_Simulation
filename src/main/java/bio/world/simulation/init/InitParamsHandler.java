@@ -7,7 +7,7 @@ import bio.world.map.WorldMap;
 import java.util.*;
 
 public class InitParamsHandler {
-    private static final InitParams EMPTY_INIT_PARAMS = new InitParams(0, 0, 0, 0, 0, 0, 0);
+    private static final InitParams EMPTY_INIT_PARAMS = new InitParams(0, 0, 0, 0, 0, 0, 0, 0);
     private InitParams savedInitParams;
     private Map<Integer, Class<? extends Entity>> savedEntityPositions;
 

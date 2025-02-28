@@ -8,7 +8,7 @@ import bio.world.path_finders.PathFinder;
 
 import java.util.*;
 
-public class Huntsmen extends Human implements Hunter<Creature> {
+public class Huntsman extends Human implements Hunter<Creature> {
     private static final int INIT_HEALTH_POINT = 100;
     private static final int INIT_TURN_FREQUENCY = 5;
     private static final int ATTACK_DISTANCE = 3;
@@ -38,7 +38,7 @@ public class Huntsmen extends Human implements Hunter<Creature> {
     private int attackPower;
     private int sharpshooting;
 
-    public Huntsmen(Coordinates coordinates) {
+    public Huntsman(Coordinates coordinates) {
         super(coordinates);
         this.healthPoint = INIT_HEALTH_POINT;
         this.turnFrequency = INIT_TURN_FREQUENCY;

@@ -3,7 +3,7 @@ package bio.world.render;
 import bio.world.entities.Coordinates;
 import bio.world.entities.regular.Grass;
 import bio.world.entities.regular.Herbivore;
-import bio.world.entities.regular.Huntsmen;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
@@ -24,7 +24,7 @@ public class ConsoleMapRender implements WorldMapRender {
             Grass.class, GRASS_ICON,
             Herbivore.class, HERBIVORE_ICON,
             Predator.class, PREDATOR_ICON,
-            Huntsmen.class, HUNTSMEN_ICON,
+            Huntsman.class, HUNTSMEN_ICON,
             Flash.class, FLASH_ICON
     );
     private final WorldMap worldMap;

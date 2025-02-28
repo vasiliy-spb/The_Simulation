@@ -86,16 +86,24 @@ public class InitParamsHandlerTests {
         int width = random.nextInt(5, 50);
         int availableCountEntities = height * width;
 
-        int countTrees = random.nextInt(1, availableCountEntities - 4);
+        int minSummaryNextEntitiesCount = 5;
+        int countTrees = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countTrees;
-        int countRocks = random.nextInt(1, availableCountEntities - 3);
+        minSummaryNextEntitiesCount--;
+        int countRocks = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countRocks;
-        int countGrasses = random.nextInt(1, availableCountEntities - 2);
+        minSummaryNextEntitiesCount--;
+        int countGrasses = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countGrasses;
-        int countHerbivores = random.nextInt(1, availableCountEntities - 1);
+        minSummaryNextEntitiesCount--;
+        int countHerbivores = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countHerbivores;
-        int countPredators = random.nextInt(1, availableCountEntities);
-        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators);
+        minSummaryNextEntitiesCount--;
+        int countPredators = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
+        availableCountEntities -= countPredators;
+        minSummaryNextEntitiesCount--;
+        int countHuntsmen = random.nextInt(1, availableCountEntities - minSummaryNextEntitiesCount);
+        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators, countHuntsmen);
         return initParams;
     }
 }

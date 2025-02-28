@@ -2,6 +2,7 @@ package bio.world.actions;
 
 import bio.world.entities.regular.Grass;
 import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
@@ -29,7 +30,8 @@ public class CreateCustomCountEntityAction implements Action {
                 Rock.class, new RockFactory(),
                 Tree.class, new TreeFactory(),
                 Herbivore.class, new HerbivoreFactory(),
-                Predator.class, new PredatorFactory()
+                Predator.class, new PredatorFactory(),
+                Huntsman.class, new HuntsmanFactory()
         );
     }
 
@@ -42,6 +44,7 @@ public class CreateCustomCountEntityAction implements Action {
         createEntities(Grass.class, initParams.countGrasses());
         createEntities(Herbivore.class, initParams.countHerbivores());
         createEntities(Predator.class, initParams.countPredators());
+        createEntities(Huntsman.class, initParams.countHuntsmen());
 
         initParamsHandler.saveInitParams(initParams);
         initParamsHandler.saveEntityPosition(worldMap);
@@ -54,17 +57,25 @@ public class CreateCustomCountEntityAction implements Action {
         String askMessage = "Введите количество %s (%d - %d): ";
         String errorMessage = "Неправильный ввод.";
 
-        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", MIN_NUMBER_OF_ENTITY, availableCountEntities - 4), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 4);
+        int minSummaryNextEntitiesCount = 5;
+        int countTrees = askIntegerParameter(askMessage.formatted("деревьев", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countTrees;
-        int countRocks = askIntegerParameter(askMessage.formatted("камней", MIN_NUMBER_OF_ENTITY, availableCountEntities - 3), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 3);
+        minSummaryNextEntitiesCount--;
+        int countRocks = askIntegerParameter(askMessage.formatted("камней", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countRocks;
-        int countGrasses = askIntegerParameter(askMessage.formatted("травы", MIN_NUMBER_OF_ENTITY, availableCountEntities - 2), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 2);
+        minSummaryNextEntitiesCount--;
+        int countGrasses = askIntegerParameter(askMessage.formatted("травы", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countGrasses;
-        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", MIN_NUMBER_OF_ENTITY, availableCountEntities - 1), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - 1);
+        minSummaryNextEntitiesCount--;
+        int countHerbivores = askIntegerParameter(askMessage.formatted("травоядных", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
         availableCountEntities -= countHerbivores;
-        int countPredators = askIntegerParameter(askMessage.formatted("хищников", MIN_NUMBER_OF_ENTITY, availableCountEntities), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities);
+        minSummaryNextEntitiesCount--;
+        int countPredators = askIntegerParameter(askMessage.formatted("хищников", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
+        availableCountEntities -= countPredators;
+        minSummaryNextEntitiesCount--;
+        int countHuntsmen = askIntegerParameter(askMessage.formatted("охотников", MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount), errorMessage, MIN_NUMBER_OF_ENTITY, availableCountEntities - minSummaryNextEntitiesCount);
 
-        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators);
+        InitParams initParams = new InitParams(height, width, countTrees, countRocks, countGrasses, countHerbivores, countPredators, countHuntsmen);
         return initParams;
     }
 

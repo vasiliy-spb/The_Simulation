@@ -3,7 +3,7 @@ package bio.world.factories_for_tests;
 import bio.world.entities.Coordinates;
 import bio.world.entities.regular.Grass;
 import bio.world.entities.regular.Herbivore;
-import bio.world.entities.regular.Huntsmen;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
@@ -80,7 +80,7 @@ public class WorldMapFactoryForTests {
                     case TREE_ICON -> entityMap.put(coordinates, new Tree(coordinates));
                     case HERBIVORE_ICON -> entityMap.put(coordinates, new Herbivore(coordinates));
                     case PREDATOR_ICON -> entityMap.put(coordinates, new Predator(coordinates));
-                    case HUNTSMEN_ICON -> entityMap.put(coordinates, new Huntsmen(coordinates));
+                    case HUNTSMEN_ICON -> entityMap.put(coordinates, new Huntsman(coordinates));
                 }
             }
         }

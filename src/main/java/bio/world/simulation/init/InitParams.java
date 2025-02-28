@@ -7,6 +7,7 @@ public record InitParams(
         int countRocks,
         int countGrasses,
         int countHerbivores,
-        int countPredators) {
+        int countPredators,
+        int countHuntsmen) {
 
 }

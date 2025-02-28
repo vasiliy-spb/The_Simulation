@@ -1,7 +1,7 @@
 package bio.world.entities;
 
 import bio.world.entities.regular.HuntsmenScope;
-import bio.world.entities.regular.Huntsmen;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
@@ -16,7 +16,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HuntsmenScopeTests {
+public class HuntsmanScopeTests {
     private WorldMap worldMap;
     private HuntsmenScope huntsmenScope;
     private WorldMapRender mapRender;
@@ -40,8 +40,8 @@ public class HuntsmenScopeTests {
          .. .. .. .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         boolean canAimToAll = true;
         for (int row = -1; row <= 1; row++) {
@@ -77,8 +77,8 @@ public class HuntsmenScopeTests {
          .. .. .. .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         boolean canAimToAll = true;
         for (int row = -2; row <= 2; row += 2) {
@@ -114,8 +114,8 @@ public class HuntsmenScopeTests {
          .. .. .. .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         boolean canAimToAny = false;
         for (int row = -1; row <= 1; row++) {
@@ -159,8 +159,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -184,8 +184,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -209,8 +209,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -240,8 +240,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -265,8 +265,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -290,8 +290,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -322,8 +322,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -347,8 +347,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -372,8 +372,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -403,8 +403,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -428,8 +428,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -453,8 +453,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -492,8 +492,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -517,8 +517,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -542,8 +542,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -581,8 +581,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -606,8 +606,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -631,8 +631,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -670,8 +670,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -695,8 +695,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -720,8 +720,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -759,8 +759,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -784,8 +784,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -809,8 +809,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -834,8 +834,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -874,8 +874,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -899,8 +899,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -924,8 +924,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -949,8 +949,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -990,8 +990,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1015,8 +1015,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1040,8 +1040,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1071,8 +1071,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1096,8 +1096,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1121,8 +1121,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1153,8 +1153,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -1178,8 +1178,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -1203,8 +1203,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -1234,8 +1234,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1259,8 +1259,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1284,8 +1284,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1323,8 +1323,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1348,8 +1348,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1373,8 +1373,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1412,8 +1412,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1437,8 +1437,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1462,8 +1462,8 @@ public class HuntsmenScopeTests {
          .. .. ++ 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1501,8 +1501,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1526,8 +1526,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1551,8 +1551,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -1590,8 +1590,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1615,8 +1615,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1640,8 +1640,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1665,8 +1665,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1705,8 +1705,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1730,8 +1730,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1755,8 +1755,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1780,8 +1780,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -1821,8 +1821,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1846,8 +1846,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1871,8 +1871,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1902,8 +1902,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1927,8 +1927,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1952,8 +1952,8 @@ public class HuntsmenScopeTests {
          🐅 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -1991,8 +1991,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2016,8 +2016,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2041,8 +2041,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2072,8 +2072,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2097,8 +2097,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2122,8 +2122,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2161,8 +2161,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2186,8 +2186,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2211,8 +2211,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2250,8 +2250,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2275,8 +2275,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2300,8 +2300,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(4, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2339,8 +2339,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2364,8 +2364,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2389,8 +2389,8 @@ public class HuntsmenScopeTests {
          .. .. 🐅 ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 2);
         Predator predator = new Predator(predatorCoordinates);
@@ -2428,8 +2428,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2453,8 +2453,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2478,8 +2478,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2503,8 +2503,8 @@ public class HuntsmenScopeTests {
          .. .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(5, 0);
         Predator predator = new Predator(predatorCoordinates);
@@ -2543,8 +2543,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2568,8 +2568,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2593,8 +2593,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2618,8 +2618,8 @@ public class HuntsmenScopeTests {
          .. 🐅 .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(6, 1);
         Predator predator = new Predator(predatorCoordinates);
@@ -2659,8 +2659,8 @@ public class HuntsmenScopeTests {
          🤠 ++ ++ 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2684,8 +2684,8 @@ public class HuntsmenScopeTests {
          🤠 ++ ++ 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2709,8 +2709,8 @@ public class HuntsmenScopeTests {
          🤠 ++ ++ 🐅
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(3, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2740,8 +2740,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2765,8 +2765,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2790,8 +2790,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -2829,8 +2829,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2854,8 +2854,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2879,8 +2879,8 @@ public class HuntsmenScopeTests {
          .. .. .. 🤠
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 3);
         Predator predator = new Predator(predatorCoordinates);
@@ -2910,8 +2910,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -2935,8 +2935,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -2960,8 +2960,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -2999,8 +2999,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3024,8 +3024,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3049,8 +3049,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3088,8 +3088,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3113,8 +3113,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3138,8 +3138,8 @@ public class HuntsmenScopeTests {
          🤠 ++ .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(2, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3177,8 +3177,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3202,8 +3202,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3227,8 +3227,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 4);
         Predator predator = new Predator(predatorCoordinates);
@@ -3266,8 +3266,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3291,8 +3291,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3316,8 +3316,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3341,8 +3341,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(1, 6);
         Predator predator = new Predator(predatorCoordinates);
@@ -3381,8 +3381,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -3406,8 +3406,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -3431,8 +3431,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 5);
         Predator predator = new Predator(predatorCoordinates);
@@ -3456,8 +3456,8 @@ public class HuntsmenScopeTests {
          🤠 .. .. ..
          */
         Coordinates huntsmenCoordinates = new Coordinates(3, 3);
-        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
-        worldMap.addEntity(huntsmen);
+        Huntsman huntsman = new Huntsman(huntsmenCoordinates);
+        worldMap.addEntity(huntsman);
 
         Coordinates predatorCoordinates = new Coordinates(0, 5);
         Predator predator = new Predator(predatorCoordinates);
