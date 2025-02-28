@@ -1,6 +1,6 @@
 package bio.world.entities;
 
-import bio.world.entities.regular.HuntsmenSight;
+import bio.world.entities.regular.HuntsmenScope;
 import bio.world.entities.regular.Huntsmen;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
@@ -16,15 +16,15 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HuntsmenSightTests {
+public class HuntsmenScopeTests {
     private WorldMap worldMap;
-    private HuntsmenSight huntsmenSight;
+    private HuntsmenScope huntsmenScope;
     private WorldMapRender mapRender;
 
     @BeforeEach
     public void initMap() {
         this.worldMap = new WorldMap(7, 7);
-        this.huntsmenSight = new HuntsmenSight();
+        this.huntsmenScope = new HuntsmenScope();
         this.mapRender = new ConsoleMapRender(worldMap);
     }
 
@@ -43,7 +43,7 @@ public class HuntsmenSightTests {
         Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
         worldMap.addEntity(huntsmen);
 
-        boolean canAim = true;
+        boolean canAimToAll = true;
         for (int row = -1; row <= 1; row++) {
             for (int column = -1; column <= 1; column++) {
                 int predatorRow = huntsmenCoordinates.row() + row;
@@ -55,14 +55,14 @@ public class HuntsmenSightTests {
                 Predator predator = new Predator(predatorCoordinates);
                 worldMap.addEntity(predator);
 
-                canAim &= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap);
+                canAimToAll &= huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap);
                 mapRender.renderMap();
 
                 worldMap.removeEntity(predator);
             }
         }
 
-        assertTrue(canAim);
+        assertTrue(canAimToAll);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class HuntsmenSightTests {
         Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
         worldMap.addEntity(huntsmen);
 
-        boolean canAim = true;
+        boolean canAimToAll = true;
         for (int row = -2; row <= 2; row += 2) {
             for (int column = -2; column <= 2; column += 2) {
                 int predatorRow = huntsmenCoordinates.row() + row;
@@ -92,14 +92,14 @@ public class HuntsmenSightTests {
                 Predator predator = new Predator(predatorCoordinates);
                 worldMap.addEntity(predator);
 
-                canAim &= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap);
+                canAimToAll &= huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap);
                 mapRender.renderMap();
 
                 worldMap.removeEntity(predator);
             }
         }
 
-        assertTrue(canAim);
+        assertTrue(canAimToAll);
     }
 
     @Test
@@ -117,7 +117,7 @@ public class HuntsmenSightTests {
         Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
         worldMap.addEntity(huntsmen);
 
-        boolean canAim = false;
+        boolean canAimToAny = false;
         for (int row = -1; row <= 1; row++) {
             for (int column = -1; column <= 1; column++) {
                 int predatorRow = huntsmenCoordinates.row() + row * 2;
@@ -138,7 +138,7 @@ public class HuntsmenSightTests {
                 Tree tree = new Tree(treeCoordinates);
                 worldMap.addEntity(tree);
 
-                canAim |= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap);
+                canAimToAny |= huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap);
                 mapRender.renderMap();
 
                 worldMap.removeEntity(predator);
@@ -146,7 +146,7 @@ public class HuntsmenSightTests {
             }
         }
 
-        assertFalse(canAim);
+        assertFalse(canAimToAny);
     }
 
     // ==================================== RIGHT-DOWN SQUARE ====================================
@@ -172,7 +172,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -197,7 +197,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -228,7 +228,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -253,7 +253,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -278,7 +278,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -310,7 +310,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -335,7 +335,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -360,7 +360,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -391,7 +391,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -416,7 +416,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -441,7 +441,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -480,7 +480,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -505,7 +505,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -530,7 +530,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -569,7 +569,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -594,7 +594,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -619,7 +619,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -658,7 +658,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -683,7 +683,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -708,7 +708,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -747,7 +747,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -772,7 +772,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -797,7 +797,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -822,7 +822,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -862,7 +862,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -887,7 +887,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -912,7 +912,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -937,7 +937,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -977,7 +977,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     // ==================================== LEFT-UP SQUARE ====================================
@@ -1003,7 +1003,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1028,7 +1028,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1059,7 +1059,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1084,7 +1084,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1109,7 +1109,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1141,7 +1141,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1166,7 +1166,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1191,7 +1191,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1222,7 +1222,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1247,7 +1247,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1272,7 +1272,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1311,7 +1311,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1336,7 +1336,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1361,7 +1361,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1400,7 +1400,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1425,7 +1425,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1450,7 +1450,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1489,7 +1489,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1514,7 +1514,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1539,7 +1539,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1578,7 +1578,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1603,7 +1603,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1628,7 +1628,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1653,7 +1653,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1693,7 +1693,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1718,7 +1718,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1743,7 +1743,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1768,7 +1768,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1808,7 +1808,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     // ==================================== LEFT-DOWN SQUARE ====================================
@@ -1834,7 +1834,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1859,7 +1859,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1890,7 +1890,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1915,7 +1915,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1940,7 +1940,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -1979,7 +1979,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2004,7 +2004,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2029,7 +2029,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2060,7 +2060,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2085,7 +2085,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2110,7 +2110,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2149,7 +2149,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2174,7 +2174,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2199,7 +2199,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2238,7 +2238,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2263,7 +2263,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2288,7 +2288,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2327,7 +2327,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2352,7 +2352,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2377,7 +2377,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2416,7 +2416,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2441,7 +2441,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2466,7 +2466,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2491,7 +2491,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2531,7 +2531,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2556,7 +2556,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2581,7 +2581,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2606,7 +2606,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2646,7 +2646,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     // ==================================== RIGHT-UP SQUARE ====================================
@@ -2672,7 +2672,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2697,7 +2697,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2728,7 +2728,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2753,7 +2753,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2778,7 +2778,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2817,7 +2817,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2842,7 +2842,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2867,7 +2867,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2898,7 +2898,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2923,7 +2923,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2948,7 +2948,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -2987,7 +2987,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3012,7 +3012,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3037,7 +3037,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3076,7 +3076,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3101,7 +3101,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3126,7 +3126,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3165,7 +3165,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3190,7 +3190,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3215,7 +3215,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3254,7 +3254,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3279,7 +3279,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3304,7 +3304,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3329,7 +3329,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3369,7 +3369,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3394,7 +3394,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3419,7 +3419,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3444,7 +3444,7 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertTrue(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 
     @Test
@@ -3484,6 +3484,6 @@ public class HuntsmenSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates, worldMap));
+        assertFalse(!huntsmenScope.canAim(huntsmenCoordinates, predatorCoordinates, worldMap));
     }
 }
