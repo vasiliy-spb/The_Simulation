@@ -2,6 +2,7 @@ package bio.world.simulation;
 
 import bio.world.entities.Entity;
 import bio.world.entities.regular.Creature;
+import bio.world.entities.temporary.Flash;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;
@@ -36,34 +37,40 @@ public class Simulation {
         this.turnActionList = new ArrayList<>();
         this.pauseHandler = new PauseHandler();
         this.movesDelay = 0;
-
-        if (initParamsHandler.hasSavedData()) {
-            createWorldMap();
-            initWithSavedParams();
-        } else {
-            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
-            init();
-        }
-
+        this.worldMap = createWorldMap();
         this.worldMapRender = new ConsoleMapRender(worldMap);
+        init();
     }
 
-    private void createWorldMap() {
+    private WorldMap createWorldMap() {
         Optional<InitParams> initParamsContainer = initParamsHandler.getSavedInitParams();
 
         if (initParamsContainer.isEmpty()) {
-            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
-            return;
+            return WorldMapFactory.createWorldMapWithUserParams();
         }
 
         InitParams initParams = initParamsContainer.get();
-        this.worldMap = WorldMapFactory.createWorldMapWithParams(initParams);
+        return WorldMapFactory.createWorldMapWithParams(initParams);
     }
 
-    private void initWithSavedParams() {
-        Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
-        initActionList.add(createSavedCountEntityAction);
+    private void init() {
+        Action createEntityAction;
+        if (initParamsHandler.hasSavedData()) {
+            createEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
+        } else {
+            createEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
+        }
+        initActionList.add(createEntityAction);
 
+        for (Action action : initActionList) {
+            action.perform();
+        }
+
+        createTurnActions();
+        this.movesDelay = askMovesDelay();
+    }
+
+    private void createTurnActions() {
         Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
@@ -73,12 +80,6 @@ public class Simulation {
         turnActionList.add(makeMoveAction);
         turnActionList.add(createFlashAction);
         turnActionList.add(growGrassAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-        }
-
-        this.movesDelay = askMovesDelay();
     }
 
     private int askMovesDelay() {
@@ -111,27 +112,6 @@ public class Simulation {
         };
     }
 
-    private void init() {
-        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
-        initActionList.add(createFixedCountEntityAction);
-
-        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
-        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
-        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
-        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
-
-        turnActionList.add(removeTemporaryEntityAction);
-        turnActionList.add(makeMoveAction);
-        turnActionList.add(createFlashAction);
-        turnActionList.add(growGrassAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-        }
-
-        this.movesDelay = askMovesDelay();
-    }
-
     public void start() {
         worldMapRender.renderMap();
 
@@ -147,7 +127,6 @@ public class Simulation {
 
                 Thread.sleep(movesDelay);
                 nextTurn();
-
             }
         } catch (IOException | InterruptedException ignored) {
         }
@@ -155,7 +134,6 @@ public class Simulation {
 
     private boolean isGameOver() {
         List<Entity> entities = worldMap.getAllEntities();
-
         for (Entity entity : entities) {
             if (entity instanceof Creature) {
                 return false;
@@ -166,7 +144,6 @@ public class Simulation {
 
     private boolean shouldInterrupt() {
         MenuItems selectedMenuItem = askPauseMenuItem();
-
         switch (selectedMenuItem) {
             case CONTINUE -> pauseHandler.togglePause();
             case CHANGE_MOVES_DELAY -> {
@@ -177,15 +154,13 @@ public class Simulation {
                 return true;
             }
         }
-
         return false;
     }
 
     private static MenuItems askPauseMenuItem() {
         Menu pauseMenu = MenuFactory.createPauseMenu();
         pauseMenu.showTitle();
-        MenuItems selectedMenuItem = pauseMenu.selectMenuItem();
-        return selectedMenuItem;
+        return pauseMenu.selectMenuItem();
     }
 
     private void nextTurn() {
