@@ -28,6 +28,127 @@ public class HuntsmenSightTests {
         this.mapRender = new ConsoleMapRender(worldMap);
     }
 
+    @Test
+    public void checkTestcase00() {
+        /*
+         .. .. .. .. .. .. ..
+         .. .. .. .. .. .. ..
+         .. .. 🐅 🐅 🐅 .. ..
+         .. .. 🐅 🤠 🐅 .. ..
+         .. .. 🐅 🐅 🐅 .. ..
+         .. .. .. .. .. .. ..
+         .. .. .. .. .. .. ..
+         */
+        Coordinates huntsmenCoordinates = new Coordinates(3, 3);
+        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
+        worldMap.addEntity(huntsmen);
+
+        boolean canAim = true;
+        for (int row = -1; row <= 1; row++) {
+            for (int column = -1; column <= 1; column++) {
+                int predatorRow = huntsmenCoordinates.row() + row;
+                int predatorColumn = huntsmenCoordinates.column() + column;
+                Coordinates predatorCoordinates = new Coordinates(predatorRow, predatorColumn);
+                if (predatorCoordinates.equals(huntsmenCoordinates)) {
+                    continue;
+                }
+                Predator predator = new Predator(predatorCoordinates);
+                worldMap.addEntity(predator);
+
+                canAim &= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates);
+                mapRender.renderMap();
+
+                worldMap.removeEntity(predator);
+            }
+        }
+
+        assertTrue(canAim);
+    }
+
+    @Test
+    public void checkTestcase01() {
+        /*
+         .. .. .. .. .. .. ..
+         .. 🐅 .. 🐅 .. 🐅 ..
+         .. .. .. .. .. .. ..
+         .. 🐅 .. 🤠 .. 🐅 ..
+         .. .. .. .. .. .. ..
+         .. 🐅 .. 🐅 .. 🐅 ..
+         .. .. .. .. .. .. ..
+         */
+        Coordinates huntsmenCoordinates = new Coordinates(3, 3);
+        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
+        worldMap.addEntity(huntsmen);
+
+        boolean canAim = true;
+        for (int row = -2; row <= 2; row += 2) {
+            for (int column = -2; column <= 2; column += 2) {
+                int predatorRow = huntsmenCoordinates.row() + row;
+                int predatorColumn = huntsmenCoordinates.column() + column;
+                Coordinates predatorCoordinates = new Coordinates(predatorRow, predatorColumn);
+                if (predatorCoordinates.equals(huntsmenCoordinates)) {
+                    continue;
+                }
+                Predator predator = new Predator(predatorCoordinates);
+                worldMap.addEntity(predator);
+
+                canAim &= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates);
+                mapRender.renderMap();
+
+                worldMap.removeEntity(predator);
+            }
+        }
+
+        assertTrue(canAim);
+    }
+
+    @Test
+    public void checkTestcase02() {
+        /*
+         .. .. .. .. .. .. ..
+         .. 🐅 .. 🐅 .. 🐅 ..
+         .. .. 🌲 🌲 🌲 .. ..
+         .. 🐅 🌲 🤠 🌲 🐅 ..
+         .. .. 🌲 🌲 🌲 .. ..
+         .. 🐅 .. 🐅 .. 🐅 ..
+         .. .. .. .. .. .. ..
+         */
+        Coordinates huntsmenCoordinates = new Coordinates(3, 3);
+        Huntsmen huntsmen = new Huntsmen(huntsmenCoordinates);
+        worldMap.addEntity(huntsmen);
+
+        boolean canAim = false;
+        for (int row = -1; row <= 1; row++) {
+            for (int column = -1; column <= 1; column++) {
+                int predatorRow = huntsmenCoordinates.row() + row * 2;
+                int predatorColumn = huntsmenCoordinates.column() + column * 2;
+                Coordinates predatorCoordinates = new Coordinates(predatorRow, predatorColumn);
+                if (predatorCoordinates.equals(huntsmenCoordinates)) {
+                    continue;
+                }
+                Predator predator = new Predator(predatorCoordinates);
+                worldMap.addEntity(predator);
+
+                int treeRow = huntsmenCoordinates.row() + row;
+                int treeColumn = huntsmenCoordinates.column() + column;
+                Coordinates treeCoordinates = new Coordinates(treeRow, treeColumn);
+                if (treeCoordinates.equals(huntsmenCoordinates)) {
+                    continue;
+                }
+                Tree tree = new Tree(treeCoordinates);
+                worldMap.addEntity(tree);
+
+                canAim |= !huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates);
+                mapRender.renderMap();
+
+                worldMap.removeEntity(predator);
+                worldMap.removeEntity(tree);
+            }
+        }
+
+        assertFalse(canAim);
+    }
+
     // ==================================== RIGHT-DOWN SQUARE ====================================
     @Test
     public void checkTestcase010() {
@@ -342,8 +463,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(3,4),
-                new Coordinates(4,4)
+                new Coordinates(3, 4),
+                new Coordinates(4, 4)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -431,8 +552,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,3),
-                new Coordinates(4,4)
+                new Coordinates(4, 3),
+                new Coordinates(4, 4)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -520,8 +641,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(3,4),
-                new Coordinates(4,5)
+                new Coordinates(3, 4),
+                new Coordinates(4, 5)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -609,8 +730,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,3),
-                new Coordinates(5,4)
+                new Coordinates(4, 3),
+                new Coordinates(5, 4)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -723,9 +844,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,5),
-                new Coordinates(4,4),
-                new Coordinates(5,5)
+                new Coordinates(4, 5),
+                new Coordinates(4, 4),
+                new Coordinates(5, 5)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -838,9 +959,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(5,4),
-                new Coordinates(4,4),
-                new Coordinates(5,5)
+                new Coordinates(5, 4),
+                new Coordinates(4, 4),
+                new Coordinates(5, 5)
         );
 
         for (int row = 2; row < 7; row++) {
@@ -1173,8 +1294,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,2),
-                new Coordinates(3,2)
+                new Coordinates(2, 2),
+                new Coordinates(3, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1262,8 +1383,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,2),
-                new Coordinates(2,3)
+                new Coordinates(2, 2),
+                new Coordinates(2, 3)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1351,8 +1472,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,1),
-                new Coordinates(3,2)
+                new Coordinates(2, 1),
+                new Coordinates(3, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1440,8 +1561,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,2),
-                new Coordinates(2,3)
+                new Coordinates(1, 2),
+                new Coordinates(2, 3)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1554,9 +1675,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,1),
-                new Coordinates(2,1),
-                new Coordinates(2,2)
+                new Coordinates(1, 1),
+                new Coordinates(2, 1),
+                new Coordinates(2, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1669,9 +1790,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,1),
-                new Coordinates(1,2),
-                new Coordinates(2,2)
+                new Coordinates(1, 1),
+                new Coordinates(1, 2),
+                new Coordinates(2, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -1841,8 +1962,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(5,1),
-                new Coordinates(4,2)
+                new Coordinates(5, 1),
+                new Coordinates(4, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2011,8 +2132,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(3,2),
-                new Coordinates(4,2)
+                new Coordinates(3, 2),
+                new Coordinates(4, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2100,8 +2221,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,2),
-                new Coordinates(4,3)
+                new Coordinates(4, 2),
+                new Coordinates(4, 3)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2189,8 +2310,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,1),
-                new Coordinates(3,2)
+                new Coordinates(4, 1),
+                new Coordinates(3, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2278,8 +2399,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,3),
-                new Coordinates(5,2)
+                new Coordinates(4, 3),
+                new Coordinates(5, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2392,9 +2513,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,1),
-                new Coordinates(4,2),
-                new Coordinates(5,1)
+                new Coordinates(4, 1),
+                new Coordinates(4, 2),
+                new Coordinates(5, 1)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2507,9 +2628,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(4,2),
-                new Coordinates(5,1),
-                new Coordinates(5,2)
+                new Coordinates(4, 2),
+                new Coordinates(5, 1),
+                new Coordinates(5, 2)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2679,8 +2800,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,4),
-                new Coordinates(1,5)
+                new Coordinates(2, 4),
+                new Coordinates(1, 5)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2849,8 +2970,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,4),
-                new Coordinates(3,4)
+                new Coordinates(2, 4),
+                new Coordinates(3, 4)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -2938,8 +3059,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,3),
-                new Coordinates(2,4)
+                new Coordinates(2, 3),
+                new Coordinates(2, 4)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -3027,8 +3148,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(2,5),
-                new Coordinates(3,4)
+                new Coordinates(2, 5),
+                new Coordinates(3, 4)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -3116,8 +3237,8 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,4),
-                new Coordinates(2,3)
+                new Coordinates(1, 4),
+                new Coordinates(2, 3)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -3230,9 +3351,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,5),
-                new Coordinates(2,4),
-                new Coordinates(2,5)
+                new Coordinates(1, 5),
+                new Coordinates(2, 4),
+                new Coordinates(2, 5)
         );
 
         for (int row = 0; row < 7; row++) {
@@ -3345,9 +3466,9 @@ public class HuntsmenSightTests {
         Set<Coordinates> exceptCoordinates = Set.of(
                 huntsmenCoordinates,
                 predatorCoordinates,
-                new Coordinates(1,4),
-                new Coordinates(1,5),
-                new Coordinates(2,4)
+                new Coordinates(1, 4),
+                new Coordinates(1, 5),
+                new Coordinates(2, 4)
         );
 
         for (int row = 0; row < 7; row++) {
