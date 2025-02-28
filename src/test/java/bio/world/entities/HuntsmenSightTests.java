@@ -1,6 +1,6 @@
 package bio.world.entities;
 
-import bio.world.entities.regular.HuntingSight;
+import bio.world.entities.regular.HuntsmenSight;
 import bio.world.entities.regular.Huntsmen;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
@@ -16,15 +16,15 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HuntingSightTests {
+public class HuntsmenSightTests {
     private WorldMap worldMap;
-    private HuntingSight huntingSight;
+    private HuntsmenSight huntsmenSight;
     private WorldMapRender mapRender;
 
     @BeforeEach
     public void initMap() {
         this.worldMap = new WorldMap(7, 7);
-        this.huntingSight = new HuntingSight(worldMap);
+        this.huntsmenSight = new HuntsmenSight(worldMap);
         this.mapRender = new ConsoleMapRender(worldMap);
     }
 
@@ -51,7 +51,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -189,7 +189,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -239,7 +239,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -270,7 +270,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -295,7 +295,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -320,7 +320,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -359,7 +359,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -384,7 +384,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -409,7 +409,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -448,7 +448,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -473,7 +473,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -498,7 +498,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -537,7 +537,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -562,7 +562,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -587,7 +587,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -626,7 +626,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -651,7 +651,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -676,7 +676,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -701,7 +701,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -741,7 +741,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -766,7 +766,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -791,7 +791,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -816,7 +816,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -856,7 +856,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     // ==================================== LEFT-UP SQUARE ====================================
@@ -882,7 +882,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -907,7 +907,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -938,7 +938,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -963,7 +963,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -988,7 +988,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1020,7 +1020,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1045,7 +1045,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1070,7 +1070,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1101,7 +1101,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1126,7 +1126,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1151,7 +1151,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1190,7 +1190,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1215,7 +1215,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1240,7 +1240,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1279,7 +1279,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1304,7 +1304,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1329,7 +1329,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1368,7 +1368,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1393,7 +1393,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1418,7 +1418,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1457,7 +1457,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1482,7 +1482,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1507,7 +1507,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1532,7 +1532,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1572,7 +1572,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1597,7 +1597,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1622,7 +1622,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1647,7 +1647,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1687,7 +1687,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     // ==================================== LEFT-DOWN SQUARE ====================================
@@ -1713,7 +1713,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1738,7 +1738,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1769,7 +1769,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1794,7 +1794,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1819,7 +1819,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1858,7 +1858,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1883,7 +1883,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1908,7 +1908,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1939,7 +1939,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1964,7 +1964,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -1989,7 +1989,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2028,7 +2028,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2053,7 +2053,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2078,7 +2078,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2117,7 +2117,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2142,7 +2142,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2167,7 +2167,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2206,7 +2206,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2231,7 +2231,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2256,7 +2256,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2295,7 +2295,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2320,7 +2320,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2345,7 +2345,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2370,7 +2370,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2410,7 +2410,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2435,7 +2435,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2460,7 +2460,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2485,7 +2485,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2525,7 +2525,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     // ==================================== RIGHT-UP SQUARE ====================================
@@ -2551,7 +2551,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2576,7 +2576,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2607,7 +2607,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2632,7 +2632,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2657,7 +2657,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2696,7 +2696,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2721,7 +2721,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2746,7 +2746,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2777,7 +2777,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2802,7 +2802,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2827,7 +2827,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2866,7 +2866,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2891,7 +2891,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2916,7 +2916,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2955,7 +2955,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -2980,7 +2980,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3005,7 +3005,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3044,7 +3044,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3069,7 +3069,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3094,7 +3094,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3133,7 +3133,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3158,7 +3158,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3183,7 +3183,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3208,7 +3208,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3248,7 +3248,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3273,7 +3273,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3298,7 +3298,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3323,7 +3323,7 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertTrue(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertTrue(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 
     @Test
@@ -3363,6 +3363,6 @@ public class HuntingSightTests {
 
         mapRender.renderMap();
 
-        assertFalse(huntingSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
+        assertFalse(huntsmenSight.hasBarrierBetween(huntsmenCoordinates, predatorCoordinates));
     }
 }
