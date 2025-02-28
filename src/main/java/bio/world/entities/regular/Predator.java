@@ -24,7 +24,6 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        System.out.println("Move");
         checkHealth();
 
         if (!isAlive()) {

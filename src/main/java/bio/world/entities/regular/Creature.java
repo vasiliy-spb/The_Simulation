@@ -76,7 +76,6 @@ public abstract class Creature extends Entity {
     }
 
     protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder, Set<Class<? extends Entity>> notObstaclesTypes) {
-        System.out.println("makeRandomStep");
         Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, notObstaclesTypes);
 
         if (nextCoordinatesContainer.isEmpty()) {
