@@ -17,6 +17,7 @@ public class Huntsmen extends Human implements Hunter<Creature> {
     private static final int MIN_SHARPSHOOTING = 20;
     private static final int MAX_SHARPSHOOTING = 100;
     private final Random shotRandom;
+    private static final HuntsmenScope HUNTSMEN_SCOPE = new HuntsmenScope();
     private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Flash.class);
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
     private static final Comparator<Entity> priorityTargetComparator = (t1, t2) -> {
@@ -47,9 +48,75 @@ public class Huntsmen extends Human implements Hunter<Creature> {
         this.shotRandom = new Random();
     }
 
-    @Override
-    public int getDamage() {
-        return attackPower;
+    public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+        System.out.println("Ходит Huntsmen");
+        List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
+        if (targets.isEmpty()) {
+            System.out.println("Цели не найдены - делает случайный ход");
+            makeRandomStep(worldMap, pathFinder);
+            return;
+        }
+        boolean madeShot = false;
+        for (Creature target : targets) {
+            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
+            if (!canAttack(target, worldMap)) {
+                System.out.println("Нельзя атаковать");
+                continue;
+            }
+            System.out.println("Атакует");
+            attack(target);
+            madeShot = true;
+            break;
+        }
+
+        if (!madeShot) {
+            System.out.println("Выстрел не сделан - делает случайный ход");
+            makeRandomStep(worldMap, pathFinder);
+        }
+    }
+
+    private List<Creature> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
+        List<Entity> entities = worldMap.getAllEntities();
+        List<Creature> targets = new ArrayList<>();
+
+        for (Entity entity : entities) {
+            if (targetTypes.contains(entity.getClass())) {
+                if (isInShotArea(entity)) {
+                    targets.add((Creature) entity);
+                }
+            }
+        }
+
+        targets.sort(priorityTargetComparator);
+        return targets;
+    }
+
+    private boolean isInShotArea(Entity entity) {
+        return calculateApproximateDistance(this.coordinates, entity.getCoordinates()) <= attackDistance;
+    }
+
+    private int calculateApproximateDistance(Coordinates current, Coordinates target) {
+        return Math.max(Math.abs(current.row() - target.row()), Math.abs(current.column() - target.column()));
+    }
+
+    private void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
+        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
+
+        if (nextCoordinatesContainer.isEmpty()) {
+            return;
+        }
+
+        Coordinates nextCoordinates = nextCoordinatesContainer.get();
+        moveTo(nextCoordinates, worldMap);
+    }
+
+    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
+        worldMap.moveEntity(this.coordinates, nextCoordinates);
+        this.setCoordinates(nextCoordinates);
+    }
+
+    private boolean canAttack(Creature target, WorldMap worldMap) {
+        return HUNTSMEN_SCOPE.canAim(this.coordinates, target.getCoordinates(), worldMap);
     }
 
     @Override
@@ -77,80 +144,14 @@ public class Huntsmen extends Human implements Hunter<Creature> {
         sharpshooting = Math.min(sharpshooting, MIN_SHARPSHOOTING);
     }
 
-    public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        System.out.println("Ходит Huntsmen");
-        List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
-        if (targets.isEmpty()) {
-            System.out.println("Цели не найдены - делает случайный ход");
-            makeRandomStep(worldMap, pathFinder);
-            return;
-        }
-        boolean madeShot = false;
-        for (Creature target : targets) {
-            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
-            if (!canAttack(target)) {
-                System.out.println("Нельзя атаковать");
-                continue;
-            }
-            System.out.println("Атакует");
-            attack(target);
-            madeShot = true;
-            break;
-        }
-
-        if (!madeShot) {
-            System.out.println("Выстрел не сделан - делает случайный ход");
-            makeRandomStep(worldMap, pathFinder);
-        }
-    }
-
-    private boolean canAttack(Creature target) {
-        return true;
-    }
-
     private void increaseSharpshooting() {
         sharpshooting++;
         sharpshooting = Math.max(sharpshooting, MAX_SHARPSHOOTING);
     }
 
-    private List<Creature> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
-        List<Entity> entities = worldMap.getAllEntities();
-        List<Creature> targets = new ArrayList<>();
-
-        for (Entity entity : entities) {
-            if (targetTypes.contains(entity.getClass())) {
-                if (isInShotArea(entity)) {
-                    targets.add((Creature) entity);
-                }
-            }
-        }
-
-        targets.sort(priorityTargetComparator);
-        return targets;
-    }
-
-    private boolean isInShotArea(Entity entity) {
-        return calculateApproximateDistance(this.coordinates, entity.getCoordinates()) <= attackDistance;
-    }
-
-    private void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
-        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates);
-
-        if (nextCoordinatesContainer.isEmpty()) {
-            return;
-        }
-
-        Coordinates nextCoordinates = nextCoordinatesContainer.get();
-        moveTo(nextCoordinates, worldMap);
-    }
-
-    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
-        worldMap.moveEntity(this.coordinates, nextCoordinates);
-        this.setCoordinates(nextCoordinates);
-    }
-
-    private int calculateApproximateDistance(Coordinates current, Coordinates target) {
-        return Math.max(Math.abs(current.row() - target.row()), Math.abs(current.column() - target.column()));
+    @Override
+    public int getDamage() {
+        return attackPower;
     }
 
     public boolean shouldMove(int currentTick) {
