@@ -26,6 +26,10 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<He
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+        if (wasShot()) {
+            return;
+        }
+
         checkHealth();
         updateSatiety();
 

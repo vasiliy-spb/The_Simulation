@@ -14,6 +14,7 @@ public abstract class Creature extends Entity {
     protected int attackPower;
     protected int countMoveWithoutFood;
     protected int hungerBorder;
+    private boolean isShotted = false;
     protected final Comparator<Entity> priorityTargetComparator;
 
     public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
@@ -103,5 +104,14 @@ public abstract class Creature extends Entity {
 
     private int calculateApproximateDistance(Coordinates from, Coordinates target) {
         return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
+    }
+
+    public void die() {
+        this.isShotted = true;
+        this.healthPoint = 0;
+    }
+
+    public boolean wasShot() {
+        return isShotted;
     }
 }

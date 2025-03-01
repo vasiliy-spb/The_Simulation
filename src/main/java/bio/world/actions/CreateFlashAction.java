@@ -26,7 +26,7 @@ public class CreateFlashAction implements Action {
 
         for (Entity entity : entities) {
             if (entity instanceof Creature creature) {
-                if (!creature.isAlive()) {
+                if (creature.wasShot()) {
                     Coordinates coordinates = creature.getCoordinates();
                     Flash flash = new Flash(coordinates, currentTick);
                     worldMap.addEntity(flash);

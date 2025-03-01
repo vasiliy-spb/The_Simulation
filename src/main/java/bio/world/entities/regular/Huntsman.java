@@ -43,8 +43,8 @@ public class Huntsman extends Human implements Hunter<Creature> {
     }
 
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-//        System.out.println();
-//        System.out.println("Ходит Huntsmen, [" + coordinates.row() + " - " + coordinates.column() + "]");
+        System.out.println();
+        System.out.println("Ходит Huntsmen, [" + coordinates.row() + " - " + coordinates.column() + "]");
         List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         if (targets.isEmpty()) {
 //            System.out.println("Цели не найдены - делает случайный ход");
@@ -53,12 +53,12 @@ public class Huntsman extends Human implements Hunter<Creature> {
         }
         boolean madeShot = false;
         for (Creature target : targets) {
-//            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
+            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
             if (!canAttack(target, worldMap)) {
-//                System.out.println("Нельзя атаковать");
+                System.out.println("Нельзя атаковать");
                 continue;
             }
-//            System.out.println("Атакует");
+            System.out.println("Атакует");
             attack(target);
             madeShot = true;
             break;
@@ -76,10 +76,17 @@ public class Huntsman extends Human implements Hunter<Creature> {
         List<Creature> targets = new ArrayList<>();
 
         for (Entity entity : entities) {
-            if (targetTypes.contains(entity.getClass())) {
-                if (isInShotArea(entity)) {
-                    targets.add((Creature) entity);
-                }
+            if (!targetTypes.contains(entity.getClass())) {
+                continue;
+            }
+
+            if (!isInShotArea(entity)) {
+                continue;
+            }
+
+            Creature creature = (Creature) entity;
+            if (creature.isAlive()) {
+                targets.add(creature);
             }
         }
 
@@ -101,17 +108,14 @@ public class Huntsman extends Human implements Hunter<Creature> {
 
     @Override
     public void attack(Creature prey) {
-        if (!(prey instanceof Prey p)) {
-            return;
-        }
         if (!shoot()) {
             decreaseSharpshooting();
-//            System.out.println("Промахнулся");
+            System.out.println("Промахнулся");
             return;
         }
-//        System.out.println("Попал");
+        System.out.println("Попал");
         increaseSharpshooting();
-        p.takeDamage(this);
+        prey.die();
     }
 
     private boolean shoot() {
