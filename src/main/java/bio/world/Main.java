@@ -10,7 +10,7 @@ import bio.world.simulation.init.InitParamsHandler;
 public class Main {
     public static void main(String[] args) {
         InitParamsHandler initParamsHandler = new InitParamsHandler();
-        MenuItems selectedStartMenuItem = askStartMenuItems();
+        MenuItems selectedStartMenuItem = askStartMenuItem();
 
         if (selectedStartMenuItem.equals(MenuItems.EXIT)) {
             finish();
@@ -22,7 +22,7 @@ public class Main {
         finish();
     }
 
-    private static MenuItems askStartMenuItems() {
+    private static MenuItems askStartMenuItem() {
         StartMenu startMenu = MenuFactory.createStartMenu();
         startMenu.showTitle();
         return startMenu.selectMenuItem();
@@ -39,7 +39,7 @@ public class Main {
 
     private static void repeatSimulation(InitParamsHandler initParamsHandler) {
         while (true) {
-            MenuItems selectedMainMenuItem = askMainMenuItems();
+            MenuItems selectedMainMenuItem = askMainMenuItem();
 
             if (selectedMainMenuItem.equals(MenuItems.EXIT)) {
                 break;
@@ -53,7 +53,7 @@ public class Main {
         }
     }
 
-    private static MenuItems askMainMenuItems() {
+    private static MenuItems askMainMenuItem() {
         MainMenu mainMenu = MenuFactory.createMainMenu();
         mainMenu.showTitle();
         return mainMenu.selectMenuItem();
