@@ -286,4 +286,22 @@ public class PredatorsTests {
         boolean predatorDoesNotExist = testSimulation.areEmptyCoordinates(predator.getCoordinates());
         assertTrue(predatorDoesNotExist);
     }
+
+    @Test
+    @DisplayName("The predator tramples the grass when make random move")
+    public void checkTestcase19() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template24.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 2;
+        Coordinates predatorStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+
+        testSimulation.startWithMoveCount(moveCount);
+
+        Coordinates predatorFinishCoordinates = predator.getCoordinates();
+        boolean predatorMoved = !predatorStartCoordinates.equals(predatorFinishCoordinates);
+
+        assertTrue(predatorMoved);
+    }
 }
