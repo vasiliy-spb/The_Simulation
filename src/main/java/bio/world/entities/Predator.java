@@ -12,7 +12,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
     private static final int INIT_ATTACK_POWER = 15;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES = Set.of(Grass.class, Herbivore.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class, Herbivore.class);
     private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class);
 
     public Predator(Coordinates coordinates) {
@@ -29,7 +29,7 @@ public class Predator extends Creature implements Hunter<Herbivore> {
         }
 
         List<? extends Entity> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES_FOR_FINDER);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
 
