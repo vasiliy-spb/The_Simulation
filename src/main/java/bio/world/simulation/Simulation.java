@@ -1,7 +1,7 @@
 package bio.world.simulation;
 
+import bio.world.entities.Creature;
 import bio.world.entities.Entity;
-import bio.world.entities.Herbivore;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;
@@ -36,117 +36,45 @@ public class Simulation {
         this.turnActionList = new ArrayList<>();
         this.pauseHandler = new PauseHandler();
         this.movesDelay = 0;
-
-        if (initParamsHandler.hasSavedData()) {
-            createWorldMap();
-            initWithSavedParams();
-        } else {
-            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
-            init();
-        }
-
+        this.worldMap = createWorldMap();
         this.worldMapRender = new ConsoleMapRender(worldMap);
+        init();
     }
 
-    private void createWorldMap() {
+    private WorldMap createWorldMap() {
         Optional<InitParams> initParamsContainer = initParamsHandler.getSavedInitParams();
 
         if (initParamsContainer.isEmpty()) {
-            this.worldMap = WorldMapFactory.createWorldMapWithUserParams();
-            return;
+            return WorldMapFactory.createWorldMapWithUserParams();
         }
 
         InitParams initParams = initParamsContainer.get();
-        this.worldMap = WorldMapFactory.createWorldMapWithParams(initParams);
-    }
-
-    private void initWithSavedParams() {
-        Action createSavedCountEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
-        initActionList.add(createSavedCountEntityAction);
-        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
-        turnActionList.add(makeMoveAction);
-        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
-        turnActionList.add(growGrassAction);
-
-        for (Action action : initActionList) {
-            action.perform();
-        }
-
-        this.movesDelay = askMovesDelay();
+        return WorldMapFactory.createWorldMapWithParams(initParams);
     }
 
     private void init() {
-        Action createFixedCountEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
-        initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
-        turnActionList.add(makeMoveAction);
-        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
-        turnActionList.add(growGrassAction);
+        Action createEntityAction;
+        if (initParamsHandler.hasSavedData()) {
+            createEntityAction = new CreateSavedCountEntityAction(worldMap, initParamsHandler);
+        } else {
+            createEntityAction = new CreateCustomCountEntityAction(worldMap, initParamsHandler);
+        }
+        initActionList.add(createEntityAction);
 
         for (Action action : initActionList) {
             action.perform();
         }
 
+        createTurnActions();
         this.movesDelay = askMovesDelay();
     }
 
-    public void start() {
-        try {
-            while (!isGameOver()) {
-                pauseHandler.checkPause();
+    private void createTurnActions() {
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
 
-                if (pauseHandler.isPauseOn()) {
-                    if (shouldInterrupt()) {
-                        return;
-                    }
-                }
-
-                Thread.sleep(movesDelay);
-                nextTurn();
-
-            }
-        } catch (IOException | InterruptedException ignored) {
-        }
-    }
-
-    private boolean shouldInterrupt() {
-        Menu pauseMenu = MenuFactory.createPauseMenu();
-        pauseMenu.showTitle();
-        MenuItems selectedMenuItem = pauseMenu.selectMenuItem();
-
-        switch (selectedMenuItem) {
-            case CONTINUE -> pauseHandler.togglePause();
-            case CHANGE_MOVES_DELAY -> {
-                movesDelay = askMovesDelay();
-                pauseHandler.togglePause();
-            }
-            case EXIT -> {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private void nextTurn() {
-        for (Action action : turnActionList) {
-            action.perform();
-        }
-        worldMapRender.renderMap();
-        tickCounter.next();
-    }
-
-    private boolean isGameOver() {
-        List<Entity> entities = worldMap.getAllEntities();
-        int countHerbivore = 0;
-
-        for (Entity entity : entities) {
-            if (entity instanceof Herbivore) {
-                countHerbivore++;
-            }
-        }
-
-        return countHerbivore == 0;
+        turnActionList.add(makeMoveAction);
+        turnActionList.add(growGrassAction);
     }
 
     private int askMovesDelay() {
@@ -165,6 +93,10 @@ public class Simulation {
         Dialog<Integer> integerDialog = new IntegerMinMaxDialog(title, errorMessage, minValue, maxValue);
         int selectedSpeed = integerDialog.input();
 
+        return getMoveDelayForSpeed(selectedSpeed);
+    }
+
+    private int getMoveDelayForSpeed(int selectedSpeed) {
         return switch (selectedSpeed) {
             case 1 -> 1000;
             case 2 -> 500;
@@ -173,5 +105,64 @@ public class Simulation {
             case 5 -> 50;
             default -> throw new IllegalStateException("Unexpected value: " + selectedSpeed);
         };
+    }
+
+    public void start() {
+        worldMapRender.renderMap();
+
+        try {
+            while (!isGameOver()) {
+                pauseHandler.checkPause();
+
+                if (pauseHandler.isPauseOn()) {
+                    if (shouldInterrupt()) {
+                        return;
+                    }
+                }
+
+                Thread.sleep(movesDelay);
+                nextTurn();
+            }
+        } catch (IOException | InterruptedException ignored) {
+        }
+    }
+
+    private boolean isGameOver() {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Creature) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean shouldInterrupt() {
+        MenuItems selectedMenuItem = askPauseMenuItem();
+        switch (selectedMenuItem) {
+            case CONTINUE -> pauseHandler.togglePause();
+            case CHANGE_MOVES_DELAY -> {
+                movesDelay = askMovesDelay();
+                pauseHandler.togglePause();
+            }
+            case EXIT -> {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static MenuItems askPauseMenuItem() {
+        Menu pauseMenu = MenuFactory.createPauseMenu();
+        pauseMenu.showTitle();
+        return pauseMenu.selectMenuItem();
+    }
+
+    private void nextTurn() {
+        for (Action action : turnActionList) {
+            action.perform();
+        }
+        worldMapRender.renderMap();
+        tickCounter.next();
     }
 }
