@@ -2,7 +2,6 @@ package bio.world.path_finders;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
-import bio.world.entities.regular.Grass;
 import bio.world.map.WorldMap;
 
 import java.util.*;

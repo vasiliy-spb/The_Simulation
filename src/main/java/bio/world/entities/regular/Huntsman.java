@@ -2,7 +2,6 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
-import bio.world.entities.temporary.Flash;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -18,8 +17,6 @@ public class Huntsman extends Human implements Hunter<Creature> {
     private static final int MAX_SHARPSHOOTING = 100;
     private final Random shotRandom;
     private static final HuntsmenScope HUNTSMEN_SCOPE = new HuntsmenScope();
-    private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Flash.class);
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
     private static final Comparator<Entity> priorityTargetComparator = (t1, t2) -> {
         if (t1 instanceof Predator p1 && t2 instanceof Predator p2) {
@@ -33,16 +30,12 @@ public class Huntsman extends Human implements Hunter<Creature> {
         }
         return 0;
     };
-    private int healthPoint;
-    private int turnFrequency;
     private int attackDistance;
     private int attackPower;
     private int sharpshooting;
 
     public Huntsman(Coordinates coordinates) {
-        super(coordinates);
-        this.healthPoint = INIT_HEALTH_POINT;
-        this.turnFrequency = INIT_TURN_FREQUENCY;
+        super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY);
         this.attackDistance = ATTACK_DISTANCE;
         this.attackPower = INIT_ATTACK_POWER;
         this.sharpshooting = INIT_SHARPSHOOTING;
@@ -102,22 +95,6 @@ public class Huntsman extends Human implements Hunter<Creature> {
         return Math.max(Math.abs(current.row() - target.row()), Math.abs(current.column() - target.column()));
     }
 
-    private void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
-        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, NOT_OBSTACLES_TYPES_FOR_MOVE);
-
-        if (nextCoordinatesContainer.isEmpty()) {
-            return;
-        }
-
-        Coordinates nextCoordinates = nextCoordinatesContainer.get();
-        moveTo(nextCoordinates, worldMap);
-    }
-
-    protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
-        worldMap.moveEntity(this.coordinates, nextCoordinates);
-        this.setCoordinates(nextCoordinates);
-    }
-
     private boolean canAttack(Creature target, WorldMap worldMap) {
         return HUNTSMEN_SCOPE.canAim(this.coordinates, target.getCoordinates(), worldMap);
     }
@@ -156,9 +133,5 @@ public class Huntsman extends Human implements Hunter<Creature> {
     @Override
     public int getDamage() {
         return attackPower;
-    }
-
-    public boolean shouldMove(int currentTick) {
-        return currentTick % turnFrequency == 0;
     }
 }
