@@ -43,32 +43,24 @@ public class Huntsman extends Human implements Hunter<Creature> {
     }
 
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        System.out.println();
-        System.out.println("Ходит Huntsmen, [" + coordinates.row() + " - " + coordinates.column() + "]");
         List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         if (targets.isEmpty()) {
-//            System.out.println("Цели не найдены - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
             return;
         }
         boolean madeShot = false;
         for (Creature target : targets) {
-            System.out.println("Цель: " + target.getClass().getSimpleName() + ", [" + target.getCoordinates().row() + " - " + target.getCoordinates().column() + "]");
             if (!canAttack(target, worldMap)) {
-                System.out.println("Нельзя атаковать");
                 continue;
             }
-            System.out.println("Атакует");
             attack(target);
             madeShot = true;
             break;
         }
 
         if (!madeShot) {
-//            System.out.println("Выстрел не сделан - делает случайный ход");
             makeRandomStep(worldMap, pathFinder);
         }
-//        System.out.println("sharpshooting = " + sharpshooting);
     }
 
     private List<Creature> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
@@ -110,17 +102,14 @@ public class Huntsman extends Human implements Hunter<Creature> {
     public void attack(Creature prey) {
         if (!shoot()) {
             decreaseSharpshooting();
-            System.out.println("Промахнулся");
             return;
         }
-        System.out.println("Попал");
         increaseSharpshooting();
         prey.die();
     }
 
     private boolean shoot() {
         int successShotBound = shotRandom.nextInt(MAX_SHARPSHOOTING + 1);
-//        System.out.println("successShotBound = " + successShotBound);
         return successShotBound <= sharpshooting;
     }
 
