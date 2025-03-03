@@ -7,6 +7,7 @@ import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.entities.temporary.Flash;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
@@ -25,7 +26,8 @@ public class ConsoleMapRender implements WorldMapRender {
             Herbivore.class, HERBIVORE_ICON,
             Predator.class, PREDATOR_ICON,
             Huntsman.class, HUNTSMEN_ICON,
-            Flash.class, FLASH_ICON
+            Flash.class, FLASH_ICON,
+            Trap.class, TRAP_EMPTY
     );
     private final WorldMap worldMap;
 
@@ -52,8 +54,12 @@ public class ConsoleMapRender implements WorldMapRender {
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
 
                 String picture = getEntityIcon(entity);
+                if (entity instanceof Trap) {
+                    worldMapRepresentation.append(picture);
+                } else {
+                    worldMapRepresentation.append(String.format(" %2s", picture));
+                }
 
-                worldMapRepresentation.append(String.format(" %2s", picture));
             }
             worldMapRepresentation.append("\n");
         }
@@ -63,6 +69,11 @@ public class ConsoleMapRender implements WorldMapRender {
     }
 
     private String getEntityIcon(Entity entity) {
+        if (entity instanceof Trap trap) {
+            if (trap.hasCapturedCreature()) {
+                return TRAP_OPEN + ENTITY_PICTURES.getOrDefault(entity.getClass(), "") + TRAP_CLOSE;
+            }
+        }
         return ENTITY_PICTURES.getOrDefault(entity.getClass(), "");
     }
 }

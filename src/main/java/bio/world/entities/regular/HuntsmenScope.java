@@ -2,13 +2,14 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.entities.temporary.Flash;
 import bio.world.map.WorldMap;
 
 import java.util.Set;
 
 public class HuntsmenScope {
-    private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Huntsman.class, Flash.class);
+    private static final Set<Class<? extends Entity>> NOT_BARRIER_TYPES = Set.of(Grass.class, Herbivore.class, Predator.class, Huntsman.class, Flash.class, Trap.class);
     private static final int[][] LINE_OFFSETS = {{0, 1}, {1, 1}, {1, 0}};
 
     public boolean canAim(Coordinates fromCoordinates, Coordinates toCoordinates, WorldMap worldMap) {

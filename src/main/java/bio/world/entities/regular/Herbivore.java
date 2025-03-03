@@ -2,6 +2,7 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -14,8 +15,8 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<He
     private static final int INIT_ATTACK_POWER = 10;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class);
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class, Trap.class);
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class, Trap.class);
     private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Grass.class);
     private int satiety;
 
@@ -35,6 +36,10 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<He
 
         if (!isAlive()) {
             worldMap.removeEntity(this);
+            return;
+        }
+
+        if (captured) {
             return;
         }
 

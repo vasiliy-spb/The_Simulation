@@ -9,6 +9,10 @@ public class ConsoleEntityIcons {
     public static final String TREE_ICON = "\uD83C\uDF32";
     public static final String FLASH_ICON = "\uD83D\uDCA5";
     private static final String GREEN_COLOR = "\033[0;32m";
+    public static final String RED_COLOR = "\033[0;31m";
     private static final String RESET_COLOR = "\033[0m";
     public static final String EMPTY_CELL = GREEN_COLOR + " .." + RESET_COLOR;
+    public static final String TRAP_EMPTY = RED_COLOR + "[_]" + RESET_COLOR; // [_]
+    public static final String TRAP_OPEN = RED_COLOR + "[" + RESET_COLOR; // [
+    public static final String TRAP_CLOSE = RED_COLOR + "]" + RESET_COLOR; // ]
 }

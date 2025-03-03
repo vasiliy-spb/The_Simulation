@@ -74,11 +74,13 @@ public class Simulation {
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
         Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+        Action removeTrapAction = new RemoveTrapAction(worldMap);
 
         turnActionList.add(removeTemporaryEntityAction);
         turnActionList.add(makeMoveAction);
         turnActionList.add(createFlashAction);
         turnActionList.add(growGrassAction);
+        turnActionList.add(removeTrapAction);
     }
 
     private int askMovesDelay() {

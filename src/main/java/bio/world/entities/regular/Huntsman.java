@@ -2,6 +2,7 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -15,7 +16,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
     private static final int INIT_SHARPSHOOTING = 50;
     private static final int MIN_SHARPSHOOTING = 20;
     private static final int MAX_SHARPSHOOTING = 100;
-    private final Random shotRandom;
+    private final Random random;
     private static final HuntsmenScope HUNTSMEN_SCOPE = new HuntsmenScope();
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
     private static final Comparator<Entity> priorityTargetComparator = (t1, t2) -> {
@@ -30,6 +31,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
         }
         return 0;
     };
+    private int availableTrapCount;
     private int attackDistance;
     private int attackPower;
     private int sharpshooting;
@@ -39,12 +41,15 @@ public class Huntsman extends Human implements Hunter<Creature> {
         this.attackDistance = ATTACK_DISTANCE;
         this.attackPower = INIT_ATTACK_POWER;
         this.sharpshooting = INIT_SHARPSHOOTING;
-        this.shotRandom = new Random();
+        this.random = new Random();
+        this.availableTrapCount = 3;
     }
 
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
         List<Creature> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
         if (targets.isEmpty()) {
+            Coordinates trapCoordinates = this.coordinates;
+            putTrap(trapCoordinates, worldMap);
             makeRandomStep(worldMap, pathFinder);
             return;
         }
@@ -59,8 +64,32 @@ public class Huntsman extends Human implements Hunter<Creature> {
         }
 
         if (!madeShot) {
+            Coordinates trapCoordinates = this.coordinates;
+            putTrap(trapCoordinates, worldMap);
             makeRandomStep(worldMap, pathFinder);
         }
+    }
+
+    private void putTrap(Coordinates coordinates, WorldMap worldMap) {
+        if (hasTrapNear(worldMap) || availableTrapCount == 0) {
+            return;
+        }
+        Trap trap = new Trap(coordinates, this);
+        worldMap.addEntity(trap);
+        availableTrapCount--;
+    }
+
+    private boolean hasTrapNear(WorldMap worldMap) {
+        List<Entity> entities = worldMap.getAllEntities();
+        for (Entity entity : entities) {
+            if (entity instanceof Trap trap) {
+                int distance = calculateApproximateDistance(this.coordinates, trap.getCoordinates());
+                if (distance <= 3) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private List<Creature> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
@@ -109,7 +138,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
     }
 
     private boolean shoot() {
-        int successShotBound = shotRandom.nextInt(MAX_SHARPSHOOTING + 1);
+        int successShotBound = random.nextInt(MAX_SHARPSHOOTING + 1);
         return successShotBound <= sharpshooting;
     }
 
@@ -126,5 +155,9 @@ public class Huntsman extends Human implements Hunter<Creature> {
     @Override
     public int getDamage() {
         return attackPower;
+    }
+
+    public void increaseAvailableTrapCount() {
+        this.availableTrapCount++;
     }
 }

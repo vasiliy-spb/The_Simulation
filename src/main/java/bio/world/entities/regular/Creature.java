@@ -2,6 +2,7 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -15,6 +16,7 @@ public abstract class Creature extends Entity {
     protected int countMoveWithoutFood;
     protected int hungerBorder;
     private boolean isShotted = false;
+    protected boolean captured;
     protected final Comparator<Entity> priorityTargetComparator;
 
     public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
@@ -25,6 +27,7 @@ public abstract class Creature extends Entity {
         this.attackPower = attackPower;
         this.countMoveWithoutFood = countMoveWithoutFood;
         this.hungerBorder = hungerBorder;
+        this.captured = false;
         this.priorityTargetComparator = (t1, t2) ->
                 calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
                         calculateApproximateDistance(this.coordinates, t2.getCoordinates());
@@ -33,6 +36,9 @@ public abstract class Creature extends Entity {
     abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
 
     protected void checkHealth() {
+        if (captured) {
+            this.healthPoint -= 2;
+        }
         if (isHungry()) {
             this.healthPoint--;
         }
@@ -84,10 +90,30 @@ public abstract class Creature extends Entity {
         }
 
         Coordinates nextCoordinates = nextCoordinatesContainer.get();
+
+        if (worldMap.areBusy(nextCoordinates)) {
+            Entity entity = worldMap.getEntityByCoordinates(nextCoordinates);
+            if (entity instanceof Trap trap) {
+                trap.capture(this);
+                this.captured = true;
+                return;
+            }
+        }
+
         moveTo(nextCoordinates, worldMap);
     }
 
     protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
+        if (worldMap.areBusy(nextCoordinates)) {
+            Entity entity = worldMap.getEntityByCoordinates(nextCoordinates);
+            if (entity instanceof Trap trap) {
+                trap.capture(this);
+                this.captured = true;
+                worldMap.removeEntity(this);
+                worldMap.addEntity(trap);
+                return;
+            }
+        }
         worldMap.moveEntity(this.coordinates, nextCoordinates);
         this.setCoordinates(nextCoordinates);
     }

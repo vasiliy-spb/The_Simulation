@@ -37,7 +37,9 @@ public abstract class Human extends Entity {
     }
 
     private void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
-        worldMap.moveEntity(this.coordinates, nextCoordinates);
+//        worldMap.moveEntity(this.coordinates, nextCoordinates);
+        worldMap.removeEntity(this);
         this.setCoordinates(nextCoordinates);
+        worldMap.addEntity(this);
     }
 }
