@@ -16,7 +16,8 @@ public class MainMenu extends AbstractMenu {
         return switch (selectedMenuItem) {
             case 1 -> MenuItems.REPEAT;
             case 2 -> MenuItems.CHANGE_INITIAL_PARAMETERS;
-            case 3 -> MenuItems.EXIT;
+            case 3 -> MenuItems.PLAY_RANDOM;
+            case 4 -> MenuItems.EXIT;
             default -> throw new IllegalStateException("Unexpected value: " + selectedMenuItem);
         };
     }

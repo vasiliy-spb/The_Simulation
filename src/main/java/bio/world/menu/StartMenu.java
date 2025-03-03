@@ -14,8 +14,9 @@ public class StartMenu extends AbstractMenu {
         int selectedMenuItem = integerDialog.input();
 
         return switch (selectedMenuItem) {
-            case 1 -> MenuItems.PLAY;
-            case 2 -> MenuItems.EXIT;
+            case 1 -> MenuItems.PLAY_CUSTOM;
+            case 2 -> MenuItems.PLAY_RANDOM;
+            case 3 -> MenuItems.EXIT;
             default -> throw new IllegalStateException("Unexpected value: " + selectedMenuItem);
         };
     }
