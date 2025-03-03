@@ -1,7 +1,7 @@
 package bio.world;
 
 import bio.world.factories.MenuFactory;
-import bio.world.factories.ParamsFactory;
+import bio.world.factories.InitParamsFactory;
 import bio.world.factories.WorldMapFactory;
 import bio.world.map.WorldMap;
 import bio.world.menu.MainMenu;
@@ -40,10 +40,11 @@ public class Main {
     }
 
     private static void generateRandomParams(InitParamsHandler initParamsHandler) {
-        ParamsFactory paramsFactory = new ParamsFactory();
-        InitParams initParams = paramsFactory.generateRandomParams();
-        initParamsHandler.saveInitParams(initParams);
+        InitParamsFactory initParamsFactory = new InitParamsFactory();
+        InitParams initParams = initParamsFactory.generateRandomParams();
         WorldMap worldMap = WorldMapFactory.createWorldMap(initParams);
+
+        initParamsHandler.saveInitParams(initParams);
         initParamsHandler.saveEntityPosition(worldMap);
     }
 

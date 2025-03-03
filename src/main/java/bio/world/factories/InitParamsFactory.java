@@ -4,11 +4,11 @@ import bio.world.simulation.init.InitParams;
 
 import java.util.Random;
 
-public class ParamsFactory {
+public class InitParamsFactory {
     private final Random random;
     private static final int MIN_NUMBER_OF_ENTITY = 1;
 
-    public ParamsFactory() {
+    public InitParamsFactory() {
         this.random = new Random();
     }
 
