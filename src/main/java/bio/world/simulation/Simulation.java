@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class Simulation {
-    private WorldMap worldMap;
     private final TickCounter tickCounter;
     private final WorldMapRender worldMapRender;
     private final List<Action> initActionList;
     private final List<Action> turnActionList;
     private final PauseHandler pauseHandler;
-    private int movesDelay;
     private final InitParamsHandler initParamsHandler;
+    private int movesDelay;
+    private WorldMap worldMap;
 
     public Simulation(InitParamsHandler initParamsHandler) {
         this.initParamsHandler = initParamsHandler;

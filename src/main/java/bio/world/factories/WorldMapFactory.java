@@ -1,10 +1,19 @@
 package bio.world.factories;
 
+import bio.world.entities.Coordinates;
+import bio.world.entities.Entity;
+import bio.world.entities.regular.Grass;
+import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Huntsman;
+import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.Rock;
+import bio.world.entities.statical.Tree;
 import bio.world.map.WorldMap;
 import bio.world.simulation.init.InitParams;
 import bio.world.dialogs.Dialog;
 import bio.world.dialogs.IntegerMinMaxDialog;
 
+import java.util.Map;
 import java.util.Random;
 
 public class WorldMapFactory {
@@ -12,13 +21,14 @@ public class WorldMapFactory {
     private static final int MAX_HEIGHT = 35;
     private static final int MIN_WIDTH = 5;
     private static final int MAX_WIDTH = 50;
-
-    public static WorldMap getRandomWorldMap() {
-        Random random = new Random();
-        int height = random.nextInt(3, 10);
-        int width = random.nextInt(3, 10);
-        return new WorldMap(height, width);
-    }
+    private static final Map<Class<? extends Entity>, EntityFactory<? extends Entity>> factories = Map.of(
+            Grass.class, new GrassFactory(),
+            Rock.class, new RockFactory(),
+            Tree.class, new TreeFactory(),
+            Herbivore.class, new HerbivoreFactory(),
+            Predator.class, new PredatorFactory(),
+            Huntsman.class, new HuntsmanFactory()
+    );
 
     public static WorldMap getInstance(int height, int width) {
         return new WorldMap(height, width);
@@ -45,5 +55,47 @@ public class WorldMapFactory {
         int height = initParams.height();
         int width = initParams.width();
         return getInstance(height, width);
+    }
+
+    public static WorldMap createWorldMap(InitParams initParams) {
+        WorldMap worldMap = getInstance(initParams.height(), initParams.width());
+        putEntities(worldMap, initParams);
+        return worldMap;
+    }
+
+    private static void putEntities(WorldMap worldMap, InitParams initParams) {
+        int countTrees = initParams.countTrees();
+        putEntitiesOfType(Tree.class, countTrees, worldMap);
+        int countRocks = initParams.countRocks();
+        putEntitiesOfType(Rock.class, countRocks, worldMap);
+        int countGrasses = initParams.countGrasses();
+        putEntitiesOfType(Grass.class, countGrasses, worldMap);
+        int countHerbivores = initParams.countHerbivores();
+        putEntitiesOfType(Herbivore.class, countHerbivores, worldMap);
+        int countPredators = initParams.countPredators();
+        putEntitiesOfType(Predator.class, countPredators, worldMap);
+        int countHuntsmen = initParams.countHuntsmen();
+        putEntitiesOfType(Huntsman.class, countHuntsmen, worldMap);
+    }
+
+    private static <T extends Entity> void putEntitiesOfType(Class<T> type, int count, WorldMap worldMap) {
+        while (count-- > 0) {
+            Coordinates coordinates = createValidRandomCoordinates(worldMap);
+            Entity entity = factories.get(type).createInstanceBy(coordinates);
+            worldMap.addEntity(entity);
+        }
+    }
+
+    private static Coordinates createValidRandomCoordinates(WorldMap worldMap) {
+        int height = worldMap.getHeight();
+        int width = worldMap.getWidth();
+        Random random = new Random();
+        Coordinates coordinates;
+        do {
+            int row = random.nextInt(height);
+            int column = random.nextInt(width);
+            coordinates = new Coordinates(row, column);
+        } while (worldMap.areBusy(coordinates));
+        return coordinates;
     }
 }
