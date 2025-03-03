@@ -18,6 +18,7 @@ public abstract class Creature extends Entity {
     private boolean isShotted = false;
     protected boolean captured;
     protected final Comparator<Entity> priorityTargetComparator;
+    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
 
     public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
         super(coordinates);

@@ -13,12 +13,13 @@ public class MenuFactory {
                 """;
         String startSelectMessage = """
                 Выберите пункт меню:
-                1 — Играть
-                2 — Выйти
+                1 — Играть со своими параметрами
+                2 — Играть со случайными параметрами
+                3 — Выйти
                 """;
         String startErrorMessage = "Неправильный ввод.";
         int minStartMenuItem = 1;
-        int maxStartMenuItem = 2;
+        int maxStartMenuItem = 3;
 
         StartMenu startMenu = new StartMenu(startTitleMessage, startSelectMessage, startErrorMessage, minStartMenuItem, maxStartMenuItem);
         return startMenu;
@@ -29,12 +30,13 @@ public class MenuFactory {
         String mainSelectMessage = """
                 Выберите пункт меню:
                 1 — Перезапустить симуляцию
-                2 — Играть заново
-                3 — Выйти
+                2 — Играть заново со своими параметрами
+                3 — Играть заново со случайными параметрами
+                4 — Выйти
                 """;
         String mainErrorMessage = "Неправильный ввод.";
         int minMainMenuItem = 1;
-        int maxMainMenuItem = 3;
+        int maxMainMenuItem = 4;
 
         MainMenu mainMenu = new MainMenu(mainTitleMessage, mainSelectMessage, mainErrorMessage, minMainMenuItem, maxMainMenuItem);
         return mainMenu;
