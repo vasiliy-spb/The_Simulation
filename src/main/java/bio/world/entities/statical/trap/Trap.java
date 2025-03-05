@@ -13,11 +13,11 @@ public class Trap extends StaticEntity {
     public Trap(Coordinates coordinates, Huntsman owner) {
         super(coordinates);
         this.owner = owner;
-        this.trapStatus = new TrapStatusEmpty();
+        this.trapStatus = new EmptyTrapStatus();
     }
 
     public void capture(Creature creature) {
-        this.trapStatus = new TrapStatusCaught(creature);
+        this.trapStatus = new CaughtTrapStatus(creature);
     }
 
     public boolean hasCapturedCreature() {

@@ -4,7 +4,7 @@ import bio.world.entities.regular.Creature;
 
 import java.util.Optional;
 
-public class TrapStatusEmpty implements TrapStatus {
+public class EmptyTrapStatus implements TrapStatus {
     @Override
     public void capture(Creature creature) {
     }

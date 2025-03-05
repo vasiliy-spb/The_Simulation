@@ -4,10 +4,10 @@ import bio.world.entities.regular.Creature;
 
 import java.util.Optional;
 
-public class TrapStatusCaught implements TrapStatus {
+public class CaughtTrapStatus implements TrapStatus {
     private Creature capturedCreature;
 
-    public TrapStatusCaught(Creature creature) {
+    public CaughtTrapStatus(Creature creature) {
         this.capturedCreature = creature;
     }
 
