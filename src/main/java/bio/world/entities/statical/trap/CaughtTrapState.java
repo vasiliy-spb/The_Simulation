@@ -4,18 +4,25 @@ import bio.world.entities.regular.Creature;
 
 import java.util.Optional;
 
-public class EmptyTrapStatus implements TrapStatus {
+public class CaughtTrapState implements TrapState {
+    private Creature capturedCreature;
+
+    public CaughtTrapState(Creature creature) {
+        this.capturedCreature = creature;
+    }
+
     @Override
     public void capture(Creature creature) {
+        this.capturedCreature = creature;
     }
 
     @Override
     public boolean hasCapturedCreature() {
-        return false;
+        return true;
     }
 
     @Override
     public Optional<Creature> getCapturedCreature() {
-        return Optional.empty();
+        return Optional.of(capturedCreature);
     }
 }

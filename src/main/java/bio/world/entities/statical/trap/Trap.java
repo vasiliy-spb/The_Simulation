@@ -8,24 +8,24 @@ import bio.world.entities.statical.StaticEntity;
 import java.util.Optional;
 
 public class Trap extends StaticEntity {
-    private TrapStatus trapStatus;
+    private TrapState trapState;
     private final Huntsman owner;
     public Trap(Coordinates coordinates, Huntsman owner) {
         super(coordinates);
         this.owner = owner;
-        this.trapStatus = new EmptyTrapStatus();
+        this.trapState = new EmptyTrapState();
     }
 
     public void capture(Creature creature) {
-        this.trapStatus = new CaughtTrapStatus(creature);
+        this.trapState = new CaughtTrapState(creature);
     }
 
     public boolean hasCapturedCreature() {
-        return trapStatus.hasCapturedCreature();
+        return trapState.hasCapturedCreature();
     }
 
     public Optional<Creature> getCapturedCreature() {
-        return trapStatus.getCapturedCreature();
+        return trapState.getCapturedCreature();
     }
 
     public Huntsman getOwner() {

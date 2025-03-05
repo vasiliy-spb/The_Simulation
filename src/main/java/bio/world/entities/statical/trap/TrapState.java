@@ -4,7 +4,7 @@ import bio.world.entities.regular.Creature;
 
 import java.util.Optional;
 
-public interface TrapStatus {
+public interface TrapState {
     void capture(Creature creature);
 
     boolean hasCapturedCreature();
