@@ -23,17 +23,17 @@ public class InitParamsFactory {
         int availableCountStaticEntities = availableCountEntities / 2;
         int minSummaryCountOfOtherEntities = 5;
 
-        int countTrees = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities);
+        int countTrees = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities - minSummaryCountOfOtherEntities);
         availableCountEntities -= countTrees;
         availableCountStaticEntities -= countTrees;
         minSummaryCountOfOtherEntities--;
 
-        int countRocks = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities);
+        int countRocks = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities - minSummaryCountOfOtherEntities);
         availableCountEntities -= countRocks;
         availableCountStaticEntities -= countRocks;
         minSummaryCountOfOtherEntities--;
 
-        int countGrasses = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities);
+        int countGrasses = generateRandomInt(MIN_NUMBER_OF_ENTITY, availableCountStaticEntities - minSummaryCountOfOtherEntities);
         availableCountEntities -= countGrasses;
         minSummaryCountOfOtherEntities--;
 
