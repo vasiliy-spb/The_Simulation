@@ -16,6 +16,8 @@ public class Huntsman extends Human implements Hunter<Creature> {
     private static final int INIT_SHARPSHOOTING = 50;
     private static final int MIN_SHARPSHOOTING = 20;
     private static final int MAX_SHARPSHOOTING = 100;
+    private static final int MIN_TRAP_DISTANCE = 3;
+    private static final int INIT_TRAP_COUNT = 3;
     private final Random random;
     private static final HuntsmenScope HUNTSMEN_SCOPE = new HuntsmenScope();
     private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class, Predator.class);
@@ -42,7 +44,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
         this.attackPower = INIT_ATTACK_POWER;
         this.sharpshooting = INIT_SHARPSHOOTING;
         this.random = new Random();
-        this.availableTrapCount = 3;
+        this.availableTrapCount = INIT_TRAP_COUNT;
     }
 
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
@@ -84,7 +86,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
         for (Entity entity : entities) {
             if (entity instanceof Trap trap) {
                 int distance = calculateApproximateDistance(this.coordinates, trap.getCoordinates());
-                if (distance <= 3) {
+                if (distance <= MIN_TRAP_DISTANCE) {
                     return true;
                 }
             }
@@ -129,7 +131,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
 
     @Override
     public void attack(Creature prey) {
-        if (!shoot()) {
+        if (!wasShotSuccessful()) {
             decreaseSharpshooting();
             return;
         }
@@ -137,7 +139,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
         prey.die();
     }
 
-    private boolean shoot() {
+    private boolean wasShotSuccessful() {
         int successShotBound = random.nextInt(MAX_SHARPSHOOTING + 1);
         return successShotBound <= sharpshooting;
     }

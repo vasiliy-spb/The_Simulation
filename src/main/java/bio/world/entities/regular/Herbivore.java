@@ -40,19 +40,7 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<He
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        if (wasShot()) {
-            return;
-        }
-
-        checkHealth();
-        updateSatiety();
-
-        if (!isAlive()) {
-            worldMap.removeEntity(this);
-            return;
-        }
-
-        if (captured) {
+        if (!canMakeStep(worldMap)) {
             return;
         }
 
@@ -94,6 +82,22 @@ public class Herbivore extends Creature implements Hunter<Grass>, Prey<Hunter<He
         } else {
             moveTo(nextCoordinates, worldMap);
         }
+    }
+
+    private boolean canMakeStep(WorldMap worldMap) {
+        if (wasShot()) {
+            return false;
+        }
+
+        checkHealth();
+        updateSatiety();
+
+        if (!isAlive()) {
+            worldMap.removeEntity(this);
+            return false;
+        }
+
+        return !captured;
     }
 
     @Override

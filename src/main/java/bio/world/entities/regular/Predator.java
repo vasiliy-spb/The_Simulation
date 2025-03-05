@@ -31,25 +31,16 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
         return NOT_OBSTACLES_TYPES_FOR_FINDER.contains(e.getClass());
     };
+    private int satiety;
 
     public Predator(Coordinates coordinates) {
         super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD, HUNGER_BORDER);
+        this.satiety = this.healthPoint;
     }
 
     @Override
     public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
-        if (wasShot()) {
-            return;
-        }
-
-        checkHealth();
-
-        if (!isAlive()) {
-            worldMap.removeEntity(this);
-            return;
-        }
-
-        if (captured) {
+        if (!canMakeStep(worldMap)) {
             return;
         }
 
@@ -95,6 +86,22 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
     }
 
+    private boolean canMakeStep(WorldMap worldMap) {
+        if (wasShot()) {
+            return false;
+        }
+
+        checkHealth();
+        updateSatiety();
+
+        if (!isAlive()) {
+            worldMap.removeEntity(this);
+            return false;
+        }
+
+        return !captured;
+    }
+
     @Override
     public void attack(Herbivore herbivore) {
         int satiety = Math.min(herbivore.getSatiety(), this.attackPower);
@@ -107,9 +114,13 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         return attackPower;
     }
 
+    private void updateSatiety() {
+        satiety = healthPoint;
+    }
+
     @Override
     public int getSatiety() {
-        return 0;
+        return satiety;
     }
 
     @Override
