@@ -143,11 +143,20 @@ public class TestSimulation {
         }
     }
 
-    public void start(int countEntity) {
-        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
+    public void start(int moveCount) {
+        Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, 0);
         initActionList.add(createFixedCountEntityAction);
+        Action removeTemporaryEntityAction = new RemoveTemporaryEntityAction(worldMap, tickCounter);
         Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
+        Action createFlashAction = new CreateFlashAction(worldMap, tickCounter);
+        Action growGrassAction = new GrassGrowingAction(worldMap, tickCounter);
+        Action removeTrapAction = new RemoveTrapAction(worldMap);
+
+        turnActionList.add(removeTemporaryEntityAction);
         turnActionList.add(makeMoveAction);
+        turnActionList.add(createFlashAction);
+        turnActionList.add(growGrassAction);
+        turnActionList.add(removeTrapAction);
 
         for (Action action : initActionList) {
             action.perform();
@@ -156,14 +165,14 @@ public class TestSimulation {
 
         System.out.println();
 
-        int moveCount = 20;
+//        int moveCount = 20;
         while (tickCounter.getCurrentTick() < moveCount) {
             System.out.printf("[move: %d]\n", tickCounter.getCurrentTick());
             for (Action action : turnActionList) {
                 action.perform();
-                worldMapRender.renderMap();
-                System.out.println();
             }
+            worldMapRender.renderMap();
+            System.out.println();
             tickCounter.next();
         }
     }

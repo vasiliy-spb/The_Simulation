@@ -55,7 +55,7 @@ public class HuntsmanTests {
 
     @Test
     @DisplayName("The huntsman tramples the grass when make random move")
-    public void checkTestcase19() {
+    public void checkTestcase02() {
         String worldMapTemplate = "src/test/java/bio/world/entities/templates/template22.txt";
         TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
         int moveCount = 2;
@@ -69,5 +69,41 @@ public class HuntsmanTests {
         boolean huntsmanMoved = !huntsmanStartCoordinates.equals(huntsmanFinishCoordinates);
 
         assertTrue(huntsmanMoved);
+    }
+
+    @Test
+    @DisplayName("The huntsman cannot moves 1")
+    public void checkTestcase03() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template31.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 22;
+        Coordinates huntsmanStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(huntsmanStartCoordinates);
+        Huntsman huntsman = (Huntsman) entityContainer.get();
+
+        testSimulation.start(moveCount);
+
+        Coordinates huntsmanFinishCoordinates = huntsman.getCoordinates();
+        boolean huntsmanDoesNotMoved = huntsmanStartCoordinates.equals(huntsmanFinishCoordinates);
+
+        assertTrue(huntsmanDoesNotMoved);
+    }
+
+    @Test
+    @DisplayName("The huntsman cannot moves 2")
+    public void checkTestcase04() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template32.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 22;
+        Coordinates huntsmanStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(huntsmanStartCoordinates);
+        Huntsman huntsman = (Huntsman) entityContainer.get();
+
+        testSimulation.start(moveCount);
+
+        Coordinates huntsmanFinishCoordinates = huntsman.getCoordinates();
+        boolean huntsmanDoesNotMoved = huntsmanStartCoordinates.equals(huntsmanFinishCoordinates);
+
+        assertTrue(huntsmanDoesNotMoved);
     }
 }
