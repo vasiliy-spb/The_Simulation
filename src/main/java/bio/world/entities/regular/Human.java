@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 
 public abstract class Human extends Entity {
     private static final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
-    private static final Predicate<Entity> NOT_OBSTACLES_FOR_MOVE_CHECKER = e -> {
+    protected static final Predicate<Entity> NOT_OBSTACLES_FOR_MOVE_CHECKER = e -> {
         if (e instanceof Trap trap) {
             return !trap.hasCapturedCreature();
         }
@@ -35,7 +35,6 @@ public abstract class Human extends Entity {
 
     protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder) {
         Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, NOT_OBSTACLES_FOR_MOVE_CHECKER);
-
         if (nextCoordinatesContainer.isEmpty()) {
             return;
         }
