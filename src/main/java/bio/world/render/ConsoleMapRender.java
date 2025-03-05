@@ -1,10 +1,7 @@
 package bio.world.render;
 
 import bio.world.entities.Coordinates;
-import bio.world.entities.regular.Grass;
-import bio.world.entities.regular.Herbivore;
-import bio.world.entities.regular.Huntsman;
-import bio.world.entities.regular.Predator;
+import bio.world.entities.regular.*;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
 import bio.world.entities.statical.trap.Trap;
@@ -58,8 +55,6 @@ public class ConsoleMapRender implements WorldMapRender {
                 }
 
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
-                prevEntity = entity;
-
                 String picture = getEntityIcon(entity);
                 if (entity instanceof Trap) {
                     worldMapRepresentation.append(picture);
@@ -67,6 +62,7 @@ public class ConsoleMapRender implements WorldMapRender {
                     worldMapRepresentation.append(String.format(" %2s", picture));
                 }
 
+                prevEntity = entity;
             }
             worldMapRepresentation.append("\n");
         }
@@ -78,10 +74,13 @@ public class ConsoleMapRender implements WorldMapRender {
     private String getEntityIcon(Entity entity) {
         if (entity instanceof Trap trap) {
             if (trap.hasCapturedCreature()) {
-                Class<? extends Entity> type = trap.getCapturedCreature().get().getClass();
-                return TRAP_OPEN_ICON + ENTITY_PICTURES.getOrDefault(type, "") + TRAP_CLOSE_ICON;
+                Creature capturedCreature = trap.getCapturedCreature().get();
+                Class<? extends Entity> type = capturedCreature.getClass();
+                String capturedCreaturePicture = ENTITY_PICTURES.getOrDefault(type, "");
+                return TRAP_OPEN_ICON + capturedCreaturePicture + TRAP_CLOSE_ICON;
             }
         }
-        return ENTITY_PICTURES.getOrDefault(entity.getClass(), "");
+        Class<? extends Entity> type = entity.getClass();
+        return ENTITY_PICTURES.getOrDefault(type, "");
     }
 }
