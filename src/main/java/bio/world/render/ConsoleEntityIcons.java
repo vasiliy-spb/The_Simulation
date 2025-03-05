@@ -12,7 +12,8 @@ public class ConsoleEntityIcons {
     public static final String RED_COLOR = "\033[0;31m";
     private static final String RESET_COLOR = "\033[0m";
     public static final String EMPTY_CELL = GREEN_COLOR + " .." + RESET_COLOR;
-    public static final String TRAP_EMPTY = RED_COLOR + "[_]" + RESET_COLOR; // [_]
-    public static final String TRAP_OPEN = RED_COLOR + "[" + RESET_COLOR; // [
-    public static final String TRAP_CLOSE = RED_COLOR + "]" + RESET_COLOR; // ]
+    public static final String EMPTY_CELL_TRIM = GREEN_COLOR + ".." + RESET_COLOR;
+    public static final String TRAP_EMPTY_ICON = RED_COLOR + "[_]" + RESET_COLOR; // [_]
+    public static final String TRAP_OPEN_ICON = RED_COLOR + "[" + RESET_COLOR; // [
+    public static final String TRAP_CLOSE_ICON = RED_COLOR + "]" + RESET_COLOR; // ]
 }

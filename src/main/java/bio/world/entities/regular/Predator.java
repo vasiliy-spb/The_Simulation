@@ -7,6 +7,7 @@ import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter<Predator>> {
     private static final int INIT_HEALTH_POINT = 30;
@@ -15,9 +16,21 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
     private static final int INIT_ATTACK_POWER = 15;
     private static final int INIT_COUNT_WITHOUT_FOOD = 0;
     private static final int HUNGER_BORDER = 5;
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class, Herbivore.class, Trap.class);
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class, Trap.class);
-    private final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class);
+    private static final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_FINDER = Set.of(Grass.class, Herbivore.class, Trap.class);
+    private static final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class, Trap.class);
+    private static final Set<Class<? extends Entity>> TARGET_TYPES = Set.of(Herbivore.class);
+    private static final Predicate<Entity> NOT_OBSTACLES_FOR_MOVE_CHECKER = e -> {
+        if (e instanceof Trap trap) {
+            return !trap.hasCapturedCreature();
+        }
+        return NOT_OBSTACLES_TYPES_FOR_MOVE.contains(e.getClass());
+    };
+    private static final Predicate<Entity> NOT_OBSTACLES_FOR_FINDER_CHECKER = e -> {
+        if (e instanceof Trap trap) {
+            return !trap.hasCapturedCreature();
+        }
+        return NOT_OBSTACLES_TYPES_FOR_FINDER.contains(e.getClass());
+    };
 
     public Predator(Coordinates coordinates) {
         super(coordinates, INIT_HEALTH_POINT, INIT_TURN_FREQUENCY, ATTACK_DISTANCE, INIT_ATTACK_POWER, INIT_COUNT_WITHOUT_FOOD, HUNGER_BORDER);
@@ -41,7 +54,7 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
 
         List<? extends Entity> targets = getTargetsInPriorityOrder(worldMap, TARGET_TYPES);
-        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_TYPES_FOR_FINDER);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, NOT_OBSTACLES_FOR_FINDER_CHECKER);
         Coordinates nextCoordinates = this.coordinates;
         boolean ateInThisMove = false;
 
@@ -76,7 +89,7 @@ public class Predator extends Creature implements Hunter<Herbivore>, Prey<Hunter
         }
 
         if (nextCoordinates.equals(this.coordinates) && !ateInThisMove) {
-            makeRandomStep(worldMap, pathFinder, NOT_OBSTACLES_TYPES_FOR_MOVE);
+            makeRandomStep(worldMap, pathFinder, NOT_OBSTACLES_FOR_MOVE_CHECKER);
         } else {
             moveTo(nextCoordinates, worldMap);
         }

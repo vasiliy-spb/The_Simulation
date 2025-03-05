@@ -41,11 +41,6 @@ public class WorldMap {
         entities.put(entity.getCoordinates(), entity);
     }
 
-    public void moveEntity(Coordinates fromCoordinates, Coordinates toCoordinates) {
-        Entity entity = entities.remove(fromCoordinates);
-        entities.put(toCoordinates, entity);
-    }
-
     public void removeEntity(Entity entity) {
         entities.remove(entity.getCoordinates(), entity);
     }

@@ -7,6 +7,7 @@ import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
 import bio.world.entities.statical.Rock;
 import bio.world.entities.statical.Tree;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.factories.*;
 import bio.world.map.WorldMap;
 import bio.world.entities.*;
@@ -81,6 +82,8 @@ public class WorldMapFactoryForTests {
                     case HERBIVORE_ICON -> entityMap.put(coordinates, new Herbivore(coordinates));
                     case PREDATOR_ICON -> entityMap.put(coordinates, new Predator(coordinates));
                     case HUNTSMEN_ICON -> entityMap.put(coordinates, new Huntsman(coordinates));
+                    case TRAP_EMPTY_ICON -> entityMap.put(coordinates, new Trap(coordinates, new Huntsman(coordinates)));
+                    case "[_]" -> entityMap.put(coordinates, new Trap(coordinates, new Huntsman(coordinates)));
                 }
             }
         }

@@ -2,7 +2,9 @@ package bio.world.entities;
 
 import bio.world.TestSimulation;
 import bio.world.entities.regular.Herbivore;
+import bio.world.entities.regular.Huntsman;
 import bio.world.entities.regular.Predator;
+import bio.world.entities.statical.trap.Trap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -298,12 +300,104 @@ public class PredatorsTests {
         Coordinates predatorStartCoordinates = new Coordinates(2, 2);
         Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
         Predator predator = (Predator) entityContainer.get();
-        
+
         testSimulation.startWithMoveCount(moveCount);
 
         Coordinates predatorFinishCoordinates = predator.getCoordinates();
         boolean predatorMoved = !predatorStartCoordinates.equals(predatorFinishCoordinates);
 
         assertTrue(predatorMoved);
+    }
+
+    @Test
+    @DisplayName("Predator falls into a trap")
+    public void checkTestcase20() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template25.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 12;
+        Coordinates predatorStartCoordinates = new Coordinates(0, 6);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+
+        testSimulation.startWithMoveCount(moveCount);
+
+        Coordinates predatorFinishCoordinates = predator.getCoordinates();
+        Coordinates predatorExpectedCoordinates = new Coordinates(0, 7);
+        boolean predatorFallsIntoTrap = predatorFinishCoordinates.equals(predatorExpectedCoordinates);
+
+        assertTrue(predatorFallsIntoTrap);
+    }
+
+    @Test
+    @DisplayName("A predator cannot find a target through another predator who fell into a trap")
+    public void checkTestcase21() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template26.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 30;
+        Coordinates predatorStartCoordinates = new Coordinates(0, 3);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+
+        testSimulation.startWithMoveCount(moveCount);
+
+        Coordinates predatorFinishCoordinates = predator.getCoordinates();
+        boolean predatorDidNotPassTrap = predatorFinishCoordinates.column() < 7;
+
+        assertTrue(predatorDidNotPassTrap);
+    }
+
+    @Test
+    @DisplayName("A predator find a target when the trap disappears")
+    public void checkTestcase22() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template27.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 55;
+        Coordinates predatorStartCoordinates = new Coordinates(0, 5);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(predatorStartCoordinates);
+        Predator predator = (Predator) entityContainer.get();
+
+        testSimulation.startWithMoveCount(moveCount);
+
+        Coordinates predatorFinishCoordinates = predator.getCoordinates();
+        boolean predatorFoundTarget = predatorFinishCoordinates.column() > 7;
+
+        assertTrue(predatorFoundTarget);
+    }
+
+    @Test
+    @DisplayName("A predator find a target bypassing busy trap")
+    public void checkTestcase23() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template29.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 52;
+
+        Coordinates herbivoresCoordinates = new Coordinates(0, 10);
+        Optional<Entity> herbivoreContainer = testSimulation.getEntityByCoordinates(herbivoresCoordinates);
+        Herbivore herbivore = (Herbivore) herbivoreContainer.get();
+
+        testSimulation.startPredatorsOnly(moveCount);
+
+        assertFalse(herbivore.isAlive());
+    }
+
+    @Test
+    @DisplayName("A predator find a target bypassing busy trap")
+    public void checkTestcase24() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template30.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 52;
+
+        Trap trap = new Trap(new Coordinates(0, 7), new Huntsman(new Coordinates(-1, -1)));
+        Predator predator = new Predator(new Coordinates(0, 7));
+        trap.capture(predator);
+        testSimulation.addEntity(trap);
+
+        Coordinates herbivoresCoordinates = new Coordinates(0, 10);
+        Optional<Entity> herbivoreContainer = testSimulation.getEntityByCoordinates(herbivoresCoordinates);
+        Herbivore herbivore = (Herbivore) herbivoreContainer.get();
+
+        testSimulation.startPredatorsOnly(moveCount);
+
+        assertFalse(herbivore.isAlive());
     }
 }

@@ -4,6 +4,7 @@ import bio.world.actions.*;
 import bio.world.actions_for_tests.*;
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.map.WorldMap;
 import bio.world.render.ConsoleMapRender;
 import bio.world.render.WorldMapRender;
@@ -67,7 +68,8 @@ public class TestSimulation {
         int countEntity = 0;
         Action createFixedCountEntityAction = new CreateFixedCountEntityAction(worldMap, countEntity);
         initActionList.add(createFixedCountEntityAction);
-        Action makeMoveAction = new HerbivoreFirstMakeMoveWithSpeedAction(worldMap, tickCounter);
+//        Action makeMoveAction = new HerbivoreFirstMakeMoveWithSpeedAction(worldMap, tickCounter);
+        Action makeMoveAction = new MakeMoveAction(worldMap, tickCounter);
         turnActionList.add(makeMoveAction);
 
         for (Action action : initActionList) {
@@ -380,5 +382,9 @@ public class TestSimulation {
             }
             tickCounter.next();
         }
+    }
+
+    public void addEntity(Entity entity) {
+        worldMap.addEntity(entity);
     }
 }

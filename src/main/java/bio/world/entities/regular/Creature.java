@@ -7,6 +7,7 @@ import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public abstract class Creature extends Entity {
     protected int healthPoint;
@@ -18,7 +19,6 @@ public abstract class Creature extends Entity {
     private boolean isShotted = false;
     protected boolean captured;
     protected final Comparator<Entity> priorityTargetComparator;
-    private final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
 
     public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
         super(coordinates);
@@ -67,13 +67,12 @@ public abstract class Creature extends Entity {
         return targets;
     }
 
-    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Set<Class<? extends Entity>> notObstaclesTypes) {
+    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Predicate<Entity> notObstaclesForMoveChecker) {
         List<Entity> entities = worldMap.getAllEntities();
         Set<Coordinates> obstacles = new HashSet<>();
 
         for (Entity entity : entities) {
-
-            if (notObstaclesTypes.contains(entity.getClass())) {
+            if (notObstaclesForMoveChecker.test(entity)) {
                 continue;
             }
 
@@ -83,8 +82,8 @@ public abstract class Creature extends Entity {
         return obstacles;
     }
 
-    protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder, Set<Class<? extends Entity>> notObstaclesTypes) {
-        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, notObstaclesTypes);
+    protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder, Predicate<Entity> notObstaclesForMoveChecker) {
+        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, notObstaclesForMoveChecker);
 
         if (nextCoordinatesContainer.isEmpty()) {
             return;
@@ -97,6 +96,9 @@ public abstract class Creature extends Entity {
             if (entity instanceof Trap trap) {
                 trap.capture(this);
                 this.captured = true;
+                worldMap.removeEntity(this);
+                worldMap.addEntity(trap);
+                this.setCoordinates(nextCoordinates);
                 return;
             }
         }
@@ -112,11 +114,13 @@ public abstract class Creature extends Entity {
                 this.captured = true;
                 worldMap.removeEntity(this);
                 worldMap.addEntity(trap);
+                this.setCoordinates(nextCoordinates);
                 return;
             }
         }
-        worldMap.moveEntity(this.coordinates, nextCoordinates);
+        worldMap.removeEntity(this);
         this.setCoordinates(nextCoordinates);
+        worldMap.addEntity(this);
     }
 
     protected boolean canAttack(Entity entity) {

@@ -5,6 +5,7 @@ import bio.world.entities.Entity;
 import bio.world.map.WorldMap;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class AStarPathFinder implements PathFinder {
     private static final int[][] OFFSETS_TO_NEIGHBOURS = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
@@ -33,25 +34,25 @@ public class AStarPathFinder implements PathFinder {
     }
 
     @Override
-    public Optional<Coordinates> findRandomStepFrom(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
-        if (!isMovePossibleFrom(coordinates, notObstaclesTypes)) {
+    public Optional<Coordinates> findRandomStepFrom(Coordinates coordinates, Predicate<Entity> notObstaclesForMoveChecker) {
+        if (!isMovePossibleFrom(coordinates, notObstaclesForMoveChecker)) {
             return Optional.of(coordinates);
         }
-        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(coordinates, notObstaclesTypes);
+        Coordinates nextCoordinates = generateRandomCoordinatesNextTo(coordinates, notObstaclesForMoveChecker);
         return Optional.of(nextCoordinates);
     }
 
-    private boolean isMovePossibleFrom(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
+    private boolean isMovePossibleFrom(Coordinates coordinates, Predicate<Entity> notObstaclesForMoveChecker) {
         for (int i = 0; i < OFFSETS_TO_NEIGHBOURS.length; i++) {
             Coordinates toCoordinates = createNeighbouringCoordinates(coordinates, i);
-            if (areCoordinatesAvailable(toCoordinates, notObstaclesTypes)) {
+            if (areCoordinatesAvailable(toCoordinates, notObstaclesForMoveChecker)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean areCoordinatesAvailable(Coordinates coordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
+    private boolean areCoordinatesAvailable(Coordinates coordinates, Predicate<Entity> notObstaclesForMoveChecker) {
         boolean coordinatesValid = areCoordinatesValid(coordinates);
         if (!coordinatesValid) {
             return false;
@@ -63,7 +64,7 @@ public class AStarPathFinder implements PathFinder {
         }
 
         Entity entity = worldMap.getEntityByCoordinates(coordinates);
-        return notObstaclesTypes.contains(entity.getClass());
+        return notObstaclesForMoveChecker.test(entity);
     }
 
     private boolean areCoordinatesValid(Coordinates coordinates) {
@@ -81,12 +82,12 @@ public class AStarPathFinder implements PathFinder {
         return new Coordinates(row, column);
     }
 
-    private Coordinates generateRandomCoordinatesNextTo(Coordinates currentCoordinates, Set<Class<? extends Entity>> notObstaclesTypes) {
+    private Coordinates generateRandomCoordinatesNextTo(Coordinates currentCoordinates, Predicate<Entity> notObstaclesForMoveChecker) {
         Coordinates nextCoordinates;
         do {
             int neighboursIndex = getRandomNeighbourIndex();
             nextCoordinates = createNeighbouringCoordinates(currentCoordinates, neighboursIndex);
-        } while (!areCoordinatesAvailable(nextCoordinates, notObstaclesTypes));
+        } while (!areCoordinatesAvailable(nextCoordinates, notObstaclesForMoveChecker));
         return nextCoordinates;
     }
 
@@ -94,6 +95,7 @@ public class AStarPathFinder implements PathFinder {
         return random.nextInt(OFFSETS_TO_NEIGHBOURS.length);
     }
 
+    @Override
     public List<Coordinates> find(Coordinates start, Coordinates target, Set<Coordinates> obstacles) {
         initializeSearch(start, target);
         boolean foundTarget = false;

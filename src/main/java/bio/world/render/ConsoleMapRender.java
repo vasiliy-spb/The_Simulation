@@ -27,7 +27,7 @@ public class ConsoleMapRender implements WorldMapRender {
             Predator.class, PREDATOR_ICON,
             Huntsman.class, HUNTSMEN_ICON,
             Flash.class, FLASH_ICON,
-            Trap.class, TRAP_EMPTY
+            Trap.class, TRAP_EMPTY_ICON
     );
     private final WorldMap worldMap;
 
@@ -43,15 +43,22 @@ public class ConsoleMapRender implements WorldMapRender {
         StringBuilder worldMapRepresentation = new StringBuilder();
 
         for (int i = 0; i < height; i++) {
+            Entity prevEntity = null;
             for (int j = 0; j < width; j++) {
                 Coordinates coordinates = new Coordinates(i, j);
 
                 if (!busyCoordinates.contains(coordinates)) {
-                    worldMapRepresentation.append(EMPTY_CELL);
+                    if (prevEntity instanceof Trap trap && trap.hasCapturedCreature()) {
+                        worldMapRepresentation.append(EMPTY_CELL_TRIM);
+                    } else {
+                        worldMapRepresentation.append(EMPTY_CELL);
+                    }
+                    prevEntity = null;
                     continue;
                 }
 
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
+                prevEntity = entity;
 
                 String picture = getEntityIcon(entity);
                 if (entity instanceof Trap) {
@@ -71,7 +78,8 @@ public class ConsoleMapRender implements WorldMapRender {
     private String getEntityIcon(Entity entity) {
         if (entity instanceof Trap trap) {
             if (trap.hasCapturedCreature()) {
-                return TRAP_OPEN + ENTITY_PICTURES.getOrDefault(entity.getClass(), "") + TRAP_CLOSE;
+                Class<? extends Entity> type = trap.getCapturedCreature().get().getClass();
+                return TRAP_OPEN_ICON + ENTITY_PICTURES.getOrDefault(type, "") + TRAP_CLOSE_ICON;
             }
         }
         return ENTITY_PICTURES.getOrDefault(entity.getClass(), "");
