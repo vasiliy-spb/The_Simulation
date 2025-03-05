@@ -2,6 +2,7 @@ package bio.world.simulation;
 
 import bio.world.entities.Entity;
 import bio.world.entities.regular.Creature;
+import bio.world.entities.statical.trap.Trap;
 import bio.world.simulation.init.InitParams;
 import bio.world.simulation.init.InitParamsHandler;
 import bio.world.map.WorldMap;
@@ -137,6 +138,9 @@ public class Simulation {
         List<Entity> entities = worldMap.getAllEntities();
         for (Entity entity : entities) {
             if (entity instanceof Creature) {
+                return false;
+            }
+            if (entity instanceof Trap trap && trap.hasCapturedCreature()) {
                 return false;
             }
         }
