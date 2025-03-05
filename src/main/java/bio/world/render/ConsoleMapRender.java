@@ -56,7 +56,7 @@ public class ConsoleMapRender implements WorldMapRender {
 
                 Entity entity = worldMap.getEntityByCoordinates(coordinates);
                 String picture = getEntityIcon(entity);
-                if (entity instanceof Trap) {
+                if (entity instanceof Trap || prevEntity instanceof Trap trap && trap.hasCapturedCreature()) {
                     worldMapRepresentation.append(picture);
                 } else {
                     worldMapRepresentation.append(String.format(" %2s", picture));
