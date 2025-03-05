@@ -11,16 +11,24 @@ import java.util.function.Predicate;
 
 public abstract class Creature extends Entity {
     protected int healthPoint;
-    protected int turnFrequency;
-    protected int attackDistance;
     protected int attackPower;
     protected int countMoveWithoutFood;
-    protected int hungerBorder;
+    protected int satiety;
+    private final int turnFrequency;
+    private final int attackDistance;
+    private final int hungerBorder;
+    private final Comparator<Entity> priorityTargetComparator;
+    private final Set<Class<? extends Entity>> targetTypes;
+    private final Predicate<Entity> notObstaclesForFinderChecker;
+    private final Predicate<Entity> notObstaclesForMoveChecker;
     private boolean isShotted = false;
-    protected boolean captured;
-    protected final Comparator<Entity> priorityTargetComparator;
+    private boolean captured = false;
 
-    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency, int attackDistance, int attackPower, int countMoveWithoutFood, int hungerBorder) {
+    public Creature(Coordinates coordinates, int healthPoint, int turnFrequency,
+                    int attackDistance, int attackPower, int countMoveWithoutFood,
+                    int hungerBorder, Set<Class<? extends Entity>> targetTypes,
+                    Predicate<Entity> notObstaclesForFinderChecker,
+                    Predicate<Entity> notObstaclesForMoveChecker) {
         super(coordinates);
         this.healthPoint = healthPoint;
         this.turnFrequency = turnFrequency;
@@ -28,15 +36,54 @@ public abstract class Creature extends Entity {
         this.attackPower = attackPower;
         this.countMoveWithoutFood = countMoveWithoutFood;
         this.hungerBorder = hungerBorder;
-        this.captured = false;
         this.priorityTargetComparator = (t1, t2) ->
                 calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
                         calculateApproximateDistance(this.coordinates, t2.getCoordinates());
+        this.satiety = this.healthPoint;
+        this.targetTypes = targetTypes;
+        this.notObstaclesForFinderChecker = notObstaclesForFinderChecker;
+        this.notObstaclesForMoveChecker = notObstaclesForMoveChecker;
     }
 
-    abstract public void makeMove(WorldMap worldMap, PathFinder pathFinder);
+    public void makeMove(WorldMap worldMap, PathFinder pathFinder) {
+        if (!canMakeStep(worldMap)) {
+            return;
+        }
 
-    protected void checkHealth() {
+        List<? extends Entity> targets = getTargetsInPriorityOrder(worldMap, targetTypes);
+        Set<Coordinates> obstacles = getObstaclesCoordinates(worldMap, notObstaclesForFinderChecker);
+        List<Coordinates> pathToNearestTarget = findPathToNearestTarget(targets, pathFinder, obstacles);
+
+        if (!pathToNearestTarget.isEmpty()) {
+            processAttack(pathToNearestTarget, worldMap);
+            return;
+        }
+
+        countMoveWithoutFood++;
+        makeRandomStep(worldMap, pathFinder, notObstaclesForMoveChecker);
+    }
+
+    private boolean canMakeStep(WorldMap worldMap) {
+        if (wasShot()) {
+            return false;
+        }
+
+        checkHealth();
+        updateSatiety();
+
+        if (!isAlive()) {
+            worldMap.removeEntity(this);
+            return false;
+        }
+
+        return !captured;
+    }
+
+    public boolean wasShot() {
+        return isShotted;
+    }
+
+    private void checkHealth() {
         if (captured) {
             this.healthPoint -= 2;
         }
@@ -49,11 +96,15 @@ public abstract class Creature extends Entity {
         return countMoveWithoutFood >= this.hungerBorder;
     }
 
+    protected void updateSatiety() {
+        satiety = healthPoint;
+    }
+
     public boolean isAlive() {
         return this.healthPoint > 0;
     }
 
-    protected List<? extends Entity> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
+    private List<? extends Entity> getTargetsInPriorityOrder(WorldMap worldMap, Set<Class<? extends Entity>> targetTypes) {
         List<Entity> entities = worldMap.getAllEntities();
         List<Entity> targets = new ArrayList<>();
 
@@ -67,7 +118,7 @@ public abstract class Creature extends Entity {
         return targets;
     }
 
-    protected Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Predicate<Entity> notObstaclesForMoveChecker) {
+    private Set<Coordinates> getObstaclesCoordinates(WorldMap worldMap, Predicate<Entity> notObstaclesForMoveChecker) {
         List<Entity> entities = worldMap.getAllEntities();
         Set<Coordinates> obstacles = new HashSet<>();
 
@@ -82,9 +133,22 @@ public abstract class Creature extends Entity {
         return obstacles;
     }
 
-    protected void makeRandomStep(WorldMap worldMap, PathFinder pathFinder, Predicate<Entity> notObstaclesForMoveChecker) {
-        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, notObstaclesForMoveChecker);
+    private List<Coordinates> findPathToNearestTarget(List<? extends Entity> targets, PathFinder pathFinder, Set<Coordinates> obstacles) {
+        for (Entity target : targets) {
+            List<Coordinates> pathToTarget = pathFinder.find(this.coordinates, target.getCoordinates(), obstacles);
+            if (pathToTarget.isEmpty()) {
+                continue;
+            }
 
+            return pathToTarget;
+        }
+        return new ArrayList<>();
+    }
+
+    abstract protected void processAttack(List<Coordinates> pathToTarget, WorldMap worldMap);
+
+    private void makeRandomStep(WorldMap worldMap, PathFinder pathFinder, Predicate<Entity> notObstaclesForMoveChecker) {
+        Optional<Coordinates> nextCoordinatesContainer = pathFinder.findRandomStepFrom(this.coordinates, notObstaclesForMoveChecker);
         if (nextCoordinatesContainer.isEmpty()) {
             return;
         }
@@ -94,11 +158,7 @@ public abstract class Creature extends Entity {
         if (worldMap.areBusy(nextCoordinates)) {
             Entity entity = worldMap.getEntityByCoordinates(nextCoordinates);
             if (entity instanceof Trap trap) {
-                trap.capture(this);
-                this.captured = true;
-                worldMap.removeEntity(this);
-                worldMap.addEntity(trap);
-                this.setCoordinates(nextCoordinates);
+                fallIntoTrap(trap, worldMap);
                 return;
             }
         }
@@ -106,15 +166,19 @@ public abstract class Creature extends Entity {
         moveTo(nextCoordinates, worldMap);
     }
 
+    private void fallIntoTrap(Trap trap, WorldMap worldMap) {
+        trap.capture(this);
+        this.captured = true;
+        worldMap.removeEntity(this);
+        worldMap.addEntity(trap);
+        this.setCoordinates(trap.getCoordinates());
+    }
+
     protected void moveTo(Coordinates nextCoordinates, WorldMap worldMap) {
         if (worldMap.areBusy(nextCoordinates)) {
             Entity entity = worldMap.getEntityByCoordinates(nextCoordinates);
             if (entity instanceof Trap trap) {
-                trap.capture(this);
-                this.captured = true;
-                worldMap.removeEntity(this);
-                worldMap.addEntity(trap);
-                this.setCoordinates(nextCoordinates);
+                fallIntoTrap(trap, worldMap);
                 return;
             }
         }
@@ -123,18 +187,8 @@ public abstract class Creature extends Entity {
         worldMap.addEntity(this);
     }
 
-    protected boolean canAttack(Entity entity) {
-        int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
-        int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
-        return rowDiff <= attackDistance && columnDiff <= attackDistance;
-    }
-
     public boolean shouldMove(int currentTick) {
         return currentTick % turnFrequency == 0;
-    }
-
-    private int calculateApproximateDistance(Coordinates from, Coordinates target) {
-        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
     }
 
     public void die() {
@@ -142,7 +196,13 @@ public abstract class Creature extends Entity {
         this.healthPoint = 0;
     }
 
-    public boolean wasShot() {
-        return isShotted;
+    protected boolean canAttack(Entity entity) {
+        int rowDiff = Math.abs(this.coordinates.row() - entity.getCoordinates().row());
+        int columnDiff = Math.abs(this.coordinates.column() - entity.getCoordinates().column());
+        return rowDiff <= attackDistance && columnDiff <= attackDistance;
+    }
+
+    private int calculateApproximateDistance(Coordinates from, Coordinates target) {
+        return Math.max(Math.abs(from.row() - target.row()), Math.abs(from.column() - target.column()));
     }
 }
