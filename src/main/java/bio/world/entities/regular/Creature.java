@@ -21,7 +21,7 @@ public abstract class Creature extends Entity {
     private final Set<Class<? extends Entity>> targetTypes;
     private final Predicate<Entity> notObstaclesForFinderChecker;
     private final Predicate<Entity> notObstaclesForMoveChecker;
-    private boolean isShotted = false;
+    private boolean wasShot = false;
     private boolean captured = false;
 
     public Creature(Coordinates coordinates, int healthPoint, int turnFrequency,
@@ -80,7 +80,7 @@ public abstract class Creature extends Entity {
     }
 
     public boolean wasShot() {
-        return isShotted;
+        return wasShot;
     }
 
     private void checkHealth() {
@@ -191,8 +191,8 @@ public abstract class Creature extends Entity {
         return currentTick % turnFrequency == 0;
     }
 
-    public void die() {
-        this.isShotted = true;
+    public void setDead() {
+        this.wasShot = true;
         this.healthPoint = 0;
     }
 

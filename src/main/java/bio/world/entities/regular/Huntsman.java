@@ -136,7 +136,7 @@ public class Huntsman extends Human implements Hunter<Creature> {
             return;
         }
         increaseSharpshooting();
-        prey.die();
+        prey.setDead();
     }
 
     private boolean wasShotSuccessful() {
