@@ -2,7 +2,6 @@ package bio.world.entities.regular;
 
 import bio.world.entities.Coordinates;
 import bio.world.entities.Entity;
-import bio.world.entities.statical.trap.Trap;
 import bio.world.map.WorldMap;
 import bio.world.path_finders.PathFinder;
 
@@ -12,12 +11,7 @@ import java.util.function.Predicate;
 
 public abstract class Human extends Entity {
     private static final Set<Class<? extends Entity>> NOT_OBSTACLES_TYPES_FOR_MOVE = Set.of(Grass.class);
-    protected static final Predicate<Entity> NOT_OBSTACLES_FOR_MOVE_CHECKER = e -> {
-        if (e instanceof Trap trap) {
-            return !trap.hasCapturedCreature();
-        }
-        return NOT_OBSTACLES_TYPES_FOR_MOVE.contains(e.getClass());
-    };
+    protected static final Predicate<Entity> NOT_OBSTACLES_FOR_MOVE_CHECKER = e -> NOT_OBSTACLES_TYPES_FOR_MOVE.contains(e.getClass());
     protected int healthPoint;
     protected int turnFrequency;
 

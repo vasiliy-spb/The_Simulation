@@ -106,4 +106,40 @@ public class HuntsmanTests {
 
         assertTrue(huntsmanDoesNotMoved);
     }
+
+    @Test
+    @DisplayName("The huntsman cannot moves 3")
+    public void checkTestcase05() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template33.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 22;
+        Coordinates huntsmanStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(huntsmanStartCoordinates);
+        Huntsman huntsman = (Huntsman) entityContainer.get();
+
+        testSimulation.start(moveCount);
+
+        Coordinates huntsmanFinishCoordinates = huntsman.getCoordinates();
+        boolean huntsmanDoesNotMoved = huntsmanStartCoordinates.equals(huntsmanFinishCoordinates);
+
+        assertTrue(huntsmanDoesNotMoved);
+    }
+
+    @Test
+    @DisplayName("The huntsman cannot moves 4")
+    public void checkTestcase06() {
+        String worldMapTemplate = "src/test/java/bio/world/entities/templates/template34.txt";
+        TestSimulation testSimulation = new TestSimulation(worldMapTemplate);
+        int moveCount = 22;
+        Coordinates huntsmanStartCoordinates = new Coordinates(2, 2);
+        Optional<Entity> entityContainer = testSimulation.getEntityByCoordinates(huntsmanStartCoordinates);
+        Huntsman huntsman = (Huntsman) entityContainer.get();
+
+        testSimulation.start(moveCount);
+
+        Coordinates huntsmanFinishCoordinates = huntsman.getCoordinates();
+        boolean huntsmanDoesNotMoved = huntsmanStartCoordinates.equals(huntsmanFinishCoordinates);
+
+        assertTrue(huntsmanDoesNotMoved);
+    }
 }
