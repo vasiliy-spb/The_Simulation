@@ -31,15 +31,15 @@ public abstract class Creature extends Entity {
                     Predicate<Entity> notObstaclesForMoveChecker) {
         super(coordinates);
         this.healthPoint = healthPoint;
-        this.turnFrequency = turnFrequency;
-        this.attackDistance = attackDistance;
         this.attackPower = attackPower;
         this.countMoveWithoutFood = countMoveWithoutFood;
+        this.satiety = this.healthPoint;
+        this.turnFrequency = turnFrequency;
+        this.attackDistance = attackDistance;
         this.hungerBorder = hungerBorder;
         this.priorityTargetComparator = (t1, t2) ->
                 calculateApproximateDistance(this.coordinates, t1.getCoordinates()) -
                         calculateApproximateDistance(this.coordinates, t2.getCoordinates());
-        this.satiety = this.healthPoint;
         this.targetTypes = targetTypes;
         this.notObstaclesForFinderChecker = notObstaclesForFinderChecker;
         this.notObstaclesForMoveChecker = notObstaclesForMoveChecker;
